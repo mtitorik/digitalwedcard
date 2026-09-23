@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connectToDatabase } from "@/lib/mongodb";
 import { WeddingCardModel, FallbackWeddingCard } from "@/models/WeddingCard";
@@ -112,6 +113,27 @@ async function getCardBySlug(slug: string): Promise<WeddingCardData | null> {
   }
 
   return null;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const card = await getCardBySlug(slug);
+
+  if (!card) {
+    return {
+      title: "Wedding Invitation | Digitalwedcards",
+    };
+  }
+
+  return {
+    title: `${card.namesFormatted} — Wedding Invitation | Digitalwedcards`,
+    description: `${card.eventTitle} • ${card.namesFormatted}. ${card.tagline}`,
+    openGraph: {
+      title: `${card.namesFormatted} — Wedding Invitation | Digitalwedcards`,
+      description: `${card.eventTitle} • ${card.namesFormatted} cordially invite you to celebrate their union.`,
+      siteName: "Digitalwedcards",
+    },
+  };
 }
 
 export default async function DynamicWeddingCardPage({ params }: PageProps) {

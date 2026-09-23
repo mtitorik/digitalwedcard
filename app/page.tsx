@@ -14,6 +14,7 @@ import { RsvpForm } from "../components/RsvpForm";
 import { WishesWall } from "../components/WishesWall";
 import { Footer } from "../components/Footer";
 import { MusicPlayer, MusicPlayerHandle } from "../components/MusicPlayer";
+import { TopNavbar } from "../components/TopNavbar";
 
 export default function WeddingCardPage() {
   const [isOpened, setIsOpened] = useState(false);
@@ -25,6 +26,7 @@ export default function WeddingCardPage() {
     if (typeof window !== "undefined") {
       window.history.scrollRestoration = "manual";
       window.scrollTo(0, 0);
+      document.title = "Digitalwedcards — Luxury Digital Wedding Invitation Platform";
     }
   }, []);
 
@@ -73,6 +75,9 @@ export default function WeddingCardPage() {
 
   return (
     <main className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#0d4637] via-[#062c22] to-[#031712] text-[#fcfbf7] selection:bg-amber-400/30">
+      {/* Sleek Floating Top Navigation */}
+      <TopNavbar />
+
       {/* 1. CLOSED ENVELOPE ENTRY SCREEN */}
       {!isOpened && (
         <EnvelopeCover

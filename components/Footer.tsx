@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { weddingData } from "../data/weddingData";
 
@@ -41,10 +42,17 @@ export const Footer: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex items-center justify-center gap-4 mt-6">
+      <div className="flex flex-col items-center justify-center gap-2 mt-6 pt-5 border-t border-amber-400/10">
         <p className="text-[10px] text-stone-300 font-sans tracking-wider">
           {weddingData.couple.hashtag} • {weddingData.couple.dateHeadline}
         </p>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-[11px] text-amber-300/70 hover:text-amber-200 transition-colors font-sans tracking-wide"
+        >
+          <span>Powered by</span>
+          <span className="font-serif font-bold text-amber-200">Digitalwedcards</span>
+        </Link>
       </div>
     </footer>
   );

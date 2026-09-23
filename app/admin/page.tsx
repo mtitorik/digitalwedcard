@@ -227,6 +227,7 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
+    document.title = "Master Admin Portal | Digitalwedcards";
     fetchData();
     const handleGlobalRefresh = () => {
       fetchData();
@@ -422,7 +423,7 @@ export default function AdminDashboardPage() {
     return (
       <div className="min-h-screen bg-[#041a14] flex flex-col items-center justify-center text-amber-200">
         <div className="w-12 h-12 border-3 border-amber-400 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="font-serif tracking-widest text-sm uppercase">Loading Super Admin Portal...</p>
+        <p className="font-serif tracking-widest text-sm uppercase">Loading Digitalwedcards Admin Portal...</p>
       </div>
     );
   }
@@ -439,10 +440,10 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <h1 className="font-serif font-bold text-base sm:text-lg text-amber-100 leading-tight">
-                Master Admin Portal
+                Digitalwedcards Master Admin
               </h1>
               <p className="text-[10px] sm:text-xs text-amber-400/70 tracking-widest uppercase">
-                Full Platform Control & Database Management
+                Digitalwedcards Control & Database Management
               </p>
             </div>
           </div>
@@ -553,10 +554,10 @@ export default function AdminDashboardPage() {
                     <span>Live Monitoring & Real-Time Intelligence</span>
                   </div>
                   <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-amber-100 leading-tight">
-                    Executive Platform Overview
+                    Digitalwedcards Executive Overview
                   </h2>
                   <p className="text-xs sm:text-sm text-amber-300/70 mt-1 max-w-2xl leading-relaxed font-sans">
-                    Real-time telemetry, creator engagement, active hosted digital wedding invitations, and guest RSVP activities across the platform.
+                    Real-time telemetry, creator engagement, active hosted digital wedding invitations, and guest RSVP activities across Digitalwedcards.
                   </p>
                 </div>
 

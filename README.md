@@ -1,4 +1,4 @@
-# 💍 Royal Digital Wedding Invitation Card Platform
+# 💍 Digitalwedcards — Luxury Digital Wedding Invitation Platform
 
 A luxury, interactive, mobile-first digital wedding invitation card web application built with Next.js 16 (Turbopack), Tailwind CSS v4, Framer Motion, and MongoDB.
 

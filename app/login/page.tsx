@@ -1,12 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, ArrowRight, Sparkles, Eye, EyeOff, ShieldCheck } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    document.title = "Sign In | Digitalwedcards";
+  }, []);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -57,18 +62,18 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10 py-8">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <Link href="/" className="inline-block">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mx-auto mb-3 flex items-center justify-center ring-4 ring-amber-500/10">
+          <Link href="/" className="inline-block group">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mx-auto mb-3 flex items-center justify-center ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform">
               <span className="font-serif text-2xl font-bold tracking-widest text-amber-200">
-                W
+                D
               </span>
             </div>
           </Link>
           <h1 className="font-serif text-3xl font-bold text-amber-100 tracking-wide">
-            Welcome Back
+            Digitalwedcards
           </h1>
           <p className="text-xs uppercase tracking-[0.25em] text-amber-300/70 mt-1">
-            Sign In to Manage Your Digital Wedding Cards
+            Sign In to Manage Your Digitalwedcards Invitations
           </p>
         </div>
 

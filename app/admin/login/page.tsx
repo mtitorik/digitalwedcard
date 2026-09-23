@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Lock, Mail, ArrowRight, Sparkles, ShieldCheck, Eye, EyeOff } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    document.title = "Master Admin Login | Digitalwedcards";
+  }, []);
+
   const [email, setEmail] = useState("torikul0598@gmail.com");
   const [password, setPassword] = useState("password");
   const [showPassword, setShowPassword] = useState(false);
@@ -49,18 +54,20 @@ export default function AdminLoginPage() {
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Monogram Badge */}
+        {/* Brand Badge */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mb-4 ring-4 ring-amber-500/10">
-            <span className="font-serif text-2xl font-bold tracking-widest text-amber-200">
-              S & S
-            </span>
-          </div>
+          <Link href="/" className="inline-block group">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mb-4 ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform">
+              <span className="font-serif text-2xl font-bold tracking-widest text-amber-200">
+                D
+              </span>
+            </div>
+          </Link>
           <h1 className="font-serif text-3xl font-bold text-amber-200 tracking-wide">
-            Admin Portal
+            Digitalwedcards
           </h1>
           <p className="text-xs uppercase tracking-[0.25em] text-amber-300/70 mt-1">
-            Sajedul & Sadia • Wedding Management
+            Master Admin Portal
           </p>
         </div>
 
@@ -155,7 +162,7 @@ export default function AdminLoginPage() {
             className="inline-flex items-center gap-1.5 text-xs text-amber-300/70 hover:text-amber-200 transition-colors"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Return to Public Wedding Invitation</span>
+            <span>Return to Digitalwedcards</span>
           </Link>
         </div>
       </div>

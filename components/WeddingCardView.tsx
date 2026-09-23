@@ -14,6 +14,7 @@ import { RsvpForm } from "./RsvpForm";
 import { WishesWall } from "./WishesWall";
 import { Footer } from "./Footer";
 import { MusicPlayer, MusicPlayerHandle } from "./MusicPlayer";
+import { TopNavbar } from "./TopNavbar";
 import { getTemplateBySlug, getTemplateById } from "@/data/sampleTemplates";
 
 export interface WeddingCardData {
@@ -71,8 +72,11 @@ export const WeddingCardView: React.FC<WeddingCardViewProps> = ({ card }) => {
     if (typeof window !== "undefined") {
       window.history.scrollRestoration = "manual";
       window.scrollTo(0, 0);
+      if (card?.namesFormatted) {
+        document.title = `${card.namesFormatted} — Wedding Invitation | Digitalwedcards`;
+      }
     }
-  }, []);
+  }, [card?.namesFormatted]);
 
   // Fetch initial wishes for this specific card
   useEffect(() => {
@@ -140,6 +144,9 @@ export const WeddingCardView: React.FC<WeddingCardViewProps> = ({ card }) => {
 
   return (
     <main className={`min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] ${gradientBg} text-[#fcfbf7] selection:bg-amber-400/30`}>
+      {/* Sleek Floating Top Navigation */}
+      <TopNavbar />
+
       {/* 1. CLOSED ENVELOPE ENTRY SCREEN */}
       {!isOpened && (
         <EnvelopeCover

@@ -306,6 +306,7 @@ export default function UserDashboardPage() {
   };
 
   useEffect(() => {
+    document.title = "Creator Studio | Digitalwedcards";
     fetchDashboardData();
     const handleGlobalRefresh = () => {
       fetchDashboardData();
@@ -513,17 +514,17 @@ export default function UserDashboardPage() {
       <header className="sticky top-0 z-40 bg-[#082920]/95 border-b border-amber-400/20 backdrop-blur-md shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center font-serif text-amber-200 font-bold text-sm shadow-md ring-2 ring-amber-500/20">
-                W
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center font-serif text-amber-200 font-bold text-sm shadow-md ring-2 ring-amber-500/20 group-hover:scale-105 transition-transform">
+                D
               </div>
             </Link>
             <div>
               <h1 className="font-serif font-bold text-base sm:text-lg text-amber-100 leading-tight">
-                {user?.name}'s Studio
+                Digitalwedcards Studio
               </h1>
               <p className="text-[10px] sm:text-xs text-amber-400/70 tracking-widest uppercase">
-                Creator Dashboard
+                {user?.name ? `${user.name} • Dashboard` : "Creator Dashboard"}
               </p>
             </div>
           </div>
@@ -596,10 +597,10 @@ export default function UserDashboardPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-amber-500/20 mb-8">
               <div>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-amber-100">
-                  Your Digital Wedding Invitations
+                  Your Digitalwedcards Invitations
                 </h2>
                 <p className="text-xs sm:text-sm text-amber-300/70 mt-1">
-                  Create, design, customize, and share royal mobile-first digital wedding invitation cards.
+                  Create, design, customize, and share luxury mobile-first digital wedding invitation cards.
                 </p>
               </div>
 

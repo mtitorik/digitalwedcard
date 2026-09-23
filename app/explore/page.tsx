@@ -43,6 +43,7 @@ export default function ExploreCardsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   useEffect(() => {
+    document.title = "Explore Templates | Digitalwedcards";
     const fetchCards = () => {
       fetch("/api/cards")
         .then((res) => res.json())
@@ -130,10 +131,10 @@ export default function ExploreCardsPage() {
               </div>
               <div>
                 <span className="font-serif font-bold text-base sm:text-lg text-amber-100 leading-tight block">
-                  Digital Wedding Cards
+                  Digitalwedcards
                 </span>
                 <span className="text-[10px] sm:text-xs text-amber-400/70 tracking-widest uppercase block">
-                  Sample Designer Templates
+                  Explore Designer Templates
                 </span>
               </div>
             </Link>
@@ -167,11 +168,11 @@ export default function ExploreCardsPage() {
           </div>
 
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-amber-100 tracking-wide drop-shadow-md leading-tight">
-            Explore Digital Wedding Cards
+            Explore Digitalwedcards Templates
           </h1>
 
           <p className="text-xs sm:text-sm text-amber-300/80 mt-3 leading-relaxed max-w-2xl mx-auto">
-            Browse our sample digital wedding cards crafted with bespoke color palettes, royal typography,
+            Browse our Digitalwedcards sample templates crafted with bespoke color palettes, royal typography,
             3D interactive envelope opening, melodic celebration chimes, and instant RSVP tracking.
             Click <strong>"Live Preview"</strong> to experience any card or <strong>"Use This Template"</strong> to make it your own!
           </p>

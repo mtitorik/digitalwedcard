@@ -25,22 +25,25 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Sajedul & Sadia — Wedding Reception Invitation",
+  title: {
+    default: "Digitalwedcards — Luxury Digital Wedding Invitation Platform",
+    template: "%s | Digitalwedcards",
+  },
   description:
-    "Together with their beloved families, Mohammad Sajedul Islam & Sadia cordially invite you to celebrate their Grand Wedding Reception at Phoenix Convention Hall, Tejgaon, Dhaka on Tuesday, December 29, 2026.",
-  authors: [{ name: "Mohammad Sajedul Islam & Sadia" }],
+    "Digitalwedcards — Create and experience bespoke digital wedding invitation cards with interactive 3D envelopes, audio melodies, instant RSVP tracking, and guest wishes.",
+  authors: [{ name: "Digitalwedcards" }],
   openGraph: {
-    title: "Sajedul & Sadia — Wedding Reception Invitation",
+    title: "Digitalwedcards — Luxury Digital Wedding Invitation Platform",
     description:
-      "Together with their families, Mohammad Sajedul Islam & Sadia invite you to celebrate their wedding reception at Phoenix Convention Hall, Tejgaon, Dhaka on December 29, 2026.",
-    url: "https://sajedulandsadia.wedding",
-    siteName: "Sajedul & Sadia Wedding Reception",
+      "Digitalwedcards — Create and experience bespoke digital wedding invitation cards with interactive 3D envelopes, audio melodies, instant RSVP tracking, and guest wishes.",
+    url: "https://digitalwedcards.com",
+    siteName: "Digitalwedcards",
     images: [
       {
         url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "Sajedul & Sadia Wedding Reception Invitation",
+        alt: "Digitalwedcards Platform Preview",
       },
     ],
     locale: "en_US",
@@ -48,8 +51,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sajedul & Sadia — Wedding Reception Invitation",
-    description: "Join us in celebrating our wedding reception • December 29, 2026 at Phoenix Convention Hall, Dhaka",
+    title: "Digitalwedcards — Luxury Digital Wedding Invitation Platform",
+    description:
+      "Create and experience bespoke digital wedding invitation cards with interactive 3D envelopes, audio melodies, and instant RSVP tracking.",
     images: [
       "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
     ],
