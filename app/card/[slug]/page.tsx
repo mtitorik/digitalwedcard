@@ -9,7 +9,7 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getCardBySlug(slug: string): Promise<WeddingCardData | null> {
+export async function getCardBySlug(slug: string): Promise<WeddingCardData | null> {
   const cleanSlug = slug.toLowerCase();
 
   try {

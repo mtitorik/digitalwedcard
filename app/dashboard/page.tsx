@@ -283,13 +283,13 @@ export default function UserDashboardPage() {
       ]);
 
       if (!meRes.ok) {
-        router.push("/login");
+        router.push("/login?redirect=/dashboard");
         return;
       }
 
       const meData = await meRes.json();
       if (!meData.authenticated || !meData.user) {
-        router.push("/login");
+        router.push("/login?redirect=/dashboard");
         return;
       }
       setUser(meData.user);
