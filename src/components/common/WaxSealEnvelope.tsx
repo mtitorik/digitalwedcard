@@ -28,7 +28,7 @@ export interface WaxSealEnvelopeProps {
   sealLabel?: string;
   /** Optional custom wreath / crest element centered behind seal */
   wreathComponent?: React.ReactNode;
-  /** Optional corner decorative ornaments */
+  /** Optional corner decorative ornaments (anchored to the 4 outer display bounds) */
   cornerDecorations?: React.ReactNode;
   /** Unfolding animation style: "gatefold" (French bifold doors) or "flap" (top envelope flap) */
   variant?: "gatefold" | "flap";
@@ -41,6 +41,41 @@ export interface WaxSealEnvelopeProps {
 }
 
 type AnimationStage = "closed" | "pressed" | "opening" | "opened";
+
+/** Default luxury corner flourish SVG if custom decorations are not provided */
+export const DefaultCornerFlourish: React.FC<{
+  color?: string;
+  className?: string;
+}> = ({ color = "#D4AF37", className = "w-14 h-14 sm:w-20 sm:h-20 opacity-75" }) => (
+  <svg
+    viewBox="0 0 100 100"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M4 4 C 30 4, 60 12, 70 30 C 76 39, 72 50, 62 52 C 50 54, 42 42, 48 32 C 54 22, 68 18, 96 18"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <path
+      d="M4 4 C 4 30, 12 60, 30 70 C 39 76, 50 72, 52 62 C 54 50, 42 42, 32 48 C 22 54, 18 68, 18 96"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 8 L 8 45 M 8 8 L 45 8"
+      stroke={color}
+      strokeWidth="1"
+      strokeDasharray="2 3"
+      opacity="0.6"
+    />
+    <circle cx="8" cy="8" r="3" fill={color} />
+    <circle cx="36" cy="36" r="2" fill={color} opacity="0.8" />
+  </svg>
+);
 
 export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
   children,
@@ -86,17 +121,17 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
     try {
       // Luxury ambient gold & champagne particle burst
       confetti({
-        particleCount: 40,
-        spread: 70,
+        particleCount: 45,
+        spread: 75,
         origin: { y: 0.5, x: 0.5 },
         colors: [secondaryColor, "#D4AF37", "#F59E0B", "#FEF08A", "#FFFFFF"],
-        ticks: 120,
-        gravity: 0.75,
-        scalar: 0.8,
+        ticks: 150,
+        gravity: 0.65,
+        scalar: 0.85,
         disableForReducedMotion: true,
       });
     } catch {
-      // Graceful fallback if confetti unavailable
+      // Graceful fallback if canvas-confetti is not loaded
     }
   }, [secondaryColor]);
 
@@ -105,7 +140,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
 
     onOpenStart?.();
 
-    // Trigger audio autoplay via custom event
+    // Trigger audio autoplay via custom event synchronously in user click gesture callstack
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("wedding-envelope-opened"));
     }
@@ -119,20 +154,21 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
       return;
     }
 
-    // Stage 1: The Seal Press & Sparkle Break (0ms - 250ms)
+    // Stage 1: The Seal Press & Sparkle Break (0ms - 350ms)
     setStage("pressed");
     triggerSparkles();
 
-    // Stage 2 & 3: Flap / Gatefold Unfolding & Card Slide (250ms - 1100ms)
+    // Stage 2: Flaps / Gatefold Panels Begin Unfolding (at 350ms)
     setTimeout(() => {
       setStage("opening");
-    }, 250);
+    }, 350);
 
-    // Stage 4: Animation Complete & Scroll Hand-Off (1100ms)
+    // Stage 3 & 4: Staggered Card Body Elevation & Final Unlock (at 2050ms)
+    // Slower, cinematic pacing (flaps: 1.6s unfold, card: 0.5s delay + 1.2s glide)
     setTimeout(() => {
       setStage("opened");
       onOpenComplete?.();
-    }, 1150);
+    }, 2050);
   }, [stage, prefersReducedMotion, onOpenStart, onOpenComplete, triggerSparkles]);
 
   // If permanently opened, render clean scrollable children directly
@@ -149,122 +185,144 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
 
   return (
     <div
-      className={`relative w-full h-screen max-h-screen overflow-hidden select-none ${className}`}
+      className={`relative w-full h-full min-h-screen max-h-screen overflow-hidden select-none ${className}`}
       style={{ perspective: "1400px" }}
     >
       {/* ========================================================
           BOTTOM LAYER (Z-10): Underneath Wedding Card Body
-          Slide & Depth Elevation (Translates upward as flaps open)
+          Staggered 500ms delay & 1.2s smooth upward elevation glide
          ======================================================== */}
       <div
-        className="relative z-10 w-full h-full overflow-hidden transition-all duration-700 ease-out"
+        className="relative z-10 w-full h-full overflow-hidden transition-all ease-out"
         style={{
-          transform: isOpening ? "translateY(0)" : "translateY(24px) scale(0.98)",
-          opacity: isOpening ? 1 : 0.05,
-          transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-          transitionDuration: "850ms",
+          transform: isOpening ? "translateY(0) scale(1)" : "translateY(24px) scale(0.98)",
+          opacity: isOpening ? 1 : 0,
+          transitionDuration: "1200ms",
+          transitionDelay: isOpening ? "500ms" : "0ms",
+          transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
         }}
       >
         {children}
       </div>
 
       {/* ========================================================
-          MIDDLE LAYER (Z-20): Unfolding Envelope Panels / Flaps
+          MIDDLE LAYER (Z-15): Unfolding Envelope Panels / Flaps
+          Slower luxury duration (1.6s) with cubic-bezier deceleration
          ======================================================== */}
       {variant === "gatefold" ? (
         <>
-          {/* Left Door / Panel */}
+          {/* Left Door / Panel (Spans strictly 0% to 50%) */}
           <div
-            className="absolute top-0 left-0 w-1/2 h-full z-20 transition-all duration-700 pointer-events-none"
+            className="absolute top-0 left-0 w-1/2 h-full z-15 pointer-events-none"
             style={{
               backgroundColor,
               transformOrigin: "left center",
-              transform: isOpening
-                ? "rotateY(-105deg)"
-                : "rotateY(0deg)",
+              transform: isOpening ? "rotateY(-105deg)" : "rotateY(0deg)",
               opacity: isOpening ? 0 : 1,
-              transitionDuration: isOpening ? "850ms" : "400ms",
-              transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              transitionDuration: isOpening ? "1600ms" : "400ms",
+              transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
               borderRight: `1px solid ${secondaryColor}33`,
               boxShadow: isOpening
                 ? "none"
                 : "inset -15px 0 35px -10px rgba(0,0,0,0.06)",
             }}
-          >
-            {/* Left Door Decorative Overlay */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {cornerDecorations}
-              {/* Subtle vertical hairline foil seam */}
-              <div
-                className="absolute right-0 top-0 bottom-0 w-[1px] opacity-40"
-                style={{
-                  background: `linear-gradient(180deg, transparent, ${secondaryColor}, transparent)`,
-                }}
-              />
-            </div>
-          </div>
+          />
 
-          {/* Right Door / Panel */}
+          {/* Right Door / Panel (Spans strictly 50% to 100%) */}
           <div
-            className="absolute top-0 right-0 w-1/2 h-full z-20 transition-all duration-700 pointer-events-none"
+            className="absolute top-0 right-0 w-1/2 h-full z-15 pointer-events-none"
             style={{
               backgroundColor,
               transformOrigin: "right center",
-              transform: isOpening
-                ? "rotateY(105deg)"
-                : "rotateY(0deg)",
+              transform: isOpening ? "rotateY(105deg)" : "rotateY(0deg)",
               opacity: isOpening ? 0 : 1,
-              transitionDuration: isOpening ? "850ms" : "400ms",
-              transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              transitionDuration: isOpening ? "1600ms" : "400ms",
+              transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
               borderLeft: `1px solid ${secondaryColor}33`,
               boxShadow: isOpening
                 ? "none"
                 : "inset 15px 0 35px -10px rgba(0,0,0,0.06)",
             }}
-          >
-            {/* Right Door Decorative Overlay */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {/* Subtle vertical hairline foil seam */}
-              <div
-                className="absolute left-0 top-0 bottom-0 w-[1px] opacity-40"
-                style={{
-                  background: `linear-gradient(180deg, transparent, ${secondaryColor}, transparent)`,
-                }}
-              />
-            </div>
-          </div>
+          />
+
+          {/* Central Vertical Seam Rule (Strictly centered at 50% across true display) */}
+          <div
+            className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[1px] h-full z-20 pointer-events-none transition-opacity duration-700"
+            style={{
+              background: `linear-gradient(180deg, transparent 0%, ${secondaryColor}66 15%, ${secondaryColor} 50%, ${secondaryColor}66 85%, transparent 100%)`,
+              opacity: isOpening ? 0 : 0.7,
+            }}
+          />
         </>
       ) : (
         /* Top Envelope Flap Opening Style */
         <div
-          className="absolute inset-0 z-20 transition-all duration-700 pointer-events-none"
+          className="absolute inset-0 z-15 pointer-events-none"
           style={{
             backgroundColor,
             transformOrigin: "top center",
             transform: isOpening ? "rotateX(180deg)" : "rotateX(0deg)",
             opacity: isOpening ? 0 : 1,
-            transitionDuration: "800ms",
-            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+            transitionDuration: isOpening ? "1500ms" : "400ms",
+            transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
           }}
-        >
-          {cornerDecorations}
-        </div>
+        />
       )}
 
       {/* ========================================================
-          TOP LAYER (Z-30): Wax Seal Monogram & Header Accents
+          CORNER ORNAMENTS LAYER (Z-20):
+          Spans full width & height of the outer card wrapper so all
+          4 corners (top-left, top-right, bottom-left, bottom-right)
+          are anchored to the true display perimeter without cramping.
          ======================================================== */}
       <div
-        className={`absolute inset-0 z-30 flex flex-col items-center justify-between p-6 sm:p-10 text-center pointer-events-none transition-all duration-500 ${
-          isOpening ? "opacity-0 pointer-events-none scale-105" : "opacity-100"
-        }`}
+        className="absolute inset-0 w-full h-full z-20 pointer-events-none overflow-hidden transition-all duration-700 ease-out"
+        style={{
+          opacity: isOpening ? 0 : 1,
+          transform: isOpening ? "scale(1.03)" : "scale(1)",
+        }}
+      >
+        {cornerDecorations ? (
+          cornerDecorations
+        ) : (
+          <>
+            {/* Top-Left Ornament */}
+            <div className="absolute top-4 left-4 z-20 pointer-events-none">
+              <DefaultCornerFlourish color={secondaryColor} />
+            </div>
+            {/* Top-Right Ornament */}
+            <div className="absolute top-4 right-4 z-20 pointer-events-none transform -scale-x-100">
+              <DefaultCornerFlourish color={secondaryColor} />
+            </div>
+            {/* Bottom-Left Ornament */}
+            <div className="absolute bottom-6 left-4 z-20 pointer-events-none transform -scale-y-100">
+              <DefaultCornerFlourish color={secondaryColor} />
+            </div>
+            {/* Bottom-Right Ornament */}
+            <div className="absolute bottom-6 right-4 z-20 pointer-events-none transform -scale-100">
+              <DefaultCornerFlourish color={secondaryColor} />
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* ========================================================
+          TOP LAYER (Z-30): Wax Seal Monogram & Centered Accents
+          Nested inside a full-width container to guarantee absolute
+          horizontal and vertical symmetry.
+         ======================================================== */}
+      <div
+        className="absolute inset-0 z-30 w-full h-full flex flex-col items-center justify-between p-6 sm:p-10 text-center pointer-events-none transition-all duration-700 ease-out"
+        style={{
+          opacity: isOpening ? 0 : 1,
+          transform: isOpening ? "scale(1.02)" : "scale(1)",
+        }}
       >
         {/* Cover Header Typography */}
         <div
-          className="pt-8 sm:pt-12 transition-all duration-400"
+          className="w-full flex flex-col items-center justify-center pt-8 sm:pt-12 transition-all duration-700"
           style={{
             transform: isPressed ? "scale(0.98)" : "scale(1)",
-            opacity: isOpening ? 0 : 1,
           }}
         >
           <span
@@ -282,7 +340,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
         </div>
 
         {/* Central Wax Seal Monogram Button */}
-        <div className="my-auto py-6 flex flex-col items-center pointer-events-auto">
+        <div className="w-full my-auto py-6 flex flex-col items-center justify-center pointer-events-auto">
           <div
             tabIndex={0}
             role="button"
@@ -299,14 +357,16 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
             {/* Optional Botanical Wreath / Medallion */}
             {wreathComponent ? (
               <div
-                className="transition-transform duration-700 ease-out"
+                className="transition-transform ease-out"
                 style={{
                   transform: isPressed
-                    ? "scale(1.1) rotate(15deg)"
+                    ? "scale(1.08) rotate(10deg)"
                     : isOpening
-                    ? "scale(1.25) rotate(35deg)"
+                    ? "scale(1.22) rotate(25deg)"
                     : "scale(1) rotate(0deg)",
-                  opacity: isOpening ? 0 : 0.85,
+                  opacity: isOpening ? 0 : 0.88,
+                  transitionDuration: isOpening ? "700ms" : "300ms",
+                  transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
                 }}
               >
                 {wreathComponent}
@@ -320,19 +380,20 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
 
             {/* Radiant Ambient Glow Behind Seal */}
             <div
-              className={`absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full blur-xl transition-all duration-300 pointer-events-none ${
+              className={`absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full blur-xl transition-all pointer-events-none ${
                 isPressed
                   ? "opacity-90 scale-125"
                   : "opacity-40 group-hover:opacity-75 group-hover:scale-110"
               }`}
               style={{
                 background: `radial-gradient(circle, ${secondaryColor} 0%, transparent 70%)`,
+                transitionDuration: isOpening ? "700ms" : "300ms",
               }}
             />
 
             {/* Physical Wax Seal Medallion Button */}
             <div
-              className={`absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full shadow-2xl flex flex-col items-center justify-center border-2 border-white/60 transform transition-all duration-300 ${
+              className={`absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full shadow-2xl flex flex-col items-center justify-center border-2 border-white/60 transform transition-all ${
                 isPressed
                   ? "scale-110 shadow-amber-900/50 brightness-110"
                   : isOpening
@@ -345,6 +406,8 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
                 boxShadow: isPressed
                   ? `0 0 35px ${secondaryColor}80, 0 15px 30px rgba(0,0,0,0.3)`
                   : "0 10px 25px -5px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4)",
+                transitionDuration: isOpening ? "700ms" : "300ms",
+                transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
               }}
             >
               {/* Concentric Pressed Ridge Rim */}
@@ -374,7 +437,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
 
           {/* Instructional Pulse Prompt */}
           <p
-            className={`mt-6 text-xs sm:text-sm font-serif italic tracking-wide transition-opacity duration-300 ${
+            className={`mt-6 text-xs sm:text-sm font-serif italic tracking-wide transition-opacity duration-500 ${
               isPressed || isOpening ? "opacity-0" : "opacity-80 animate-pulse"
             }`}
             style={{ color: primaryColor }}
@@ -384,10 +447,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
         </div>
 
         {/* Cover Bottom Date */}
-        <div
-          className="pb-8 transition-opacity duration-300"
-          style={{ opacity: isOpening ? 0 : 1 }}
-        >
+        <div className="w-full flex flex-col items-center justify-center pb-8">
           <p
             className="text-xs sm:text-sm font-serif tracking-[0.2em] uppercase font-medium"
             style={{ color: primaryColor }}

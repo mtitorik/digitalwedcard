@@ -96,10 +96,10 @@ export const Template01: React.FC<Template01Props> = ({
             <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
-            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+            <div className="absolute bottom-6 left-4 scale-y-[-1] pointer-events-none">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
-            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+            <div className="absolute bottom-6 right-4 -scale-100 pointer-events-none">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
           </>
