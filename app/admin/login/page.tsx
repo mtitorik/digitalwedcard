@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Lock, Mail, ArrowRight, Sparkles, ShieldCheck, Eye, EyeOff } from "lucide-react";
 
 export default function AdminLoginPage() {
@@ -12,8 +13,8 @@ export default function AdminLoginPage() {
     document.title = "Master Admin Login | Digitalwedcards";
   }, []);
 
-  const [email, setEmail] = useState("torikul0598@gmail.com");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -57,10 +58,15 @@ export default function AdminLoginPage() {
         {/* Brand Badge */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block group">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mb-4 ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform">
-              <span className="font-serif text-2xl font-bold tracking-widest text-amber-200">
-                D
-              </span>
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mb-4 p-3 ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="Digitalwedcards Logo"
+                width={64}
+                height={50}
+                className="object-contain w-auto h-auto max-h-12 drop-shadow"
+                priority
+              />
             </div>
           </Link>
           <h1 className="font-serif text-3xl font-bold text-amber-200 tracking-wide">
@@ -86,7 +92,7 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-5" autoComplete="off">
             {/* Email Field */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-amber-300/80 mb-2">
@@ -96,7 +102,13 @@ export default function AdminLoginPage() {
                 <Mail className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
+                  name="admin_email"
+                  id="admin_email"
                   required
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@wedding.com"
@@ -114,7 +126,13 @@ export default function AdminLoginPage() {
                 <Lock className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="admin_password"
+                  id="admin_password"
                   required
+                  autoComplete="new-password"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
@@ -146,13 +164,6 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-
-          {/* Preset hint */}
-          <div className="mt-6 pt-4 border-t border-amber-500/10 text-center">
-            <p className="text-[11px] text-amber-400/60">
-              Super Admin: <code className="text-amber-300 bg-black/40 px-1.5 py-0.5 rounded">torikul0598@gmail.com</code> / <code className="text-amber-300 bg-black/40 px-1.5 py-0.5 rounded">password</code>
-            </p>
-          </div>
         </div>
 
         {/* Back to Public Card */}

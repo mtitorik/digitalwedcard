@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Compass, PlusCircle, LayoutDashboard, Shield, LogIn, User } from "lucide-react";
 
 export const TopNavbar: React.FC = () => {
@@ -19,13 +20,19 @@ export const TopNavbar: React.FC = () => {
   }, []);
 
   return (
-    <nav className="fixed top-3 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-4xl bg-[#06281e]/85 border border-amber-400/30 backdrop-blur-md rounded-full px-4 py-2 shadow-2xl shadow-black/50 flex items-center justify-between text-xs transition-all">
+    <nav className="fixed top-3 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-4xl bg-[#06281e]/65 border border-amber-400/40 backdrop-blur-[28px] backdrop-saturate-150 rounded-full px-4 py-2 shadow-2xl shadow-black/60 flex items-center justify-between text-xs transition-all">
       <Link
         href="/"
         className="flex items-center gap-2 text-amber-200 hover:text-amber-100 font-serif font-bold text-sm tracking-wide group"
       >
-        <div className="w-7 h-7 rounded-full bg-gradient-to-b from-amber-400 to-amber-600 text-emerald-950 flex items-center justify-center text-[11px] font-bold shadow group-hover:scale-105 transition-transform">
-          D
+        <div className="w-7 h-7 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center p-1 shadow group-hover:scale-105 transition-transform overflow-hidden">
+          <Image
+            src="/images/logo.png"
+            alt="Digitalwedcards Logo"
+            width={24}
+            height={20}
+            className="object-contain w-auto h-auto max-h-5"
+          />
         </div>
         <span className="inline tracking-tight font-serif text-amber-100">Digitalwedcards</span>
       </Link>

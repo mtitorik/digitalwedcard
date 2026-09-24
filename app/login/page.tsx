@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Mail,
   Lock,
@@ -86,12 +87,6 @@ export default function LoginPage() {
     }
   };
 
-  const fillDemoAdmin = () => {
-    setEmail("torikul0598@gmail.com");
-    setPassword("password");
-    setErrorMsg("");
-  };
-
   return (
     <div className="min-h-screen bg-[#041a14] bg-radial-[at_top] from-[#0a382c] via-[#041a14] to-[#020d0a] text-amber-100/90 flex flex-col items-center justify-center p-4 selection:bg-amber-500/30">
       {/* Background Decorative Rings */}
@@ -104,10 +99,15 @@ export default function LoginPage() {
         {/* Brand Header */}
         <div className="text-center mb-6">
           <Link href="/" className="inline-block group">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mx-auto mb-3 flex items-center justify-center ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform">
-              <span className="font-serif text-2xl font-bold tracking-widest text-amber-200">
-                D
-              </span>
+            <div className="w-20 h-20 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mx-auto mb-3 flex items-center justify-center p-3 ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="Digitalwedcards Logo"
+                width={64}
+                height={50}
+                className="object-contain w-auto h-auto max-h-12 drop-shadow"
+                priority
+              />
             </div>
           </Link>
           <h1 className="font-serif text-3xl font-bold text-amber-100 tracking-wide">
@@ -127,7 +127,7 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4" autoComplete="off">
             {/* Email Field */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-amber-300/80 mb-1.5">
@@ -137,7 +137,13 @@ export default function LoginPage() {
                 <Mail className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
+                  name="email"
+                  id="email"
                   required
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -158,7 +164,13 @@ export default function LoginPage() {
                 <Lock className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
                   required
+                  autoComplete="new-password"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -218,16 +230,8 @@ export default function LoginPage() {
             </div>
           </form>
 
-          {/* Quick fills / demo credentials */}
-          <div className="mt-6 pt-4 border-t border-amber-500/15 flex flex-col gap-2.5 text-center text-xs">
-            <button
-              type="button"
-              onClick={fillDemoAdmin}
-              className="py-1.5 px-3 rounded-lg bg-black/30 border border-amber-400/20 text-amber-300 hover:bg-black/50 transition-colors text-[11px] font-mono cursor-pointer"
-            >
-              ⚡ Quick Fill Admin: <span className="underline">torikul0598@gmail.com</span> / password
-            </button>
-
+          {/* Account Creation Link */}
+          <div className="mt-6 pt-4 border-t border-amber-500/15 text-center text-xs">
             <p className="text-amber-300/80">
               Don't have an account yet?{" "}
               <Link href="/signup" className="text-amber-200 font-semibold hover:underline">

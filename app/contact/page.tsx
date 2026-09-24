@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { MarketingFooter } from "@/components/MarketingFooter";
+import { BackToTop } from "@/components/BackToTop";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -292,6 +293,9 @@ export default function ContactPage() {
       </main>
 
       <MarketingFooter />
+
+      {/* Floating Sticky Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }

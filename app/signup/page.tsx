@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   User,
   Mail,
@@ -106,10 +107,15 @@ export default function SignUpPage() {
         {/* Brand Header */}
         <div className="text-center mb-6">
           <Link href="/" className="inline-block group">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mx-auto mb-3 flex items-center justify-center ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform">
-              <span className="font-serif text-2xl font-bold tracking-widest text-amber-200">
-                D
-              </span>
+            <div className="w-20 h-20 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border-2 border-amber-400/40 shadow-xl shadow-amber-950/40 mx-auto mb-3 flex items-center justify-center p-3 ring-4 ring-amber-500/10 group-hover:scale-105 transition-transform overflow-hidden">
+              <Image
+                src="/images/logo.png"
+                alt="Digitalwedcards Logo"
+                width={64}
+                height={50}
+                className="object-contain w-auto h-auto max-h-12 drop-shadow"
+                priority
+              />
             </div>
           </Link>
           <h1 className="font-serif text-3xl font-bold text-amber-100 tracking-wide">
@@ -129,7 +135,7 @@ export default function SignUpPage() {
             </div>
           )}
 
-          <form onSubmit={handleSignUp} className="space-y-4">
+          <form onSubmit={handleSignUp} className="space-y-4" autoComplete="off">
             {/* Full Name */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-amber-300/80 mb-1.5">
@@ -139,7 +145,13 @@ export default function SignUpPage() {
                 <User className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
+                  name="signup_name"
+                  id="signup_name"
                   required
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="words"
+                  spellCheck="false"
                   value={name}
                   onChange={(e) => {
                     setName(e.target.value);
@@ -160,7 +172,13 @@ export default function SignUpPage() {
                 <Mail className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
+                  name="signup_email"
+                  id="signup_email"
                   required
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -181,7 +199,13 @@ export default function SignUpPage() {
                 <Lock className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="signup_password"
+                  id="signup_password"
                   required
+                  autoComplete="new-password"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -210,7 +234,13 @@ export default function SignUpPage() {
                 <Lock className="w-4 h-4 text-amber-400/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="signup_confirm_password"
+                  id="signup_confirm_password"
                   required
+                  autoComplete="new-password"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
                   value={confirmPassword}
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);

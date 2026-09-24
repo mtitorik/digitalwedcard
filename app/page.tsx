@@ -24,7 +24,9 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { HeroTemplateCarousel } from "@/components/HeroTemplateCarousel";
+import { ExploreTemplatesSection } from "@/components/ExploreTemplatesSection";
 import { MarketingFooter } from "@/components/MarketingFooter";
+import { BackToTop } from "@/components/BackToTop";
 
 export default function MarketingHomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -123,7 +125,10 @@ export default function MarketingHomePage() {
         </div>
       </section>
 
-      {/* 3. Section B: Features & Mobile Experience Highlight */}
+      {/* 3. Section: Explore All Designer Templates Gallery */}
+      <ExploreTemplatesSection />
+
+      {/* 4. Section B: Features & Mobile Experience Highlight */}
       <section id="features" className="py-20 bg-black/30 border-y border-amber-400/15 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -646,13 +651,13 @@ export default function MarketingHomePage() {
                 <Sparkles className="w-4 h-4" />
                 <span>Begin Creating Your Invitation</span>
               </Link>
-              <Link
-                href="/explore"
+              <a
+                href="#explore"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-emerald-950/90 border border-amber-400/40 text-amber-200 font-serif font-semibold text-base hover:bg-amber-400/15 transition-all min-h-[52px]"
               >
                 <Compass className="w-4 h-4 text-amber-400" />
                 <span>Explore All Templates</span>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -660,6 +665,9 @@ export default function MarketingHomePage() {
 
       {/* 8. Global SaaS Marketing Footer */}
       <MarketingFooter />
+
+      {/* 9. Floating Sticky Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }

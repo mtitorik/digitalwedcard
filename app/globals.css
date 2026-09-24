@@ -15,7 +15,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   background-color: #062c22;
   scrollbar-gutter: stable;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   width: 100%;
 }
@@ -24,7 +24,7 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   width: 100%;
   min-height: 100dvh;

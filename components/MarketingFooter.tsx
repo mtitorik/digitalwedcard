@@ -2,21 +2,16 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Heart,
   Mail,
   Phone,
   Sparkles,
-  ArrowUp,
   Compass,
 } from "lucide-react";
 
 export const MarketingFooter: React.FC = () => {
-  const scrollToTop = () => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   return (
     <footer className="w-full bg-[#031510] border-t border-amber-400/20 text-stone-300 pt-16 pb-12 selection:bg-amber-400/30">
@@ -25,8 +20,14 @@ export const MarketingFooter: React.FC = () => {
           {/* Column 1: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3 group inline-block">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center font-serif text-amber-200 font-bold text-base shadow-md ring-2 ring-amber-500/20 group-hover:scale-105 transition-transform">
-                D
+              <div className="w-11 h-11 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center p-1.5 shadow-md ring-2 ring-amber-500/20 group-hover:scale-105 transition-transform overflow-hidden">
+                <Image
+                  src="/images/logo.png"
+                  alt="Digitalwedcards Logo"
+                  width={40}
+                  height={32}
+                  className="object-contain w-auto h-auto max-h-7 drop-shadow"
+                />
               </div>
               <div>
                 <span className="font-serif font-bold text-xl text-amber-100 leading-tight block">
@@ -211,13 +212,9 @@ export const MarketingFooter: React.FC = () => {
             <span>for royal couples worldwide.</span>
           </p>
 
-          <button
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-950/80 border border-amber-400/30 text-amber-300 hover:text-amber-100 hover:border-amber-300 text-xs font-sans tracking-wider uppercase transition-all duration-200 min-h-[44px] cursor-pointer"
-          >
-            <ArrowUp className="w-3.5 h-3.5" />
-            <span>Back to Top</span>
-          </button>
+          <p className="text-stone-500 text-[11px] text-center sm:text-right">
+            All rights reserved. Luxury Digital Wedding Invitations.
+          </p>
         </div>
       </div>
     </footer>

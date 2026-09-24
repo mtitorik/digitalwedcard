@@ -1,0 +1,528 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { WeddingInviteData } from "@/types/invite";
+import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
+import { CountdownTimer } from "@/components/common/CountdownTimer";
+import { AudioPlayerToggle } from "@/components/common/AudioPlayerToggle";
+import { AddToCalendar } from "@/components/common/AddToCalendar";
+import {
+  BrassUrliCrest,
+  ClayDiyaCornerBorder,
+  SanskritShlokaDivider,
+  HaldiBandarwalGarland,
+} from "./Decorations";
+import {
+  MapPin,
+  Clock,
+  Calendar,
+  Send,
+  Heart,
+  Phone,
+  Sparkles,
+  Navigation,
+  Compass,
+} from "lucide-react";
+
+export interface Template12Props {
+  data?: WeddingInviteData;
+  className?: string;
+  isEnvelopeOpenDefault?: boolean;
+}
+
+export const Template12: React.FC<Template12Props> = ({
+  data = MOCK_INVITE_DATA,
+  className = "",
+  isEnvelopeOpenDefault = false,
+}) => {
+  const [isOpen, setIsOpen] = useState<boolean>(isEnvelopeOpenDefault);
+  const [rsvpState, setRsvpState] = useState<{
+    name: string;
+    attending: "yes" | "no" | "maybe";
+    guests: number;
+    message: string;
+    submitted: boolean;
+  }>({
+    name: "",
+    attending: "yes",
+    guests: 2,
+    message: "",
+    submitted: false,
+  });
+
+  const handleRsvpSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rsvpState.name.trim()) return;
+    setRsvpState((prev) => ({ ...prev, submitted: true }));
+  };
+
+  const primaryEvent = data.events[0] || {
+    title: "Sacred Vivah Ceremony",
+    date: data.weddingDate,
+    time: "10:00 AM – 1:30 PM",
+    venueName: "Sri Venkateswara Kalyana Mandapam",
+    address: "77 Temple Road, Heritage Enclave",
+    mapsUrl: "https://maps.google.com",
+  };
+
+  return (
+    <div
+      className={`relative w-full min-h-screen bg-[#FFFBEB] text-[#451A03] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
+      style={{
+        backgroundImage: `radial-gradient(#FACC1533 1.5px, transparent 1.5px), radial-gradient(#B4530918 1px, #FFFBEB 1px)`,
+        backgroundSize: "24px 24px, 24px 24px",
+        backgroundPosition: "0 0, 12px 12px",
+      }}
+    >
+      {/* Audio Player Toggle */}
+      {data.audio.enabled && (
+        <AudioPlayerToggle
+          trackUrl={data.audio.trackUrl}
+          className="fixed bottom-5 right-5 z-40 bg-[#B45309] text-white hover:bg-[#92400E] shadow-lg border border-[#FACC15]"
+        />
+      )}
+
+      {/* ENVELOPE / TRADITIONAL WAX SEAL COVER */}
+      {!isOpen ? (
+        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
+          {/* Top Hanging Haldi Bandarwal Garland */}
+          <div className="w-full pt-2">
+            <HaldiBandarwalGarland />
+          </div>
+
+          <div className="my-auto py-8 flex flex-col items-center max-w-md">
+            {/* Auspicious Shloka Badge */}
+            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF08A]/60 border border-[#B45309]/30 text-xs sm:text-sm font-serif font-bold text-[#B45309]">
+              <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+              <span>|| ॐ गं गणपतये नमः ||</span>
+            </div>
+
+            {/* Brass Urli Centerpiece */}
+            <div className="relative mb-5 flex items-center justify-center">
+              <div className="absolute inset-0 bg-[#FACC15]/30 rounded-full blur-xl animate-pulse" />
+              <BrassUrliCrest className="w-44 h-44 sm:w-56 sm:h-56 drop-shadow-md" />
+            </div>
+
+            <p className="text-xs sm:text-sm uppercase tracking-widest font-serif text-[#B45309] font-bold mb-1">
+              Shubh Vivah Nimantran
+            </p>
+            <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#451A03] mb-2 tracking-tight">
+              {data.groomName}
+              <span className="block text-xl sm:text-2xl font-normal text-[#B45309] my-0.5">&amp;</span>
+              {data.brideName}
+            </h1>
+
+            <p className="text-xs sm:text-sm text-[#78350F] font-medium mb-6">
+              {data.weddingDate}
+            </p>
+
+            {/* Interactive Terracotta Diya Seal CTA */}
+            <button
+              onClick={() => setIsOpen(true)}
+              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
+            >
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#B45309] via-[#D97706] to-[#FACC15] p-1 shadow-xl hover:shadow-[#FACC15]/50 hover:scale-105 transition duration-300">
+                <div className="w-full h-full rounded-full border-2 border-[#FEF08A]/80 bg-[#78350F] flex flex-col items-center justify-center text-[#FEF08A]">
+                  <span className="text-sm sm:text-base font-serif font-bold tracking-widest leading-none">
+                    शुभ
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-[#FACC15] mt-1">
+                    Open
+                  </span>
+                </div>
+              </div>
+              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#B45309] group-hover:text-[#78350F] transition flex items-center gap-1.5">
+                <span>Touch to Open Invitation</span>
+                <Heart className="w-3.5 h-3.5 fill-[#B45309] text-[#B45309]" />
+              </span>
+            </button>
+          </div>
+
+          <div className="w-full pb-2">
+            <SanskritShlokaDivider shlokaText="|| सर्वमंगल मांगल्ये ||" className="mx-auto" />
+          </div>
+        </div>
+      ) : (
+        /* MAIN OPENED INVITATION CONTENT */
+        <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
+          {/* Top Sticky Haldi Garland */}
+          <div className="w-full max-w-4xl mx-auto mb-6">
+            <HaldiBandarwalGarland />
+          </div>
+
+          {/* Corner Clay Diya & Mango Leaf Accents */}
+          <div className="pointer-events-none absolute top-4 left-4 z-10 opacity-80">
+            <ClayDiyaCornerBorder className="w-16 h-16 sm:w-24 sm:h-24" />
+          </div>
+          <div className="pointer-events-none absolute top-4 right-4 z-10 opacity-80">
+            <ClayDiyaCornerBorder flipX className="w-16 h-16 sm:w-24 sm:h-24" />
+          </div>
+
+          <div className="w-full text-center flex flex-col items-center">
+            {/* Shloka Opening Header */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FEF08A]/70 border border-[#B45309]/40 shadow-xs text-xs sm:text-sm font-serif font-bold text-[#78350F] mb-4">
+              <span>|| वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ||</span>
+            </div>
+
+            <p className="text-xs sm:text-sm uppercase tracking-widest text-[#B45309] font-bold mb-1">
+              With the Auspicious Blessings of Almighty
+            </p>
+
+            {/* Couple Typography */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold text-[#451A03] tracking-tight mb-2 drop-shadow-sm">
+              {data.groomName}
+            </h1>
+            <div className="flex items-center justify-center gap-3 my-1">
+              <span className="w-10 sm:w-16 h-[1px] bg-[#B45309]" />
+              <span className="text-2xl sm:text-3xl font-serif italic text-[#B45309]">संग</span>
+              <span className="w-10 sm:w-16 h-[1px] bg-[#B45309]" />
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold text-[#451A03] tracking-tight mb-4 drop-shadow-sm">
+              {data.brideName}
+            </h2>
+
+            <SanskritShlokaDivider shlokaText="|| शुभ विवाह ||" className="mb-6" />
+
+            {/* Parents & Family Cordial Invitation Card */}
+            <div className="bg-[#FEFCE8] border border-[#B45309]/30 rounded-2xl p-6 sm:p-8 shadow-sm w-full max-w-2xl mb-6 text-center">
+              <p className="text-xs sm:text-sm uppercase tracking-wider text-[#B45309] font-bold mb-2">
+                Cordially Invite You
+              </p>
+              <p className="text-base sm:text-lg font-serif text-[#451A03] leading-relaxed mb-3">
+                <span className="font-bold text-[#B45309]">{data.parentsGroom}</span>
+                <span className="block text-xs sm:text-sm font-sans text-stone-500 my-1">and</span>
+                <span className="font-bold text-[#B45309]">{data.parentsBride}</span>
+              </p>
+              <p className="text-xs sm:text-sm text-[#451A03]/85 leading-relaxed font-normal max-w-lg mx-auto">
+                Solicit your gracious presence, blessings and warm wishes on the auspicious occasion of the wedding ceremony of their beloved children.
+              </p>
+            </div>
+
+            {/* Auspicious Muhurtham & Date Badge */}
+            <div className="w-full max-w-xl bg-gradient-to-r from-[#FEF08A]/80 via-[#FDE047]/60 to-[#FEF08A]/80 border border-[#B45309]/50 rounded-2xl p-4 sm:p-5 mb-8 flex items-center justify-around text-center shadow-xs">
+              <div>
+                <span className="block text-[10px] sm:text-xs uppercase tracking-widest font-bold text-[#B45309]">
+                  Shubh Tithi
+                </span>
+                <span className="text-xs sm:text-base font-serif font-bold text-[#451A03]">
+                  {data.weddingDate}
+                </span>
+              </div>
+              <div className="w-[1px] h-10 bg-[#B45309]/40" />
+              <div>
+                <span className="block text-[10px] sm:text-xs uppercase tracking-widest font-bold text-[#B45309]">
+                  Shubh Muhurtham
+                </span>
+                <span className="text-xs sm:text-base font-serif font-bold text-[#78350F]">
+                  {primaryEvent.time || "10:00 AM – 1:30 PM"}
+                </span>
+              </div>
+            </div>
+
+            {/* COUNTDOWN TIMER */}
+            <div className="w-full max-w-2xl mb-8 bg-[#FEFCE8] border border-[#B45309]/30 rounded-3xl p-5 sm:p-6 shadow-sm">
+              <div className="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#B45309] mb-3">
+                <Clock className="w-4 h-4 text-[#D97706]" />
+                <span>Days Remaining Until the Sacred Pheras</span>
+              </div>
+              <CountdownTimer
+                targetDate={data.countdownTarget}
+                title="Days Remaining Until Sacred Pheras"
+                accentColor="#B45309"
+                className="p-0"
+              />
+            </div>
+
+            {/* COUPLE PHOTO GALLERY */}
+            {data.gallery && data.gallery.length > 0 && (
+              <div className="w-full max-w-4xl mb-8">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <span className="w-8 sm:w-12 h-[1px] bg-[#B45309]" />
+                  <span className="text-xs sm:text-sm font-serif font-bold uppercase tracking-widest text-[#B45309]">
+                    Cherished Memories
+                  </span>
+                  <span className="w-8 sm:w-12 h-[1px] bg-[#B45309]" />
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                  {data.gallery.slice(0, 4).map((src, i) => (
+                    <div
+                      key={i}
+                      className="relative aspect-square rounded-2xl overflow-hidden border-2 border-[#B45309]/50 shadow-md group"
+                    >
+                      <Image
+                        src={src}
+                        alt={`Couple photo ${i + 1}`}
+                        fill
+                        className="object-cover group-hover:scale-105 transition duration-500"
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#451A03]/30 to-transparent" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* CEREMONIAL ITINERARY */}
+            <div className="w-full max-w-4xl mb-8">
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <span className="w-8 sm:w-12 h-[1px] bg-[#B45309]" />
+                <h3 className="text-sm sm:text-base font-serif font-bold uppercase tracking-widest text-[#451A03]">
+                  Wedding Functions
+                </h3>
+                <span className="w-8 sm:w-12 h-[1px] bg-[#B45309]" />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 text-left w-full box-border">
+                {data.events.map((evt, idx) => (
+                  <div
+                    key={idx}
+                    className="w-full box-border bg-[#FEFCE8] border border-[#B45309]/30 rounded-2xl p-4 sm:p-5 shadow-sm hover:border-[#B45309] transition break-words min-w-0"
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="min-w-0 flex-1">
+                        <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-[#B45309]/10 text-[#B45309] border border-[#B45309]/20 mb-1">
+                          {idx === 0 ? "Shubh Vivah" : "Reception"}
+                        </span>
+                        <h4 className="text-base sm:text-lg font-serif font-bold text-[#451A03] break-words">
+                          {evt.title}
+                        </h4>
+                      </div>
+                      <div className="p-2 rounded-full bg-[#FEF08A] text-[#B45309] border border-[#B45309]/30 shrink-0">
+                        <Calendar className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 text-xs sm:text-sm text-[#451A03]/90 mb-3">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
+                        <span className="break-words">{evt.date}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 text-[#B45309] shrink-0" />
+                        <span className="break-words">{evt.time}</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-[#B45309] mt-0.5 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-[#451A03] break-words">{evt.venueName}</p>
+                          <p className="text-xs text-[#451A03]/70 break-words">{evt.address}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-3 border-t border-[#B45309]/20">
+                      <a
+                        href={evt.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#B45309] text-white text-xs font-semibold hover:bg-[#92400E] transition shadow-xs text-center"
+                      >
+                        <Navigation className="w-3.5 h-3.5 shrink-0" />
+                        <span>Google Maps</span>
+                      </a>
+                      <a
+                        href={`https://ul.waze.com/ul?q=${encodeURIComponent(evt.venueName + " " + evt.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1 py-2.5 px-3 rounded-xl bg-[#FFFBEB] border border-[#B45309] text-[#78350F] text-xs font-semibold hover:bg-[#FEF08A] transition text-center"
+                      >
+                        <Compass className="w-3.5 h-3.5 shrink-0" />
+                        <span>Waze</span>
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Add to Calendar Button */}
+              <div className="mt-6 flex justify-center">
+                <AddToCalendar
+                  event={{
+                    title: `${data.groomName} & ${data.brideName}'s Shubh Vivah`,
+                    description: `Auspicious Wedding Ceremony of ${data.groomName} and ${data.brideName}.`,
+                    location: `${primaryEvent.venueName}, ${primaryEvent.address}`,
+                    startDate: data.countdownTarget,
+                  }}
+                  className="bg-[#FEFCE8] text-[#B45309] border border-[#B45309] shadow-xs hover:bg-[#FEF08A]"
+                />
+              </div>
+            </div>
+
+            {/* FAMILY CONTACT PERSONS */}
+            <div className="w-full max-w-2xl mb-8 bg-[#FEFCE8] border border-[#B45309]/30 rounded-2xl p-5 sm:p-6 shadow-sm text-left">
+              <h4 className="text-xs sm:text-sm font-serif font-bold uppercase tracking-wider text-[#B45309] mb-4 text-center">
+                Family Contact Persons
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 w-full box-border">
+                <div className="p-4 rounded-xl bg-[#FFFBEB] border border-[#B45309]/20">
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block mb-0.5">
+                    Groom Side
+                  </span>
+                  <p className="text-xs sm:text-sm font-serif font-bold text-[#451A03] mb-2">
+                    Micheal (Family)
+                  </p>
+                  <a
+                    href="tel:+601155589068"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#B45309] hover:text-[#78350F]"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#D97706]" />
+                    <span>Call Family</span>
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-xl bg-[#FFFBEB] border border-[#B45309]/20">
+                  <span className="text-[10px] uppercase font-bold text-stone-500 block mb-0.5">
+                    Bride Side
+                  </span>
+                  <p className="text-xs sm:text-sm font-serif font-bold text-[#451A03] mb-2">
+                    Raj (Family)
+                  </p>
+                  <a
+                    href="tel:+601155589068"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#B45309] hover:text-[#78350F]"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#D97706]" />
+                    <span>Call Family</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* INTERACTIVE RSVP SECTION */}
+            {data.rsvp.enabled && (
+              <div className="w-full max-w-2xl mb-8 bg-[#FEFCE8] border-2 border-[#B45309]/50 rounded-3xl p-6 sm:p-8 shadow-md text-left">
+                <div className="text-center mb-5">
+                  <span className="inline-block px-3 py-0.5 rounded-full bg-[#B45309]/10 text-xs font-bold uppercase tracking-wider text-[#B45309] mb-1">
+                    Your Presence Is Our Blessing
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#451A03]">
+                    RSVP to the Auspicious Vivah
+                  </h3>
+                  <p className="text-xs sm:text-sm text-stone-500 mt-1">
+                    Kindly respond by {data.rsvp.deadline}
+                  </p>
+                </div>
+
+                {rsvpState.submitted ? (
+                  <div className="p-6 rounded-2xl bg-amber-50 border border-amber-300 text-center text-amber-900">
+                    <Heart className="w-10 h-10 mx-auto text-[#B45309] mb-2 fill-[#B45309] animate-bounce" />
+                    <p className="text-base font-bold">Dhanyavaad, {rsvpState.name}!</p>
+                    <p className="text-xs sm:text-sm mt-1">
+                      Your presence and blessings have been warmly received with heartfelt gratitude.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleRsvpSubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-xs sm:text-sm font-bold text-[#451A03] mb-1">
+                        Your Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={rsvpState.name}
+                        onChange={(e) =>
+                          setRsvpState((prev) => ({ ...prev, name: e.target.value }))
+                        }
+                        placeholder="e.g. Anand Sharma & Family"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#B45309]/40 bg-[#FFFBEB] text-xs sm:text-sm text-[#451A03] focus:outline-none focus:ring-2 focus:ring-[#B45309]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs sm:text-sm font-bold text-[#451A03] mb-1">
+                        Will You Attend?
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        {(["yes", "maybe", "no"] as const).map((opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() =>
+                              setRsvpState((prev) => ({ ...prev, attending: opt }))
+                            }
+                            className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold capitalize transition border ${
+                              rsvpState.attending === opt
+                                ? "bg-[#B45309] text-white border-[#B45309] shadow-xs"
+                                : "bg-[#FFFBEB] text-[#451A03] border-[#B45309]/30 hover:bg-[#FEF08A]"
+                            }`}
+                          >
+                            {opt === "yes"
+                              ? "With Joy, Yes"
+                              : opt === "maybe"
+                              ? "Awaiting"
+                              : "Sending Blessings"}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {rsvpState.attending !== "no" && (
+                      <div>
+                        <label className="block text-xs sm:text-sm font-bold text-[#451A03] mb-1">
+                          Number of Attending Guests
+                        </label>
+                        <select
+                          value={rsvpState.guests}
+                          onChange={(e) =>
+                            setRsvpState((prev) => ({
+                              ...prev,
+                              guests: parseInt(e.target.value, 10),
+                            }))
+                          }
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#B45309]/40 bg-[#FFFBEB] text-xs sm:text-sm text-[#451A03] focus:outline-none focus:ring-2 focus:ring-[#B45309]"
+                        >
+                          {[1, 2, 3, 4, 5, 6].map((num) => (
+                            <option key={num} value={num}>
+                              {num} {num === 1 ? "Person" : "Family Members"}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-xs sm:text-sm font-bold text-[#451A03] mb-1">
+                        Heartfelt Blessing / Shubhkaamnayein
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={rsvpState.message}
+                        onChange={(e) =>
+                          setRsvpState((prev) => ({ ...prev, message: e.target.value }))
+                        }
+                        placeholder="May your journey together be blessed with love and joy..."
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#B45309]/40 bg-[#FFFBEB] text-xs sm:text-sm text-[#451A03] focus:outline-none focus:ring-2 focus:ring-[#B45309]"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full py-3 rounded-xl bg-gradient-to-r from-[#B45309] to-[#92400E] text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-md hover:from-[#92400E] hover:to-[#78350F] transition flex items-center justify-center gap-2"
+                    >
+                      <Send className="w-4 h-4" />
+                      <span>Submit RSVP Nimantran</span>
+                    </button>
+                  </form>
+                )}
+              </div>
+            )}
+
+            {/* BOTTOM BLESSINGS & GRATITUDE */}
+            <div className="w-full max-w-2xl text-center py-6">
+              <SanskritShlokaDivider shlokaText="|| मंगलम भगवान विष्णुः ||" className="mx-auto mb-3" />
+              <p className="text-xs sm:text-sm font-serif italic text-[#78350F] max-w-md mx-auto">
+                &ldquo;Where there is love, there is life and boundless divine grace.&rdquo;
+              </p>
+              <p className="text-xs sm:text-sm font-bold text-[#B45309] uppercase tracking-wider mt-2">
+                # {data.groomName}Weds{data.brideName}
+              </p>
+            </div>
+          </div>
+        </main>
+      )}
+    </div>
+  );
+};

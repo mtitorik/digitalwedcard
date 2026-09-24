@@ -511,12 +511,19 @@ export default function UserDashboardPage() {
   return (
     <div className="min-h-screen bg-[#041a14] bg-radial-[at_top] from-[#0a382c] via-[#041a14] to-[#020d0a] text-amber-100/90 selection:bg-amber-500/30 pb-24">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 bg-[#082920]/95 border-b border-amber-400/20 backdrop-blur-md shadow-lg">
+      <header className="sticky top-0 z-40 bg-[#082920]/65 border-b border-amber-400/30 backdrop-blur-[28px] backdrop-saturate-150 shadow-xl shadow-black/50 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center font-serif text-amber-200 font-bold text-sm shadow-md ring-2 ring-amber-500/20 group-hover:scale-105 transition-transform">
-                D
+              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#124b3c] to-[#082820] border border-amber-400/50 flex items-center justify-center p-1.5 shadow-md ring-2 ring-amber-500/20 group-hover:scale-105 transition-transform overflow-hidden">
+                <Image
+                  src="/images/logo.png"
+                  alt="Digitalwedcards Logo"
+                  width={36}
+                  height={28}
+                  className="object-contain w-auto h-auto max-h-7 drop-shadow"
+                  priority
+                />
               </div>
             </Link>
             <div>
