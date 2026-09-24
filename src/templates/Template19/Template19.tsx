@@ -191,18 +191,15 @@ export const Template19: React.FC<Template19Props> = ({
           <PinkRoseGarlandDivider pinkColor="#BE185D" goldColor="#F59E0B" />
 
           {/* Countdown Timer */}
-          <div className="w-full max-w-2xl my-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-white/80 border border-[#BE185D]/30 shadow-md backdrop-blur-sm text-center">
-              <p className="text-xs uppercase tracking-widest text-[#BE185D] font-bold mb-3 flex items-center justify-center gap-1.5">
-                <Clock className="w-4 h-4 text-[#F59E0B]" />
-                Countdown to Grand Doli
-              </p>
-              <CountdownTimer
-                targetDate={data.countdownTarget}
-                accentColor="#BE185D"
-                className="py-1"
-              />
-            </div>
+          <div className="w-full max-w-md my-4">
+            <CountdownTimer
+              targetDate={data.countdownTarget}
+              title="Countdown to Grand Doli"
+              accentColor="#BE185D"
+              textColor="#500724"
+              secondaryTextColor="#BE185D"
+              borderColor="#F59E0B"
+            />
           </div>
 
           <PinkRoseGarlandDivider pinkColor="#BE185D" goldColor="#F59E0B" />

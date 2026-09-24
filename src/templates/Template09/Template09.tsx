@@ -194,16 +194,16 @@ export const Template09: React.FC<Template09Props> = ({
         {/* Countdown Section */}
         <section
           aria-label="Wedding Countdown"
-          className="w-full max-w-2xl mx-auto my-4 sm:my-6 px-2"
+          className="w-full max-w-md mx-auto my-4 sm:my-6 px-4"
         >
-          <div className="bg-gradient-to-br from-white to-[#FAF5FF] border border-[#E9D5FF] rounded-3xl p-5 sm:p-6 shadow-sm">
-            <CountdownTimer
-              targetDate={data.countdownTarget}
-              title="Days To The Auspicious Union"
-              accentColor="#7E22CE"
-              className="p-0"
-            />
-          </div>
+          <CountdownTimer
+            targetDate={data.countdownTarget}
+            title="Days To The Auspicious Union"
+            accentColor="#7E22CE"
+            textColor="#3B0764"
+            secondaryTextColor="#7E22CE"
+            borderColor="#EAB308"
+          />
         </section>
 
         {/* Program Schedule */}

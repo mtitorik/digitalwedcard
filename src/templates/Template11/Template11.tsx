@@ -220,16 +220,14 @@ export const Template11: React.FC<Template11Props> = ({
             </div>
 
             {/* COUNTDOWN TIMER */}
-            <div className="w-full max-w-2xl mb-8 bg-[#FFFDF0] border border-[#F59E0B]/30 rounded-3xl p-5 sm:p-6 shadow-sm">
-              <div className="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#9333EA] mb-3">
-                <Clock className="w-4 h-4 text-[#F59E0B]" />
-                <span>Counting Down to Sacred Union</span>
-              </div>
+            <div className="w-full max-w-md mb-8">
               <CountdownTimer
                 targetDate={data.countdownTarget}
                 title="Days Until Auspicious Muhurtham"
                 accentColor="#9333EA"
-                className="p-0"
+                textColor="#4A044E"
+                secondaryTextColor="#9333EA"
+                borderColor="#F59E0B"
               />
             </div>
 

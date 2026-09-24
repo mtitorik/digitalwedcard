@@ -214,16 +214,14 @@ export const Template18: React.FC<Template18Props> = ({
             </div>
 
             {/* COUNTDOWN TIMER */}
-            <div className="w-full max-w-2xl mb-10 bg-[#FEFCE8] border border-[#B45309]/30 rounded-2xl p-5 sm:p-6 shadow-sm">
-              <div className="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#B45309] mb-4">
-                <Clock className="w-4 h-4 text-[#CA8A04]" />
-                <span>Days Until Anand Karaj</span>
-              </div>
+            <div className="w-full max-w-md mb-10">
               <CountdownTimer
                 targetDate={data.countdownTarget}
-                title="Days to The Wedding"
+                title="Days Until Anand Karaj"
                 accentColor="#B45309"
-                className="p-0"
+                textColor="#292524"
+                secondaryTextColor="#B45309"
+                borderColor="#CA8A04"
               />
             </div>
 

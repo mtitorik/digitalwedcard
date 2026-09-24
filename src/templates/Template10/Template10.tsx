@@ -235,16 +235,16 @@ export const Template10: React.FC<Template10Props> = ({
         {/* Countdown Section */}
         <section
           aria-label="Celebration Countdown"
-          className="w-full max-w-2xl mx-auto my-4 sm:my-6 px-2"
+          className="w-full max-w-md mx-auto my-4 sm:my-6 px-4"
         >
-          <div className="bg-gradient-to-br from-white to-purple-50 border border-purple-200/80 rounded-3xl p-5 sm:p-6 shadow-sm">
-            <CountdownTimer
-              targetDate={data.countdownTarget}
-              title="Days To The Celebration"
-              accentColor="#6D28D9"
-              className="p-0"
-            />
-          </div>
+          <CountdownTimer
+            targetDate={data.countdownTarget}
+            title="Days To The Celebration"
+            accentColor="#6D28D9"
+            textColor="#2E1065"
+            secondaryTextColor="#6D28D9"
+            borderColor="#FBBF24"
+          />
         </section>
 
         {/* Program Schedule */}

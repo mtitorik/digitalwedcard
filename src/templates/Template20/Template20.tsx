@@ -194,18 +194,15 @@ export const Template20: React.FC<Template20Props> = ({
           <GoldenCrescentFiligreeDivider goldColor="#D4AF37" maroonColor="#881337" />
 
           {/* Countdown Timer */}
-          <div className="w-full max-w-2xl my-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-white/80 border border-[#881337]/30 shadow-md backdrop-blur-sm text-center">
-              <p className="text-xs uppercase tracking-widest text-[#881337] font-bold mb-3 flex items-center justify-center gap-1.5">
-                <Clock className="w-4 h-4 text-[#D4AF37]" />
-                Countdown to Sacred Nikah
-              </p>
-              <CountdownTimer
-                targetDate={data.countdownTarget}
-                accentColor="#881337"
-                className="py-1"
-              />
-            </div>
+          <div className="w-full max-w-md my-4">
+            <CountdownTimer
+              targetDate={data.countdownTarget}
+              title="Countdown to Sacred Nikah"
+              accentColor="#881337"
+              textColor="#3B0B14"
+              secondaryTextColor="#881337"
+              borderColor="#D4AF37"
+            />
           </div>
 
           <GoldenCrescentFiligreeDivider goldColor="#D4AF37" maroonColor="#881337" />

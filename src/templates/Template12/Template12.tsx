@@ -221,16 +221,14 @@ export const Template12: React.FC<Template12Props> = ({
             </div>
 
             {/* COUNTDOWN TIMER */}
-            <div className="w-full max-w-2xl mb-8 bg-[#FEFCE8] border border-[#B45309]/30 rounded-3xl p-5 sm:p-6 shadow-sm">
-              <div className="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#B45309] mb-3">
-                <Clock className="w-4 h-4 text-[#D97706]" />
-                <span>Days Remaining Until the Sacred Pheras</span>
-              </div>
+            <div className="w-full max-w-md mb-8">
               <CountdownTimer
                 targetDate={data.countdownTarget}
                 title="Days Remaining Until Sacred Pheras"
                 accentColor="#B45309"
-                className="p-0"
+                textColor="#451A03"
+                secondaryTextColor="#B45309"
+                borderColor="#FACC15"
               />
             </div>
 

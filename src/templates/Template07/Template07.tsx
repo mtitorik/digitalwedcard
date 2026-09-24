@@ -208,16 +208,16 @@ export const Template07: React.FC<Template07Props> = ({
         {/* Countdown Timer Section */}
         <section
           aria-label="Wedding Countdown"
-          className="my-6 sm:my-8 w-full max-w-2xl mx-auto px-4"
+          className="my-6 sm:my-8 w-full max-w-md mx-auto px-4"
         >
-          <div className="bg-white border border-[#FECDD3] rounded-3xl p-6 sm:p-8 shadow-md text-center">
-            <CountdownTimer
-              targetDate={data.countdownTarget}
-              title="Counting Down To Forever In Love"
-              accentColor="#BE185D"
-              className="p-0"
-            />
-          </div>
+          <CountdownTimer
+            targetDate={data.countdownTarget}
+            title="Counting Down To Forever In Love"
+            accentColor="#BE185D"
+            textColor="#4C0519"
+            secondaryTextColor="#BE185D"
+            borderColor="#FDE047"
+          />
         </section>
 
         {/* Event Itinerary / Tentative Program */}

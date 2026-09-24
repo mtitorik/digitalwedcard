@@ -212,16 +212,16 @@ export const Template02: React.FC<Template02Props> = ({
         {/* Countdown Timer Section */}
         <section
           aria-label="Wedding Countdown"
-          className="my-6 sm:my-8 w-full max-w-2xl mx-auto px-4"
+          className="my-6 sm:my-8 w-full max-w-md mx-auto px-4"
         >
-          <div className="bg-[#FFFDF5] border border-[#FDE68A] rounded-3xl p-6 sm:p-8 shadow-md text-center">
-            <CountdownTimer
-              targetDate={data.countdownTarget}
-              title="Auspicious Muhurtham In"
-              accentColor="#991B1B"
-              className="p-0"
-            />
-          </div>
+          <CountdownTimer
+            targetDate={data.countdownTarget}
+            title="Auspicious Muhurtham In"
+            accentColor="#991B1B"
+            textColor="#991B1B"
+            secondaryTextColor="#D97706"
+            borderColor="#F59E0B"
+          />
         </section>
 
         {/* Event Itinerary / Tentative Program */}
