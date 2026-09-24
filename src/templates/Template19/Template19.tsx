@@ -12,6 +12,7 @@ import {
   JaaliLatticeCornerBorder,
   PinkRoseGarlandDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -81,58 +82,31 @@ export const Template19: React.FC<Template19Props> = ({
         />
       )}
 
-      {/* Interactive Wax Seal Opener Curtain */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col items-center justify-between p-6 sm:p-10 bg-gradient-to-b from-[#831843] via-[#BE185D] to-[#500724] text-[#FFF1F2] relative z-20 max-w-2xl mx-auto">
-          <JaaliLatticeCornerBorder position="top-left" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
-          <JaaliLatticeCornerBorder position="top-right" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
-          <JaaliLatticeCornerBorder position="bottom-left" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
-          <JaaliLatticeCornerBorder position="bottom-right" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
-
-          {/* Top header badge */}
-          <div className="text-center pt-6 space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-[#F59E0B]/50 text-xs uppercase tracking-widest text-[#FDE68A] font-semibold">
-              <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-              Shubh Vivah & Doli Matrimony
-            </span>
-            <p className="text-xs text-[#FCE7F3] tracking-widest uppercase font-serif mt-2">
-              Wedding Invitation
-            </p>
+      {/* Interactive Royal Palanquin Doli Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#BE185D"
+        secondaryColor="#F59E0B"
+        backgroundColor="#831843"
+        textColor="#FDE68A"
+        wreathComponent={
+          <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center">
+            <RoyalPalanquinDoliCrest size={100} primaryColor="#FDE68A" goldColor="#F59E0B" />
           </div>
-
-          {/* Center Palanquin Doli Wax Seal Button */}
-          <div className="flex flex-col items-center my-auto cursor-pointer group" onClick={() => setIsOpen(true)}>
-            <div className="relative flex items-center justify-center p-2 rounded-full transition-transform duration-500 group-hover:scale-105 active:scale-95">
-              {/* Outer pulsing gold glow */}
-              <div className="absolute inset-0 rounded-full bg-[#F59E0B]/30 blur-xl animate-pulse" />
-
-              {/* Wax Seal Disk */}
-              <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-[#BE185D] via-[#9D174D] to-[#700A34] border-4 border-[#F59E0B] shadow-[0_10px_25px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center">
-                <div className="absolute inset-1 rounded-full border border-[#FDE68A]/40" />
-                <RoyalPalanquinDoliCrest size={62} primaryColor="#FDE68A" goldColor="#F59E0B" />
-                <span className="text-[9px] sm:text-[10px] font-serif uppercase tracking-widest text-[#FDE68A] font-bold mt-1">
-                  Open
-                </span>
-              </div>
-            </div>
-
-            <p className="text-sm font-serif text-[#FDE68A] tracking-wider mt-4 animate-bounce">
-              Tap Seal to Open Invitation
-            </p>
-          </div>
-
-          {/* Bottom Names */}
-          <div className="text-center pb-6 space-y-1">
-            <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white tracking-wide">
-              {data.groomName.split(" ")[0]} & {data.brideName.split(" ")[0]}
-            </h2>
-            <p className="text-xs sm:text-sm text-[#FDE68A] font-serif tracking-widest">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      ) : (
-        /* Main Wedding Invitation Card Content */
+        }
+        cornerDecorations={
+          <>
+            <JaaliLatticeCornerBorder position="top-left" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
+            <JaaliLatticeCornerBorder position="top-right" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
+            <JaaliLatticeCornerBorder position="bottom-left" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
+            <JaaliLatticeCornerBorder position="bottom-right" size={90} goldColor="#FDE68A" pinkColor="#FFF1F2" />
+          </>
+        }
+      >
+        {/* Main Wedding Invitation Card Content */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Four Decorative Corner Borders */}
           <JaaliLatticeCornerBorder position="top-left" size={80} goldColor="#F59E0B" pinkColor="#BE185D" />
@@ -456,7 +430,7 @@ export const Template19: React.FC<Template19Props> = ({
             )}
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

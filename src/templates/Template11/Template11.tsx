@@ -13,6 +13,7 @@ import {
   HandcraftedScrollworkCorner,
   FloralMandalaDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -83,67 +84,31 @@ export const Template11: React.FC<Template11Props> = ({
         />
       )}
 
-      {/* ENVELOPE / WAX SEAL COVER */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
-          {/* Top Decorative Toran */}
-          <div className="w-full pt-2">
-            <OrchidToranGarland color="#9333EA" secondaryColor="#F59E0B" />
-          </div>
-
-          <div className="my-auto py-8 flex flex-col items-center max-w-md">
-            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9333EA]/10 border border-[#9333EA]/30 text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#9333EA]">
-              <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-              <span>Royal Wedding Invitation</span>
+      {/* Interactive Orchid Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#9333EA"
+        secondaryColor="#F59E0B"
+        backgroundColor="#4A044E"
+        textColor="#FEF9C3"
+        wreathComponent={
+          <CascadingOrchidMedallion className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" color="#C084FC" secondaryColor="#FDE047" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none opacity-80">
+              <HandcraftedScrollworkCorner color="#C084FC" secondaryColor="#FDE047" className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
-
-            {/* Medallion */}
-            <div className="relative mb-5 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#F59E0B]/20 rounded-full blur-xl animate-pulse" />
-              <CascadingOrchidMedallion className="w-40 h-40 sm:w-52 sm:h-52 drop-shadow-md" color="#9333EA" secondaryColor="#F59E0B" />
+            <div className="absolute top-4 right-4 pointer-events-none opacity-80">
+              <HandcraftedScrollworkCorner color="#C084FC" secondaryColor="#FDE047" flipX className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
-
-            <p className="text-xs sm:text-sm uppercase tracking-widest font-serif text-[#F59E0B] font-bold mb-1">
-              With Divine Blessings
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#4A044E] mb-2 tracking-tight">
-              {data.groomName}
-              <span className="block text-xl sm:text-2xl font-normal text-[#9333EA] my-0.5">&amp;</span>
-              {data.brideName}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-[#4A044E]/80 font-medium mb-6">
-              {data.weddingDate}
-            </p>
-
-            {/* Interactive Wax Seal CTA */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
-            >
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#9333EA] via-[#A855F7] to-[#F59E0B] p-1 shadow-xl hover:shadow-[#F59E0B]/40 hover:scale-105 transition duration-300">
-                <div className="w-full h-full rounded-full border-2 border-[#FEF9C3]/80 bg-[#7E22CE] flex flex-col items-center justify-center text-[#FEF9C3]">
-                  <span className="text-lg sm:text-xl font-serif font-bold tracking-widest leading-none">
-                    {data.groomName[0]}&amp;{data.brideName[0]}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-[#FDE047] mt-0.5">
-                    Open
-                  </span>
-                </div>
-              </div>
-              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#9333EA] group-hover:text-[#7E22CE] transition flex items-center gap-1.5">
-                <span>Tap to Open Invitation</span>
-                <Heart className="w-3.5 h-3.5 fill-[#F59E0B] text-[#F59E0B]" />
-              </span>
-            </button>
-          </div>
-
-          <div className="w-full pb-2">
-            <FloralMandalaDivider color="#9333EA" secondaryColor="#F59E0B" className="w-48 sm:w-64 mx-auto" />
-          </div>
-        </div>
-      ) : (
-        /* MAIN OPENED INVITATION CONTENT */
+          </>
+        }
+      >
+        {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Top Hanging Toran Garland */}
           <div className="w-full max-w-4xl mx-auto mb-6">
@@ -519,7 +484,7 @@ export const Template11: React.FC<Template11Props> = ({
             </div>
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

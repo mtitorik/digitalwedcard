@@ -12,6 +12,7 @@ import {
   SeasideWaveCorner,
   OceanSurfDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -81,67 +82,31 @@ export const Template16: React.FC<Template16Props> = ({
         />
       )}
 
-      {/* ENVELOPE / SEASIDE SEAL COVER */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
-          <div className="w-full pt-4 flex justify-between items-center opacity-70">
-            <SeasideWaveCorner className="w-12 h-12 sm:w-16 sm:h-16" />
-            <SeasideWaveCorner flipX className="w-12 h-12 sm:w-16 sm:h-16" />
-          </div>
-
-          <div className="my-auto flex flex-col items-center max-w-sm sm:max-w-md">
-            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E0F2FE] border border-[#0369A1]/30 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#0369A1]">
-              <Sparkles className="w-3.5 h-3.5 text-[#38BDF8]" />
-              <span>Seaside Wedding E-Card</span>
+      {/* Interactive Azure Seaside Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#0369A1"
+        secondaryColor="#38BDF8"
+        backgroundColor="#082F49"
+        textColor="#BAE6FD"
+        wreathComponent={
+          <SeashellStarfishCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_60s_linear_infinite]" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-3 sm:left-8 pointer-events-none opacity-75">
+              <SeasideWaveCorner className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-
-            <div className="relative mb-4 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#38BDF8]/20 rounded-full blur-xl animate-pulse" />
-              <SeashellStarfishCrest className="w-40 h-40 sm:w-52 sm:h-52 drop-shadow-md" />
+            <div className="absolute top-4 right-3 sm:right-8 pointer-events-none opacity-75">
+              <SeasideWaveCorner flipX className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-
-            <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#0284C7] font-bold mb-1">
-              Together By The Water
-            </p>
-
-            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-[#082F49] mb-2 tracking-tight">
-              {data.groomName}
-              <span className="block text-xl sm:text-2xl font-normal text-[#0284C7] my-0.5">&amp;</span>
-              {data.brideName}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-[#0369A1] font-medium mb-6">
-              {data.weddingDate}
-            </p>
-
-            {/* Azure Blue Seal CTA */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
-            >
-              <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-gradient-to-tr from-[#0369A1] via-[#0284C7] to-[#38BDF8] p-1 shadow-xl hover:shadow-[#38BDF8]/50 hover:scale-105 transition duration-300">
-                <div className="w-full h-full rounded-full border-2 border-[#F0F9FF]/80 bg-[#075985] flex flex-col items-center justify-center text-[#F0F9FF]">
-                  <span className="text-sm sm:text-base font-serif font-bold tracking-widest leading-none">
-                    {data.groomName[0]}&amp;{data.brideName[0]}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-[#BAE6FD] mt-1">
-                    Open
-                  </span>
-                </div>
-              </div>
-              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#0369A1] group-hover:text-[#075985] transition flex items-center gap-1.5">
-                <span>Touch to Open</span>
-                <Heart className="w-3.5 h-3.5 fill-[#0284C7] text-[#0284C7]" />
-              </span>
-            </button>
-          </div>
-
-          <div className="w-full pb-4">
-            <OceanSurfDivider className="mx-auto" />
-          </div>
-        </div>
-      ) : (
-        /* MAIN OPENED INVITATION CONTENT */
+          </>
+        }
+      >
+        {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Subtle Corner Accents */}
           <div className="pointer-events-none absolute top-4 left-3 sm:left-8 z-10 opacity-75">
@@ -472,7 +437,7 @@ export const Template16: React.FC<Template16Props> = ({
             </div>
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

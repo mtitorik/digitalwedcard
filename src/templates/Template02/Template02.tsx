@@ -7,6 +7,7 @@ import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
 import { CountdownTimer } from "@/components/common/CountdownTimer";
 import { AudioPlayerToggle } from "@/components/common/AudioPlayerToggle";
 import { AddToCalendar } from "@/components/common/AddToCalendar";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   PaisleyCorner,
   RoyalMandala,
@@ -75,69 +76,41 @@ export const Template02: React.FC<Template02Props> = ({
         />
       )}
 
-      {/* Royal Seal Opening Experience Overlay */}
-      {!isOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-[#7F1D1D] via-[#991B1B] to-[#450A0A] flex flex-col items-center justify-between p-6 sm:p-10 text-center text-[#FFFBEB] animate-fade-in overflow-y-auto">
-          {/* Paisley Corners */}
-          <div className="absolute top-4 left-4 pointer-events-none">
-            <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
-          </div>
-          <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
-            <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
-          </div>
-          <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
-            <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
-          </div>
-          <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
-            <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
-          </div>
-
-          <div className="pt-8 sm:pt-12">
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-8 sm:w-12 h-[1px] bg-[#F59E0B]" />
-              <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#FDE68A] font-semibold">
-                Royal Wedding Invitation
-              </span>
-              <span className="w-8 sm:w-12 h-[1px] bg-[#F59E0B]" />
+      {/* Interactive Royal Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#991B1B"
+        secondaryColor="#D97706"
+        backgroundColor="#7F1D1D"
+        textColor="#FEF3C7"
+        wreathComponent={
+          <RoyalMandala
+            className="w-52 h-52 sm:w-60 sm:h-60 animate-[spin_50s_linear_infinite]"
+            color="#FDE68A"
+            goldColor="#F59E0B"
+          />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none">
+              <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
             </div>
-            <h2 className="mt-3 text-2xl sm:text-4xl tracking-wide text-amber-200">
-              {data.groomName.split(" ")[0]} &amp; {data.brideName.split(" ")[0]}
-            </h2>
-          </div>
-
-          {/* Interactive Royal Wax Seal Button */}
-          <div className="my-auto py-8 flex flex-col items-center">
-            <div className="relative group cursor-pointer" onClick={() => setIsOpen(true)}>
-              <RoyalMandala className="w-52 h-52 sm:w-60 sm:h-60 animate-[spin_50s_linear_infinite]" color="#FDE68A" goldColor="#F59E0B" />
-
-              <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open royal wedding invitation"
-                className="absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-[#B45309] via-[#D97706] to-[#FBBF24] text-[#450A0A] shadow-2xl flex flex-col items-center justify-center border-2 border-[#FEF3C7] transform transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-amber-500/40"
-              >
-                <span className="font-bold text-lg sm:text-xl tracking-wider">
-                  {data.groomName[0]}&amp;{data.brideName[0]}
-                </span>
-                <span className="text-[9px] uppercase tracking-widest font-semibold mt-0.5 opacity-90">
-                  Open
-                </span>
-              </button>
+            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+              <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
             </div>
-
-            <p className="mt-6 text-xs sm:text-sm text-[#FDE68A]/80 italic tracking-wider animate-pulse">
-              Touch the royal seal to unfold the invitation
-            </p>
-          </div>
-
-          <div className="pb-8">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#FBBF24]">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Main Royal Invitation Body */}
+            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+              <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
+            </div>
+            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+              <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
+            </div>
+          </>
+        }
+      >
+        {/* Main Royal Invitation Body */}
       <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 flex flex-col items-center bg-[#FFFBEB]">
         {/* Top Paisley Corners */}
         <div className="absolute top-2 left-2 pointer-events-none z-10">
@@ -496,6 +469,7 @@ export const Template02: React.FC<Template02Props> = ({
           )}
         </footer>
       </main>
+      </WaxSealEnvelope>
     </div>
   );
 };

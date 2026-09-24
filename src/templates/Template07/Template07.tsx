@@ -12,6 +12,7 @@ import {
   RoseCornerVine,
   BlushRoseDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -75,64 +76,36 @@ export const Template07: React.FC<Template07Props> = ({
         />
       )}
 
-      {/* Blush Rose Seal Opener Overlay */}
-      {!isOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-[#831843] via-[#9D174D] to-[#500724] flex flex-col items-center justify-between p-6 sm:p-10 text-center text-white animate-fade-in overflow-y-auto">
-          {/* Rose Corners */}
-          <div className="absolute top-4 left-4 pointer-events-none">
-            <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
-          </div>
-          <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
-            <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
-          </div>
-          <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
-            <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
-          </div>
-          <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
-            <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
-          </div>
-
-          <div className="pt-8 sm:pt-12">
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#FDE047] font-semibold">
-              Wedding Invitation
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-4xl tracking-wide text-white">
-              {data.groomName.split(" ")[0]} &amp; {data.brideName.split(" ")[0]}
-            </h2>
-          </div>
-
-          {/* Interactive Interlocking Rings Opener Button */}
-          <div className="my-auto py-8 flex flex-col items-center">
-            <div className="relative group cursor-pointer" onClick={() => setIsOpen(true)}>
-              <InterlockingRingsCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_50s_linear_infinite]" color="#FECDD3" goldColor="#FDE047" />
-
-              <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open wedding invitation"
-                className="absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-[#BE185D] via-[#DB2777] to-[#F59E0B] text-white shadow-2xl flex flex-col items-center justify-center border-2 border-[#FDE047] transform transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-pink-500/40"
-              >
-                <span className="font-bold text-lg sm:text-xl tracking-wider text-amber-200">
-                  {data.groomName[0]}&amp;{data.brideName[0]}
-                </span>
-                <span className="text-[9px] uppercase tracking-widest font-semibold mt-0.5 text-white/90 font-sans">
-                  Open
-                </span>
-              </button>
+      {/* Interactive Blush Rose Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#BE185D"
+        secondaryColor="#F59E0B"
+        backgroundColor="#831843"
+        textColor="#FDE047"
+        wreathComponent={
+          <InterlockingRingsCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" color="#FECDD3" goldColor="#FDE047" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none">
+              <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
             </div>
-
-            <p className="mt-6 text-xs sm:text-sm text-[#FDE047]/80 italic tracking-wider animate-pulse">
-              Click the ring seal to open invitation
-            </p>
-          </div>
-
-          <div className="pb-8">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#FDE047]">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      )}
-
+            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+              <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
+            </div>
+            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+              <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
+            </div>
+            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+              <RoseCornerVine className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#FECDD3" goldColor="#FDE047" />
+            </div>
+          </>
+        }
+      >
       {/* Main Invitation Body */}
       <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 flex flex-col items-center bg-[#FFF1F2]">
         {/* Top Rose Corners */}
@@ -492,6 +465,7 @@ export const Template07: React.FC<Template07Props> = ({
           )}
         </footer>
       </main>
+      </WaxSealEnvelope>
     </div>
   );
 };

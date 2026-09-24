@@ -7,6 +7,7 @@ import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
 import { CountdownTimer } from "@/components/common/CountdownTimer";
 import { AudioPlayerToggle } from "@/components/common/AudioPlayerToggle";
 import { AddToCalendar } from "@/components/common/AddToCalendar";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   BotanicalWreath,
   CornerFoliage,
@@ -74,66 +75,37 @@ export const Template01: React.FC<Template01Props> = ({
         />
       )}
 
-      {/* Envelope Opening Experience Overlay */}
-      {!isOpen && (
-        <div className="fixed inset-0 z-50 bg-[#FAF7F2] flex flex-col items-center justify-between p-6 sm:p-10 text-center animate-fade-in overflow-y-auto">
-          {/* Decorative Corner Foliage */}
-          <div className="absolute top-4 left-4 pointer-events-none">
-            <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
-          </div>
-          <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
-            <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
-          </div>
-          <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
-            <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
-          </div>
-          <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
-            <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
-          </div>
-
-          <div className="pt-8 sm:pt-12">
-            <span className="text-[11px] sm:text-xs uppercase tracking-[0.3em] text-[#4A6B53] font-serif font-semibold">
-              Wedding Invitation
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-4xl font-serif text-[#1C2826] italic">
-              {data.groomName.split(" ")[0]} & {data.brideName.split(" ")[0]}
-            </h2>
-          </div>
-
-          {/* Wax Seal Monogram Opener Button */}
-          <div className="my-auto py-8 flex flex-col items-center">
-            <div className="relative group cursor-pointer" onClick={() => setIsOpen(true)}>
-              <BotanicalWreath className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_40s_linear_infinite]" />
-
-              <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open wedding invitation"
-                className="absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-[#C5A880] to-[#E3C8A0] text-[#2C2416] shadow-xl flex flex-col items-center justify-center border-2 border-white/60 transform transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-amber-900/30"
-              >
-                <span className="font-serif text-xl sm:text-2xl font-bold tracking-wider">
-                  {data.groomName[0]}&{data.brideName[0]}
-                </span>
-                <span className="text-[9px] uppercase tracking-widest font-semibold mt-0.5 opacity-90">
-                  Open
-                </span>
-              </button>
+      {/* Interactive Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#4A6B53"
+        secondaryColor="#C5A880"
+        backgroundColor="#FAF7F2"
+        textColor="#1C2826"
+        wreathComponent={
+          <BotanicalWreath className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_40s_linear_infinite]" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none">
+              <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
-
-            <p className="mt-6 text-xs sm:text-sm font-serif text-[#718096] italic tracking-wide animate-pulse">
-              Click the seal to unfold the invitation
-            </p>
-          </div>
-
-          {/* Bottom Details */}
-          <div className="pb-8">
-            <p className="text-xs sm:text-sm font-serif tracking-[0.2em] uppercase text-[#4A6B53]">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Main Invitation Body Content */}
+            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+              <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
+            </div>
+            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+              <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
+            </div>
+            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+              <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
+            </div>
+          </>
+        }
+      >
+        {/* Main Invitation Body Content */}
       <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 flex flex-col items-center">
         {/* Top Corner Botanical Foliage */}
         <div className="absolute top-2 left-2 pointer-events-none z-10">
@@ -488,6 +460,7 @@ export const Template01: React.FC<Template01Props> = ({
           )}
         </footer>
       </main>
+      </WaxSealEnvelope>
     </div>
   );
 };

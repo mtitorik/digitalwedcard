@@ -7,6 +7,7 @@ import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
 import { CountdownTimer } from "@/components/common/CountdownTimer";
 import { AudioPlayerToggle } from "@/components/common/AudioPlayerToggle";
 import { AddToCalendar } from "@/components/common/AddToCalendar";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   HydrangeaWreath,
   LaceFiligreeCorner,
@@ -76,64 +77,36 @@ export const Template05: React.FC<Template05Props> = ({
         />
       )}
 
-      {/* Cerulean & Lace Seal Opening Experience Overlay */}
-      {!isOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-[#0369A1] via-[#0284C7] to-[#075985] flex flex-col items-center justify-between p-6 sm:p-10 text-center text-white animate-fade-in overflow-y-auto">
-          {/* Lace Corners */}
-          <div className="absolute top-4 left-4 pointer-events-none">
-            <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
-          </div>
-          <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
-            <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
-          </div>
-          <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
-            <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
-          </div>
-          <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
-            <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
-          </div>
-
-          <div className="pt-8 sm:pt-12">
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#FDE68A] font-semibold">
-              Reception Party Invitation
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-4xl font-serif tracking-wide text-white">
-              {data.groomName.split(" ")[0]} &amp; {data.brideName.split(" ")[0]}
-            </h2>
-          </div>
-
-          {/* Interactive Hydrangea Wreath Opener Button */}
-          <div className="my-auto py-8 flex flex-col items-center">
-            <div className="relative group cursor-pointer" onClick={() => setIsOpen(true)}>
-              <HydrangeaWreath className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" color="#BAE6FD" goldColor="#FDE68A" />
-
-              <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open reception invitation"
-                className="absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-[#0284C7] via-[#38BDF8] to-[#F59E0B] text-white shadow-2xl flex flex-col items-center justify-center border-2 border-[#FDE68A] transform transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-sky-500/40"
-              >
-                <span className="font-serif font-bold text-lg sm:text-xl tracking-wider text-amber-200">
-                  {data.groomName[0]}&amp;{data.brideName[0]}
-                </span>
-                <span className="text-[9px] uppercase tracking-widest font-semibold mt-0.5 text-white/90">
-                  Open
-                </span>
-              </button>
+      {/* Interactive Cerulean Lace Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#0284C7"
+        secondaryColor="#D4AF37"
+        backgroundColor="#0369A1"
+        textColor="#FDE68A"
+        wreathComponent={
+          <HydrangeaWreath className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" color="#BAE6FD" goldColor="#FDE68A" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none">
+              <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
             </div>
-
-            <p className="mt-6 text-xs sm:text-sm text-[#FDE68A]/80 italic tracking-wider animate-pulse">
-              Click the floral seal to open invitation
-            </p>
-          </div>
-
-          <div className="pb-8">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#FDE68A]">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      )}
-
+            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+              <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
+            </div>
+            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+              <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
+            </div>
+            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+              <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
+            </div>
+          </>
+        }
+      >
       {/* Main Invitation Body */}
       <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 flex flex-col items-center bg-[#F0F9FF]">
         {/* Top Lace Corners */}
@@ -493,6 +466,7 @@ export const Template05: React.FC<Template05Props> = ({
           )}
         </footer>
       </main>
+      </WaxSealEnvelope>
     </div>
   );
 };

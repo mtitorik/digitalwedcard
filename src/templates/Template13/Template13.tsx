@@ -12,6 +12,7 @@ import {
   MinimalGoldCorner,
   SubtleGoldDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -80,70 +81,31 @@ export const Template13: React.FC<Template13Props> = ({
         />
       )}
 
-      {/* ENVELOPE / MINIMALIST SEAL COVER */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
-          <div className="w-full pt-4 flex justify-between items-center opacity-60">
-            <MinimalGoldCorner className="w-10 h-10 sm:w-16 sm:h-16" />
-            <MinimalGoldCorner flipX className="w-10 h-10 sm:w-16 sm:h-16" />
-          </div>
-
-          <div className="my-auto py-8 flex flex-col items-center max-w-md">
-            {/* Minimal Badge */}
-            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF3C7]/60 border border-[#D97706]/30 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#D97706]">
-              <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
-              <span>Wedding Invitation</span>
+      {/* Interactive Minimalist Gold Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#D97706"
+        secondaryColor="#F59E0B"
+        backgroundColor="#78350F"
+        textColor="#FEF3C7"
+        wreathComponent={
+          <SingleStemBlossomCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none opacity-80">
+              <MinimalGoldCorner className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-
-            {/* Single Stem Botanical Artwork */}
-            <div className="relative mb-4 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#FEF3C7] rounded-full blur-xl opacity-60" />
-              <SingleStemBlossomCrest className="w-36 h-36 sm:w-48 sm:h-48 drop-shadow-sm" />
+            <div className="absolute top-4 right-4 pointer-events-none opacity-80">
+              <MinimalGoldCorner flipX className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-
-            <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#D97706] font-bold mb-2">
-              Save The Date
-            </p>
-
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-[#1C1917] mb-2 tracking-tight">
-              {data.groomName}
-              <span className="block text-xl sm:text-2xl font-normal text-[#D97706] my-0.5">&amp;</span>
-              {data.brideName}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-stone-500 font-medium mb-6">
-              {data.weddingDate}
-            </p>
-
-            {/* Minimal Gold Seal CTA */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
-            >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-[#D97706] to-[#F59E0B] p-0.5 shadow-md hover:shadow-lg hover:scale-105 transition duration-300">
-                <div className="w-full h-full rounded-full border border-[#FFFFFA] bg-[#D97706] flex flex-col items-center justify-center text-[#FFFFFA]">
-                  <span className="text-xs sm:text-sm font-serif font-bold tracking-widest leading-none">
-                    {data.groomName[0]}&amp;{data.brideName[0]}
-                  </span>
-                  <span className="text-[8px] sm:text-[9px] uppercase tracking-wider font-semibold text-[#FEF3C7] mt-0.5">
-                    Open
-                  </span>
-                </div>
-              </div>
-              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#D97706] group-hover:text-[#B45309] transition flex items-center gap-1.5">
-                <span>View Invitation</span>
-                <Heart className="w-3.5 h-3.5 fill-[#D97706] text-[#D97706]" />
-              </span>
-            </button>
-          </div>
-
-          <div className="w-full pb-4 flex justify-between items-center opacity-60">
-            <MinimalGoldCorner flipY className="w-10 h-10 sm:w-16 sm:h-16" />
-            <MinimalGoldCorner flipX flipY className="w-10 h-10 sm:w-16 sm:h-16" />
-          </div>
-        </div>
-      ) : (
-        /* MAIN OPENED INVITATION CONTENT */
+          </>
+        }
+      >
+        {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Subtle Corner Accents */}
           <div className="pointer-events-none absolute top-4 left-4 z-10 opacity-70">
@@ -469,7 +431,7 @@ export const Template13: React.FC<Template13Props> = ({
             </div>
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

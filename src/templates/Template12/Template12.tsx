@@ -13,6 +13,7 @@ import {
   SanskritShlokaDivider,
   HaldiBandarwalGarland,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -83,68 +84,31 @@ export const Template12: React.FC<Template12Props> = ({
         />
       )}
 
-      {/* ENVELOPE / TRADITIONAL WAX SEAL COVER */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
-          {/* Top Hanging Haldi Bandarwal Garland */}
-          <div className="w-full pt-2">
-            <HaldiBandarwalGarland />
-          </div>
-
-          <div className="my-auto py-8 flex flex-col items-center max-w-md">
-            {/* Auspicious Shloka Badge */}
-            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF08A]/60 border border-[#B45309]/30 text-xs sm:text-sm font-serif font-bold text-[#B45309]">
-              <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-              <span>|| ॐ गं गणपतये नमः ||</span>
+      {/* Interactive Terracotta & Brass Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#B45309"
+        secondaryColor="#FACC15"
+        backgroundColor="#78350F"
+        textColor="#FEF08A"
+        wreathComponent={
+          <BrassUrliCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_60s_linear_infinite]" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none opacity-80">
+              <ClayDiyaCornerBorder className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
-
-            {/* Brass Urli Centerpiece */}
-            <div className="relative mb-5 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#FACC15]/30 rounded-full blur-xl animate-pulse" />
-              <BrassUrliCrest className="w-44 h-44 sm:w-56 sm:h-56 drop-shadow-md" />
+            <div className="absolute top-4 right-4 pointer-events-none opacity-80">
+              <ClayDiyaCornerBorder flipX className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
-
-            <p className="text-xs sm:text-sm uppercase tracking-widest font-serif text-[#B45309] font-bold mb-1">
-              Shubh Vivah Nimantran
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#451A03] mb-2 tracking-tight">
-              {data.groomName}
-              <span className="block text-xl sm:text-2xl font-normal text-[#B45309] my-0.5">&amp;</span>
-              {data.brideName}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-[#78350F] font-medium mb-6">
-              {data.weddingDate}
-            </p>
-
-            {/* Interactive Terracotta Diya Seal CTA */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
-            >
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-[#B45309] via-[#D97706] to-[#FACC15] p-1 shadow-xl hover:shadow-[#FACC15]/50 hover:scale-105 transition duration-300">
-                <div className="w-full h-full rounded-full border-2 border-[#FEF08A]/80 bg-[#78350F] flex flex-col items-center justify-center text-[#FEF08A]">
-                  <span className="text-sm sm:text-base font-serif font-bold tracking-widest leading-none">
-                    शुभ
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-[#FACC15] mt-1">
-                    Open
-                  </span>
-                </div>
-              </div>
-              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#B45309] group-hover:text-[#78350F] transition flex items-center gap-1.5">
-                <span>Touch to Open Invitation</span>
-                <Heart className="w-3.5 h-3.5 fill-[#B45309] text-[#B45309]" />
-              </span>
-            </button>
-          </div>
-
-          <div className="w-full pb-2">
-            <SanskritShlokaDivider shlokaText="|| सर्वमंगल मांगल्ये ||" className="mx-auto" />
-          </div>
-        </div>
-      ) : (
-        /* MAIN OPENED INVITATION CONTENT */
+          </>
+        }
+      >
+        {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Top Sticky Haldi Garland */}
           <div className="w-full max-w-4xl mx-auto mb-6">
@@ -520,7 +484,7 @@ export const Template12: React.FC<Template12Props> = ({
             </div>
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

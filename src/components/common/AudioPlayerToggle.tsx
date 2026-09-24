@@ -60,6 +60,23 @@ export const AudioPlayerToggle: React.FC<AudioPlayerToggleProps> = ({
           });
       }
     }
+
+    const handleEnvelopeOpened = () => {
+      if (audioRef.current) {
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+            setAutoplayBlocked(false);
+          })
+          .catch(() => {});
+      }
+    };
+
+    window.addEventListener("wedding-envelope-opened", handleEnvelopeOpened);
+    return () => {
+      window.removeEventListener("wedding-envelope-opened", handleEnvelopeOpened);
+    };
   }, [trackUrl, autoPlay]);
 
   const togglePlayback = () => {

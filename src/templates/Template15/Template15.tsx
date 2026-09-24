@@ -12,6 +12,7 @@ import {
   PalmFrondCorner,
   CoastalWaveDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -81,67 +82,31 @@ export const Template15: React.FC<Template15Props> = ({
         />
       )}
 
-      {/* ENVELOPE / TROPICAL SEAL COVER */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
-          <div className="w-full pt-4 flex justify-between items-center opacity-70">
-            <PalmFrondCorner className="w-12 h-12 sm:w-16 sm:h-16" />
-            <PalmFrondCorner flipX className="w-12 h-12 sm:w-16 sm:h-16" />
-          </div>
-
-          <div className="my-auto flex flex-col items-center max-w-sm sm:max-w-md">
-            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#CFFAFE] border border-[#0E7490]/30 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#0E7490]">
-              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Coastal Wedding Invitation</span>
+      {/* Interactive Coastal Tropical Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#0E7490"
+        secondaryColor="#D4AF37"
+        backgroundColor="#164E63"
+        textColor="#FEF08A"
+        wreathComponent={
+          <TropicalWaveSunburstCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_60s_linear_infinite]" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-3 sm:left-8 pointer-events-none opacity-75">
+              <PalmFrondCorner className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-
-            <div className="relative mb-4 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#D4AF37]/20 rounded-full blur-xl animate-pulse" />
-              <TropicalWaveSunburstCrest className="w-40 h-40 sm:w-52 sm:h-52 drop-shadow-md" />
+            <div className="absolute top-4 right-3 sm:right-8 pointer-events-none opacity-75">
+              <PalmFrondCorner flipX className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-
-            <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#D4AF37] font-bold mb-1">
-              By The Ocean Shore
-            </p>
-
-            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-[#164E63] mb-2 tracking-tight">
-              {data.groomName}
-              <span className="block text-xl sm:text-2xl font-normal text-[#0E7490] my-0.5">&amp;</span>
-              {data.brideName}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-[#0E7490] font-medium mb-6">
-              {data.weddingDate}
-            </p>
-
-            {/* Cyan Gold Seal CTA */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
-            >
-              <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-gradient-to-tr from-[#0E7490] via-[#06B6D4] to-[#D4AF37] p-1 shadow-xl hover:shadow-[#D4AF37]/50 hover:scale-105 transition duration-300">
-                <div className="w-full h-full rounded-full border-2 border-[#ECFEFF]/80 bg-[#155E75] flex flex-col items-center justify-center text-[#ECFEFF]">
-                  <span className="text-sm sm:text-base font-serif font-bold tracking-widest leading-none">
-                    {data.groomName[0]}&amp;{data.brideName[0]}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-[#FEF08A] mt-1">
-                    Open
-                  </span>
-                </div>
-              </div>
-              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#0E7490] group-hover:text-[#155E75] transition flex items-center gap-1.5">
-                <span>Touch to Open</span>
-                <Heart className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" />
-              </span>
-            </button>
-          </div>
-
-          <div className="w-full pb-4">
-            <CoastalWaveDivider className="mx-auto" />
-          </div>
-        </div>
-      ) : (
-        /* MAIN OPENED INVITATION CONTENT */
+          </>
+        }
+      >
+        {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Subtle Corner Accents */}
           <div className="pointer-events-none absolute top-4 left-3 sm:left-8 z-10 opacity-75">
@@ -472,7 +437,7 @@ export const Template15: React.FC<Template15Props> = ({
             </div>
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

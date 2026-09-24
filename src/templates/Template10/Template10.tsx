@@ -12,6 +12,7 @@ import {
   FairyLightsCorner,
   SaffronWaveDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -68,58 +69,30 @@ export const Template10: React.FC<Template10Props> = ({
     <div
       className={`relative w-full min-h-screen bg-[#1F0833] font-sans antialiased text-[#2E1065] overflow-x-hidden ${className}`}
     >
-      {/* Royal Purple & Saffron Seal Opener Overlay */}
-      {!isOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-[#581C87] via-[#6D28D9] to-[#3B0764] flex flex-col items-center justify-between p-6 sm:p-10 text-center text-white animate-fade-in overflow-y-auto">
-          {/* Fairy Lights Corners */}
-          <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
-            <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
-          </div>
-          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 -scale-x-100">
-            <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
-          </div>
-
-          <div className="pt-12 sm:pt-16">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.3em] text-[#FDE047] font-semibold">
-              Celebration Invitation
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-4xl font-serif tracking-wide text-white">
-              {data.groomName.split(" ")[0]} &amp; {data.brideName.split(" ")[0]}
-            </h2>
-          </div>
-
-          {/* Interactive Arch Opener Button */}
-          <div className="my-auto py-8 flex flex-col items-center">
-            <div className="relative group cursor-pointer" onClick={() => setIsOpen(true)}>
-              <GeometricCurveCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_60s_linear_infinite]" color="#C084FC" saffronColor="#FBBF24" />
-
-              <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open wedding invitation"
-                className="absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-[#6D28D9] via-[#8B5CF6] to-[#FBBF24] text-white shadow-2xl flex flex-col items-center justify-center border-2 border-[#FDE047] transform transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-purple-500/40"
-              >
-                <span className="font-serif font-bold text-lg sm:text-xl tracking-wider text-amber-200">
-                  {data.groomName[0]}&amp;{data.brideName[0]}
-                </span>
-                <span className="text-[10px] sm:text-xs uppercase tracking-widest font-semibold mt-0.5 text-white/90">
-                  Open
-                </span>
-              </button>
+      {/* Interactive Royal Purple & Saffron Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#6D28D9"
+        secondaryColor="#FBBF24"
+        backgroundColor="#3B0764"
+        textColor="#FDE047"
+        wreathComponent={
+          <GeometricCurveCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_60s_linear_infinite]" color="#C084FC" saffronColor="#FBBF24" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-2 left-2 sm:top-4 sm:left-4 pointer-events-none">
+              <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
             </div>
-
-            <p className="mt-8 text-xs sm:text-sm text-[#FDE047]/80 italic tracking-wider animate-pulse">
-              Tap the seal to reveal the celebration
-            </p>
-          </div>
-
-          <div className="pb-8">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#FBBF24]">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      )}
-
+            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 -scale-x-100 pointer-events-none">
+              <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
+            </div>
+          </>
+        }
+      >
       {/* Main Invitation Card Container */}
       <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center bg-[#FDF4FF] shadow-2xl sm:rounded-3xl my-0 sm:my-8 min-h-screen">
         {/* Top Fairy Lights Corners */}
@@ -503,6 +476,7 @@ export const Template10: React.FC<Template10Props> = ({
           </p>
         </footer>
       </main>
+      </WaxSealEnvelope>
 
       {/* Floating Audio Player */}
       {data.audio.enabled && (

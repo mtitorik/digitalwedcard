@@ -12,6 +12,7 @@ import {
   BrushedGoldCornerFrame,
   HairlineGoldDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -80,68 +81,31 @@ export const Template17: React.FC<Template17Props> = ({
         />
       )}
 
-      {/* ENVELOPE / MINIMAL EMBOSSED CARD COVER */}
-      {!isOpen ? (
-        <div className="min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 text-center relative z-20 max-w-2xl mx-auto">
-          <div className="w-full pt-4 flex justify-between items-center opacity-70">
-            <BrushedGoldCornerFrame className="w-12 h-12 sm:w-16 sm:h-16" />
-            <BrushedGoldCornerFrame flipX className="w-12 h-12 sm:w-16 sm:h-16" />
-          </div>
-
-          <div className="my-auto flex flex-col items-center max-w-sm sm:max-w-md">
-            <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5EFE6] border border-[#CA8A04]/30 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-[#78350F]">
-              <Sparkles className="w-3 h-3 text-[#CA8A04]" />
-              <span>Wedding Invitation</span>
+      {/* Interactive Brushed Gold & Bronze Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#78350F"
+        secondaryColor="#CA8A04"
+        backgroundColor="#451A03"
+        textColor="#FEF08A"
+        wreathComponent={
+          <MinimalistGoldGaneshaCrest className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_60s_linear_infinite]" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-3 sm:left-8 pointer-events-none opacity-70">
+              <BrushedGoldCornerFrame className="w-12 h-12 sm:w-16 sm:h-16" />
             </div>
-
-            <div className="relative mb-4 flex items-center justify-center">
-              <div className="absolute inset-0 bg-[#CA8A04]/15 rounded-full blur-xl animate-pulse" />
-              <MinimalistGoldGaneshaCrest className="w-36 h-36 sm:w-48 sm:h-48 drop-shadow-sm" />
+            <div className="absolute top-4 right-3 sm:right-8 pointer-events-none opacity-70">
+              <BrushedGoldCornerFrame flipX className="w-12 h-12 sm:w-16 sm:h-16" />
             </div>
-
-            <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#CA8A04] font-bold mb-2">
-              With Auspicious Blessings
-            </p>
-
-            <h1 className="text-3xl sm:text-5xl font-serif font-light text-[#1C1917] mb-2 tracking-tight">
-              {data.groomName}
-              <span className="block text-xl sm:text-2xl font-normal text-[#CA8A04] my-0.5">&amp;</span>
-              {data.brideName}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-stone-500 font-medium mb-6">
-              {data.weddingDate}
-            </p>
-
-            {/* Bronze Gold Seal CTA */}
-            <button
-              onClick={() => setIsOpen(true)}
-              className="group relative flex flex-col items-center focus:outline-none transition transform active:scale-95"
-            >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-[#78350F] via-[#B45309] to-[#CA8A04] p-0.5 shadow-md hover:shadow-lg hover:scale-105 transition duration-300">
-                <div className="w-full h-full rounded-full border border-[#FAF7F2] bg-[#78350F] flex flex-col items-center justify-center text-[#FAF7F2]">
-                  <span className="text-xs sm:text-sm font-serif font-bold tracking-widest leading-none">
-                    {data.groomName[0]}&amp;{data.brideName[0]}
-                  </span>
-                  <span className="text-[8px] sm:text-[9px] uppercase tracking-wider font-semibold text-[#FEF08A] mt-0.5">
-                    Open
-                  </span>
-                </div>
-              </div>
-              <span className="mt-3 text-xs sm:text-sm tracking-wider font-semibold uppercase text-[#78350F] group-hover:text-[#B45309] transition flex items-center gap-1.5">
-                <span>View Invitation</span>
-                <Heart className="w-3 h-3 fill-[#CA8A04] text-[#CA8A04]" />
-              </span>
-            </button>
-          </div>
-
-          <div className="w-full pb-4 flex justify-between items-center opacity-70">
-            <BrushedGoldCornerFrame flipY className="w-12 h-12 sm:w-16 sm:h-16" />
-            <BrushedGoldCornerFrame flipX flipY className="w-12 h-12 sm:w-16 sm:h-16" />
-          </div>
-        </div>
-      ) : (
-        /* MAIN OPENED INVITATION CONTENT */
+          </>
+        }
+      >
+        {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Subtle Corner Accents */}
           <div className="pointer-events-none absolute top-4 left-3 sm:left-8 z-10 opacity-70">
@@ -471,7 +435,7 @@ export const Template17: React.FC<Template17Props> = ({
             </div>
           </div>
         </main>
-      )}
+      </WaxSealEnvelope>
     </div>
   );
 };

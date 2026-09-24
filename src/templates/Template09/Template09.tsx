@@ -12,6 +12,7 @@ import {
   ToranCornerBorder,
   MarigoldArchDivider,
 } from "./Decorations";
+import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
   MapPin,
   Clock,
@@ -67,58 +68,30 @@ export const Template09: React.FC<Template09Props> = ({
     <div
       className={`relative w-full min-h-screen bg-[#240838] font-serif antialiased text-[#3B0764] overflow-x-hidden ${className}`}
     >
-      {/* Amethyst & Marigold Seal Opener Overlay */}
-      {!isOpen && (
-        <div className="fixed inset-0 z-50 bg-gradient-to-b from-[#581C87] via-[#6B21A8] to-[#3B0764] flex flex-col items-center justify-between p-6 sm:p-10 text-center text-white animate-fade-in overflow-y-auto">
-          {/* Toran Corners */}
-          <div className="absolute top-4 left-4">
-            <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
-          </div>
-          <div className="absolute top-4 right-4 -scale-x-100">
-            <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
-          </div>
-
-          <div className="pt-12 sm:pt-16">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.3em] text-[#FDE047] font-semibold">
-              Traditional Wedding Invitation
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-4xl tracking-wide text-white">
-              {data.groomName.split(" ")[0]} &amp; {data.brideName.split(" ")[0]}
-            </h2>
-          </div>
-
-          {/* Interactive Rangoli Medallion Opener Button */}
-          <div className="my-auto py-8 flex flex-col items-center">
-            <div className="relative group cursor-pointer" onClick={() => setIsOpen(true)}>
-              <RangoliMarigoldMedallion className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" color="#E9D5FF" marigoldColor="#FACC15" />
-
-              <button
-                onClick={() => setIsOpen(true)}
-                aria-label="Open wedding invitation"
-                className="absolute inset-0 m-auto w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-[#7E22CE] via-[#9333EA] to-[#EAB308] text-white shadow-2xl flex flex-col items-center justify-center border-2 border-[#FDE047] transform transition-all duration-300 hover:scale-105 active:scale-95 group-hover:shadow-amber-500/40"
-              >
-                <span className="font-bold text-lg sm:text-xl tracking-wider text-amber-200">
-                  {data.groomName[0]}&amp;{data.brideName[0]}
-                </span>
-                <span className="text-[10px] sm:text-xs uppercase tracking-widest font-semibold mt-0.5 text-white/90 font-sans">
-                  Open
-                </span>
-              </button>
+      {/* Interactive Amethyst Rangoli Wax Seal & 3D Gatefold Unfolding Experience */}
+      <WaxSealEnvelope
+        isOpenDefault={isEnvelopeOpenDefault}
+        groomName={data.groomName}
+        brideName={data.brideName}
+        weddingDate={data.weddingDate}
+        primaryColor="#7E22CE"
+        secondaryColor="#EAB308"
+        backgroundColor="#3B0764"
+        textColor="#FDE047"
+        wreathComponent={
+          <RangoliMarigoldMedallion className="w-48 h-48 sm:w-56 sm:h-56 animate-[spin_55s_linear_infinite]" color="#E9D5FF" marigoldColor="#FACC15" />
+        }
+        cornerDecorations={
+          <>
+            <div className="absolute top-4 left-4 pointer-events-none">
+              <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
             </div>
-
-            <p className="mt-8 text-xs sm:text-sm text-[#FDE047]/90 italic tracking-wider animate-pulse">
-              Click the rangoli seal to open invitation
-            </p>
-          </div>
-
-          <div className="pb-8">
-            <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#FDE047]">
-              {data.weddingDate}
-            </p>
-          </div>
-        </div>
-      )}
-
+            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+              <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
+            </div>
+          </>
+        }
+      >
       {/* Main Invitation Card Container */}
       <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center bg-[#FAF5FF] shadow-2xl sm:rounded-3xl my-0 sm:my-8 min-h-screen">
         {/* Top Toran Corners */}
@@ -494,6 +467,7 @@ export const Template09: React.FC<Template09Props> = ({
           </p>
         </footer>
       </main>
+      </WaxSealEnvelope>
 
       {/* Floating Audio Player */}
       {data.audio.enabled && (
