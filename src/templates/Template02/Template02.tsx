@@ -66,7 +66,7 @@ export const Template02: React.FC<Template02Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FFFBEB] text-[#1C1917] font-serif antialiased overflow-x-hidden ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FFFBEB] text-[#1C1917] font-serif antialiased overflow-x-hidden ${className}`}
     >
       {/* Audio Player Toggle */}
       {data.audio.enabled && (
@@ -79,6 +79,7 @@ export const Template02: React.FC<Template02Props> = ({
       {/* Interactive Royal Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -95,16 +96,16 @@ export const Template02: React.FC<Template02Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none">
               <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
             </div>
-            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none transform scale-x-[-1]">
               <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
             </div>
-            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none transform scale-y-[-1]">
               <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
             </div>
-            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none transform scale-[-1]">
               <PaisleyCorner className="w-20 h-20 sm:w-28 sm:h-28 opacity-80" color="#FEF3C7" goldColor="#F59E0B" />
             </div>
           </>

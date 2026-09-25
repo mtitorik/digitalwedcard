@@ -554,7 +554,10 @@ export default function TemplateCatalogPage() {
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-neutral-800 rounded-full z-40 pointer-events-none" />
 
                 {/* Inner Display Viewport */}
-                <div className="rounded-[46px] border-[3px] border-black overflow-hidden relative w-full h-full flex flex-col bg-background shadow-inner">
+                <div
+                  className="rounded-[46px] border-[3px] border-black overflow-hidden relative w-full h-full flex flex-col shadow-inner"
+                  style={{ backgroundColor: currentModalTemplate.palette.background }}
+                >
                   {/* Floating Dynamic Island */}
                   <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-[110px] h-[30px] bg-black rounded-full flex items-center justify-between px-3 shadow-md">
                     {/* Left camera circle */}
@@ -595,7 +598,10 @@ export default function TemplateCatalogPage() {
                   </div>
 
                   {/* Card Content Container */}
-                  <div className="flex-1 w-full h-full overflow-hidden relative">
+                  <div
+                    className="flex-1 w-full h-full overflow-hidden relative"
+                    style={{ backgroundColor: currentModalTemplate.palette.background }}
+                  >
                     <iframe
                       key={`${activeModalId}-${modalResetKey}`}
                       src={`/templates/${currentModalTemplate.id}?mockup=true&t=${modalResetKey}`}
@@ -647,13 +653,14 @@ export default function TemplateCatalogPage() {
               </div>
             </div>
 
-            {/* Native Full-Screen Scrollable Viewport without simulated notch or bezel */}
-            <div className="flex-1 w-full overflow-y-auto overflow-x-hidden">
+            {/* Native Full-Screen Viewport without simulated notch or bezel */}
+            <div className="flex-1 w-full h-full overflow-hidden relative">
               <WeddingCardRenderer
                 key={`mob-${activeModalId}-${modalResetKey}`}
                 templateId={activeModalId}
                 data={MOCK_INVITE_DATA}
-                isEnvelopeOpenDefault={modalResetKey > 0 ? false : true}
+                className="w-full h-full flex-1"
+                isEnvelopeOpenDefault={false}
               />
             </div>
           </div>

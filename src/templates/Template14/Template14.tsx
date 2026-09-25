@@ -69,7 +69,7 @@ export const Template14: React.FC<Template14Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FFFBEB] text-[#450A0A] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FFFBEB] text-[#450A0A] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
       style={{
         backgroundImage: `radial-gradient(#D9770622 1.5px, transparent 1.5px), radial-gradient(#991B1B15 1px, #FFFBEB 1px)`,
         backgroundSize: "26px 26px, 26px 26px",
@@ -87,6 +87,7 @@ export const Template14: React.FC<Template14Props> = ({
       {/* Interactive Temple Crimson & Gold Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -99,11 +100,17 @@ export const Template14: React.FC<Template14Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none opacity-80">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none opacity-80">
               <TempleBellCornerBorder className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
-            <div className="absolute top-4 right-4 pointer-events-none opacity-80">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none opacity-80">
               <TempleBellCornerBorder flipX className="w-18 h-18 sm:w-28 sm:h-28" />
+            </div>
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none opacity-80">
+              <TempleBellCornerBorder flipY className="w-18 h-18 sm:w-28 sm:h-28" />
+            </div>
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none opacity-80">
+              <TempleBellCornerBorder flipX flipY className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
           </>
         }
@@ -116,10 +123,10 @@ export const Template14: React.FC<Template14Props> = ({
           </div>
 
           {/* Corner Temple Bells */}
-          <div className="pointer-events-none absolute top-4 left-4 z-10 opacity-75">
+          <div className="pointer-events-none absolute top-3 left-3 z-10 opacity-75">
             <TempleBellCornerBorder className="w-16 h-16 sm:w-24 sm:h-24" />
           </div>
-          <div className="pointer-events-none absolute top-4 right-4 z-10 opacity-75">
+          <div className="pointer-events-none absolute top-3 right-3 z-10 opacity-75">
             <TempleBellCornerBorder flipX className="w-16 h-16 sm:w-24 sm:h-24" />
           </div>
 

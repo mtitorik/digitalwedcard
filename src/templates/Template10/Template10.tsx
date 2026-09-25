@@ -67,11 +67,12 @@ export const Template10: React.FC<Template10Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#1F0833] font-sans antialiased text-[#2E1065] overflow-x-hidden ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#1F0833] font-sans antialiased text-[#2E1065] overflow-x-hidden ${className}`}
     >
       {/* Interactive Royal Purple & Saffron Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -84,10 +85,16 @@ export const Template10: React.FC<Template10Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-2 left-2 sm:top-4 sm:left-4 pointer-events-none">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none">
               <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
             </div>
-            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 -scale-x-100 pointer-events-none">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none transform scale-x-[-1]">
+              <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
+            </div>
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none transform scale-y-[-1]">
+              <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
+            </div>
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none transform scale-[-1]">
               <FairyLightsCorner className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#E9D5FF" saffronColor="#FDE047" />
             </div>
           </>

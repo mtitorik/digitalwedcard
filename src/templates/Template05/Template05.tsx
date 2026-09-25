@@ -67,7 +67,7 @@ export const Template05: React.FC<Template05Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#F0F9FF] text-[#0C4A6E] font-sans antialiased overflow-x-hidden ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#F0F9FF] text-[#0C4A6E] font-sans antialiased overflow-x-hidden ${className}`}
     >
       {/* Audio Player Toggle */}
       {data.audio.enabled && (
@@ -80,6 +80,7 @@ export const Template05: React.FC<Template05Props> = ({
       {/* Interactive Cerulean Lace Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -92,16 +93,16 @@ export const Template05: React.FC<Template05Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none">
               <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
             </div>
-            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none transform scale-x-[-1]">
               <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
             </div>
-            <div className="absolute bottom-4 left-4 scale-y-[-1] pointer-events-none">
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none transform scale-y-[-1]">
               <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
             </div>
-            <div className="absolute bottom-4 right-4 -scale-100 pointer-events-none">
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none transform scale-[-1]">
               <LaceFiligreeCorner className="w-18 h-18 sm:w-28 sm:h-28 opacity-80" color="#BAE6FD" goldColor="#FDE68A" />
             </div>
           </>

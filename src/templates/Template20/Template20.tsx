@@ -67,7 +67,7 @@ export const Template20: React.FC<Template20Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FFF1F2] text-[#3B0B14] font-sans antialiased overflow-x-hidden box-border transition-colors duration-500 ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FFF1F2] text-[#3B0B14] font-sans antialiased overflow-x-hidden box-border transition-colors duration-500 ${className}`}
       style={{
         backgroundImage: `radial-gradient(#D4AF3725 1.5px, transparent 1.5px), radial-gradient(#88133715 1px, #FFF1F2 1px)`,
         backgroundSize: "28px 28px, 28px 28px",
@@ -85,6 +85,7 @@ export const Template20: React.FC<Template20Props> = ({
       {/* Interactive Royal Maroon & Imperial Gold Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}

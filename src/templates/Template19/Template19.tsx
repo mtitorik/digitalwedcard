@@ -67,7 +67,7 @@ export const Template19: React.FC<Template19Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FDF2F8] text-[#500724] font-sans antialiased overflow-x-hidden box-border transition-colors duration-500 ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FDF2F8] text-[#500724] font-sans antialiased overflow-x-hidden box-border transition-colors duration-500 ${className}`}
       style={{
         backgroundImage: `radial-gradient(#F59E0B22 1.5px, transparent 1.5px), radial-gradient(#BE185D12 1px, #FDF2F8 1px)`,
         backgroundSize: "26px 26px, 26px 26px",
@@ -85,6 +85,7 @@ export const Template19: React.FC<Template19Props> = ({
       {/* Interactive Royal Palanquin Doli Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}

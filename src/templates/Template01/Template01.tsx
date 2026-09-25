@@ -65,7 +65,7 @@ export const Template01: React.FC<Template01Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FAFAF7] text-[#2D3748] font-sans antialiased overflow-x-hidden ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FAFAF7] text-[#2D3748] font-sans antialiased overflow-x-hidden ${className}`}
     >
       {/* Audio Player Toggle */}
       {data.audio.enabled && (
@@ -78,6 +78,7 @@ export const Template01: React.FC<Template01Props> = ({
       {/* Interactive Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -90,16 +91,16 @@ export const Template01: React.FC<Template01Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
-            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none transform scale-x-[-1]">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
-            <div className="absolute bottom-6 left-4 scale-y-[-1] pointer-events-none">
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none transform scale-y-[-1]">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
-            <div className="absolute bottom-6 right-4 -scale-100 pointer-events-none">
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none transform scale-[-1]">
               <CornerFoliage className="w-16 h-16 sm:w-24 sm:h-24 opacity-75" />
             </div>
           </>

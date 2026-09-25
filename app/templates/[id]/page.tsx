@@ -64,11 +64,11 @@ function TemplatePreviewInner({ params }: PageProps) {
 
   if (isMockup) {
     return (
-      <div suppressHydrationWarning className="w-full min-h-screen flex flex-col justify-start items-stretch overflow-x-hidden pt-2 pb-8 scrollbar-none">
+      <div suppressHydrationWarning className="relative w-full h-full min-h-screen sm:min-h-full overflow-hidden flex flex-col justify-start items-stretch select-none scrollbar-none">
         <WeddingCardRenderer
           key={`${normalizedId}-${resetKey}`}
           templateId={normalizedId}
-          className="w-full"
+          className="w-full h-full min-h-full flex-1 flex flex-col"
         />
       </div>
     );

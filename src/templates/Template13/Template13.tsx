@@ -67,7 +67,7 @@ export const Template13: React.FC<Template13Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FFFFFA] text-[#1C1917] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FFFFFA] text-[#1C1917] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
       style={{
         backgroundImage: `radial-gradient(#D9770615 1px, transparent 1px)`,
         backgroundSize: "20px 20px",
@@ -84,6 +84,7 @@ export const Template13: React.FC<Template13Props> = ({
       {/* Interactive Minimalist Gold Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -96,11 +97,17 @@ export const Template13: React.FC<Template13Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none opacity-80">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none opacity-80">
               <MinimalGoldCorner className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
-            <div className="absolute top-4 right-4 pointer-events-none opacity-80">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none opacity-80">
               <MinimalGoldCorner flipX className="w-14 h-14 sm:w-20 sm:h-20" />
+            </div>
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none opacity-80">
+              <MinimalGoldCorner flipY className="w-14 h-14 sm:w-20 sm:h-20" />
+            </div>
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none opacity-80">
+              <MinimalGoldCorner flipX flipY className="w-14 h-14 sm:w-20 sm:h-20" />
             </div>
           </>
         }
@@ -108,10 +115,10 @@ export const Template13: React.FC<Template13Props> = ({
         {/* MAIN OPENED INVITATION CONTENT */}
         <main className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-14 flex flex-col items-center animate-fadeIn">
           {/* Subtle Corner Accents */}
-          <div className="pointer-events-none absolute top-4 left-4 z-10 opacity-70">
+          <div className="pointer-events-none absolute top-3 left-3 z-10 opacity-70">
             <MinimalGoldCorner className="w-14 h-14 sm:w-20 sm:h-20" />
           </div>
-          <div className="pointer-events-none absolute top-4 right-4 z-10 opacity-70">
+          <div className="pointer-events-none absolute top-3 right-3 z-10 opacity-70">
             <MinimalGoldCorner flipX className="w-14 h-14 sm:w-20 sm:h-20" />
           </div>
 

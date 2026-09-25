@@ -67,7 +67,7 @@ export const Template17: React.FC<Template17Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FAF7F2] text-[#1C1917] font-sans antialiased overflow-x-hidden box-border transition-colors duration-500 ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FAF7F2] text-[#1C1917] font-sans antialiased overflow-x-hidden box-border transition-colors duration-500 ${className}`}
       style={{
         backgroundImage: `radial-gradient(#CA8A0418 1px, transparent 1px)`,
         backgroundSize: "22px 22px",
@@ -84,6 +84,7 @@ export const Template17: React.FC<Template17Props> = ({
       {/* Interactive Brushed Gold & Bronze Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -96,11 +97,17 @@ export const Template17: React.FC<Template17Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-3 sm:left-8 pointer-events-none opacity-70">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none opacity-70">
               <BrushedGoldCornerFrame className="w-12 h-12 sm:w-16 sm:h-16" />
             </div>
-            <div className="absolute top-4 right-3 sm:right-8 pointer-events-none opacity-70">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none opacity-70">
               <BrushedGoldCornerFrame flipX className="w-12 h-12 sm:w-16 sm:h-16" />
+            </div>
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none opacity-70">
+              <BrushedGoldCornerFrame flipY className="w-12 h-12 sm:w-16 sm:h-16" />
+            </div>
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none opacity-70">
+              <BrushedGoldCornerFrame flipX flipY className="w-12 h-12 sm:w-16 sm:h-16" />
             </div>
           </>
         }

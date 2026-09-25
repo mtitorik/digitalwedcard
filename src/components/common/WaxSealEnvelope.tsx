@@ -174,7 +174,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
   // If permanently opened, render clean scrollable children directly
   if (stage === "opened") {
     return (
-      <div className={`w-full min-h-screen relative overflow-x-hidden ${className}`}>
+      <div className={`w-full h-full min-h-full overflow-y-auto overflow-x-hidden relative ${className}`}>
         {children}
       </div>
     );
@@ -185,15 +185,19 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
 
   return (
     <div
-      className={`relative w-full h-full min-h-screen max-h-screen overflow-hidden select-none ${className}`}
-      style={{ perspective: "1400px" }}
+      className={`relative w-full h-full min-h-screen sm:min-h-full flex-1 flex flex-col justify-between items-center overflow-hidden select-none ${className}`}
+      style={{
+        perspective: "1400px",
+        backgroundColor: backgroundColor || "#FAF7F2",
+      }}
     >
       {/* ========================================================
           BOTTOM LAYER (Z-10): Underneath Wedding Card Body
           Staggered 500ms delay & 1.2s smooth upward elevation glide
+          CRITICAL: Kept in absolute inset-0 so it NEVER expands parent scrollHeight!
          ======================================================== */}
       <div
-        className="relative z-10 w-full h-full overflow-hidden transition-all ease-out"
+        className="absolute inset-0 z-10 w-full h-full overflow-hidden pointer-events-none transition-all ease-out"
         style={{
           transform: isOpening ? "translateY(0) scale(1)" : "translateY(24px) scale(0.98)",
           opacity: isOpening ? 1 : 0,
@@ -291,15 +295,15 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
               <DefaultCornerFlourish color={secondaryColor} />
             </div>
             {/* Top-Right Ornament */}
-            <div className="absolute top-4 right-4 z-20 pointer-events-none transform -scale-x-100">
+            <div className="absolute top-4 right-4 z-20 pointer-events-none transform scale-x-[-1]">
               <DefaultCornerFlourish color={secondaryColor} />
             </div>
             {/* Bottom-Left Ornament */}
-            <div className="absolute bottom-6 left-4 z-20 pointer-events-none transform -scale-y-100">
+            <div className="absolute bottom-6 left-4 z-20 pointer-events-none transform scale-y-[-1]">
               <DefaultCornerFlourish color={secondaryColor} />
             </div>
             {/* Bottom-Right Ornament */}
-            <div className="absolute bottom-6 right-4 z-20 pointer-events-none transform -scale-100">
+            <div className="absolute bottom-6 right-4 z-20 pointer-events-none transform scale-[-1]">
               <DefaultCornerFlourish color={secondaryColor} />
             </div>
           </>
@@ -312,7 +316,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
           horizontal and vertical symmetry.
          ======================================================== */}
       <div
-        className="absolute inset-0 z-30 w-full h-full flex flex-col items-center justify-between p-6 sm:p-10 text-center pointer-events-none transition-all duration-700 ease-out"
+        className="absolute inset-0 z-30 w-full h-full flex flex-col justify-between items-center px-4 sm:px-6 pt-8 pb-4 sm:pt-10 sm:pb-6 text-center pointer-events-none transition-all duration-700 ease-out select-none"
         style={{
           opacity: isOpening ? 0 : 1,
           transform: isOpening ? "scale(1.02)" : "scale(1)",
@@ -320,19 +324,19 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
       >
         {/* Cover Header Typography */}
         <div
-          className="w-full flex flex-col items-center justify-center pt-8 sm:pt-12 transition-all duration-700"
+          className="w-full flex flex-col items-center justify-center pt-2 sm:pt-4 z-10 transition-all duration-700"
           style={{
             transform: isPressed ? "scale(0.98)" : "scale(1)",
           }}
         >
           <span
-            className="text-[11px] sm:text-xs uppercase tracking-[0.3em] font-serif font-semibold"
+            className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-serif font-semibold"
             style={{ color: primaryColor }}
           >
             Wedding Invitation
           </span>
           <h2
-            className="mt-2 text-2xl sm:text-4xl font-serif italic tracking-wide"
+            className="mt-1 text-2xl sm:text-4xl font-serif italic tracking-wide"
             style={{ color: textColor }}
           >
             {coupleHeading}
@@ -340,7 +344,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
         </div>
 
         {/* Central Wax Seal Monogram Button */}
-        <div className="w-full my-auto py-6 flex flex-col items-center justify-center pointer-events-auto">
+        <div className="my-auto z-20 flex flex-col items-center justify-center pointer-events-auto py-2">
           <div
             tabIndex={0}
             role="button"
@@ -437,7 +441,7 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
 
           {/* Instructional Pulse Prompt */}
           <p
-            className={`mt-6 text-xs sm:text-sm font-serif italic tracking-wide transition-opacity duration-500 ${
+            className={`mt-4 text-xs sm:text-sm font-serif italic tracking-wide transition-opacity duration-500 ${
               isPressed || isOpening ? "opacity-0" : "opacity-80 animate-pulse"
             }`}
             style={{ color: primaryColor }}
@@ -447,9 +451,9 @@ export const WaxSealEnvelope: React.FC<WaxSealEnvelopeProps> = ({
         </div>
 
         {/* Cover Bottom Date */}
-        <div className="w-full flex flex-col items-center justify-center pb-8">
+        <div className="w-full flex flex-col items-center justify-center pb-4 z-10">
           <p
-            className="text-xs sm:text-sm font-serif tracking-[0.2em] uppercase font-medium"
+            className="text-xs sm:text-sm font-serif tracking-[0.25em] uppercase font-semibold"
             style={{ color: primaryColor }}
           >
             {weddingDate}

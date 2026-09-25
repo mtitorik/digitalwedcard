@@ -66,11 +66,12 @@ export const Template09: React.FC<Template09Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#240838] font-serif antialiased text-[#3B0764] overflow-x-hidden ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#240838] font-serif antialiased text-[#3B0764] overflow-x-hidden ${className}`}
     >
       {/* Interactive Amethyst Rangoli Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -83,10 +84,16 @@ export const Template09: React.FC<Template09Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none">
               <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
             </div>
-            <div className="absolute top-4 right-4 -scale-x-100 pointer-events-none">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none transform scale-x-[-1]">
+              <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
+            </div>
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none transform scale-y-[-1]">
+              <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
+            </div>
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none transform scale-[-1]">
               <ToranCornerBorder className="w-20 h-20 sm:w-32 sm:h-32 opacity-80" color="#F3E8FF" marigoldColor="#FDE047" />
             </div>
           </>

@@ -69,7 +69,7 @@ export const Template11: React.FC<Template11Props> = ({
 
   return (
     <div
-      className={`relative w-full min-h-screen bg-[#FEF9C3] text-[#4A044E] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
+      className={`relative w-full ${isOpen ? "min-h-screen overflow-y-auto" : "h-full max-h-full overflow-hidden"} bg-[#FEF9C3] text-[#4A044E] font-sans antialiased overflow-x-hidden transition-colors duration-500 ${className}`}
       style={{
         backgroundImage: `radial-gradient(#F59E0B18 1.5px, transparent 1.5px), radial-gradient(#9333EA12 1.5px, #FEF9C3 1.5px)`,
         backgroundSize: "28px 28px, 28px 28px",
@@ -87,6 +87,7 @@ export const Template11: React.FC<Template11Props> = ({
       {/* Interactive Orchid Wax Seal & 3D Gatefold Unfolding Experience */}
       <WaxSealEnvelope
         isOpenDefault={isEnvelopeOpenDefault}
+        onOpenComplete={() => setIsOpen(true)}
         groomName={data.groomName}
         brideName={data.brideName}
         weddingDate={data.weddingDate}
@@ -99,11 +100,17 @@ export const Template11: React.FC<Template11Props> = ({
         }
         cornerDecorations={
           <>
-            <div className="absolute top-4 left-4 pointer-events-none opacity-80">
+            <div className="absolute top-3 left-3 z-20 pointer-events-none opacity-80">
               <HandcraftedScrollworkCorner color="#C084FC" secondaryColor="#FDE047" className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
-            <div className="absolute top-4 right-4 pointer-events-none opacity-80">
+            <div className="absolute top-3 right-3 z-20 pointer-events-none opacity-80">
               <HandcraftedScrollworkCorner color="#C084FC" secondaryColor="#FDE047" flipX className="w-18 h-18 sm:w-28 sm:h-28" />
+            </div>
+            <div className="absolute bottom-3 left-3 z-20 pointer-events-none opacity-80">
+              <HandcraftedScrollworkCorner color="#C084FC" secondaryColor="#FDE047" flipY className="w-18 h-18 sm:w-28 sm:h-28" />
+            </div>
+            <div className="absolute bottom-3 right-3 z-20 pointer-events-none opacity-80">
+              <HandcraftedScrollworkCorner color="#C084FC" secondaryColor="#FDE047" flipX flipY className="w-18 h-18 sm:w-28 sm:h-28" />
             </div>
           </>
         }
@@ -116,10 +123,10 @@ export const Template11: React.FC<Template11Props> = ({
           </div>
 
           {/* Corner Flourish Accents */}
-          <div className="pointer-events-none absolute top-4 left-4 z-10 opacity-70">
+          <div className="pointer-events-none absolute top-3 left-3 z-10 opacity-70">
             <HandcraftedScrollworkCorner color="#9333EA" secondaryColor="#F59E0B" className="w-16 h-16 sm:w-24 sm:h-24" />
           </div>
-          <div className="pointer-events-none absolute top-4 right-4 z-10 opacity-70">
+          <div className="pointer-events-none absolute top-3 right-3 z-10 opacity-70">
             <HandcraftedScrollworkCorner color="#9333EA" secondaryColor="#F59E0B" flipX className="w-16 h-16 sm:w-24 sm:h-24" />
           </div>
 
