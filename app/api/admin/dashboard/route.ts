@@ -66,7 +66,18 @@ export async function GET(req: NextRequest) {
         cards: cardsDocs,
       });
     } else {
-      // In-Memory Fallback
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Database service temporarily unavailable.",
+            databaseStatus: "disconnected",
+          },
+          { status: 503 }
+        );
+      }
+
+      // In-Memory Fallback (development only)
       const rsvps: FallbackRsvp[] = global.fallbackRsvps || [];
       const totalSubmissions = rsvps.length;
       const attendingList = rsvps.filter((r) => r.attendance === "attending");

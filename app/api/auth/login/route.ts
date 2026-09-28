@@ -82,6 +82,13 @@ export async function POST(req: NextRequest) {
         };
       }
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Authentication service is temporarily unavailable. Please try again shortly." },
+          { status: 503 }
+        );
+      }
+
       const fallbackUser = (global.fallbackUsers || []).find((u) => u.email === cleanEmail);
       if (fallbackUser) {
         foundUser = {

@@ -48,10 +48,15 @@ export async function getCardBySlug(slug: string): Promise<WeddingCardData | nul
       }
     }
   } catch (err) {
-    console.warn("MongoDB fetch error in page, using fallback:", err);
+    console.warn("MongoDB fetch error in page:", err);
   }
 
-  // Fallback to sample templates
+  // In production, do not mix or fall back to mock data
+  if (process.env.NODE_ENV === "production") {
+    return null;
+  }
+
+  // Development-only fallback to sample templates
   const sample = getTemplateBySlug(cleanSlug);
   if (sample) {
     return {

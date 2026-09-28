@@ -31,6 +31,10 @@ export async function GET(req: NextRequest) {
         rsvps,
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json({ success: false, message: "Database service temporarily unavailable." }, { status: 503 });
+      }
+
       const rsvps: FallbackRsvp[] = global.fallbackRsvps || [];
       const totalSubmissions = rsvps.length;
       const attendingList = rsvps.filter((r) => r.attendance === "attending");
@@ -72,13 +76,20 @@ export async function DELETE(req: NextRequest) {
 
     if (mongooseConn) {
       await RsvpModel.findByIdAndDelete(id);
+      return NextResponse.json({ success: true, message: "RSVP removed successfully." });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. RSVP deletion requires an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (global.fallbackRsvps) {
         global.fallbackRsvps = global.fallbackRsvps.filter((r) => r._id !== id);
       }
+      return NextResponse.json({ success: true, message: "RSVP removed (development fallback in-memory)." });
     }
-
-    return NextResponse.json({ success: true, message: "RSVP removed successfully." });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Error deleting RSVP";
     return NextResponse.json({ success: false, message: msg }, { status: 500 });

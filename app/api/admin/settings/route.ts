@@ -79,6 +79,13 @@ export async function PUT(req: NextRequest) {
         settings,
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. Settings update requires an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackSettings) {
         global.fallbackSettings = {} as FallbackSettings;
       }
@@ -88,7 +95,7 @@ export async function PUT(req: NextRequest) {
       };
       return NextResponse.json({
         success: true,
-        message: "Wedding settings updated successfully (in-memory).",
+        message: "Wedding settings updated (development fallback in-memory).",
         settings: global.fallbackSettings,
       });
     }

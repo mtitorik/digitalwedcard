@@ -21,6 +21,9 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       }
       return NextResponse.json({ success: true, card });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json({ success: false, message: "Database service temporarily unavailable." }, { status: 503 });
+      }
       const card = (global.fallbackWeddingCards || []).find((c) => c.slug === cleanSlug);
       if (!card) {
         return NextResponse.json({ success: false, message: "Card not found" }, { status: 404 });
@@ -76,6 +79,13 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
         card,
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. Card updates require an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackWeddingCards) global.fallbackWeddingCards = [];
       const card = global.fallbackWeddingCards.find((c) => c.slug === slug);
 
@@ -101,7 +111,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
 
       return NextResponse.json({
         success: true,
-        message: "Wedding invitation card updated successfully (in-memory)!",
+        message: "Wedding invitation card updated (development fallback in-memory only)!",
         card,
       });
     }
@@ -140,6 +150,13 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
         message: "Invitation card removed successfully.",
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. Card deletion requires an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackWeddingCards) return NextResponse.json({ success: true });
       const card = global.fallbackWeddingCards.find((c) => c.slug === slug);
 
@@ -157,7 +174,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       global.fallbackWeddingCards = global.fallbackWeddingCards.filter((c) => c.slug !== slug);
       return NextResponse.json({
         success: true,
-        message: "Invitation card removed successfully (in-memory).",
+        message: "Invitation card removed (development fallback in-memory only).",
       });
     }
   } catch (error: unknown) {

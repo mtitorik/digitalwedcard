@@ -54,7 +54,17 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // In-memory fallback
+    if (process.env.NODE_ENV === "production") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Our inquiry service is temporarily unavailable. Please try again shortly.",
+        },
+        { status: 503 }
+      );
+    }
+
+    // In-memory fallback (development only)
     if (!global.fallbackInquiries) {
       global.fallbackInquiries = [];
     }

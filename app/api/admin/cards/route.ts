@@ -16,6 +16,9 @@ export async function GET(req: NextRequest) {
       const cards = await WeddingCardModel.find().sort({ createdAt: -1 });
       return NextResponse.json({ success: true, cards });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json({ success: false, message: "Database service temporarily unavailable." }, { status: 503 });
+      }
       const cards: FallbackWeddingCard[] = global.fallbackWeddingCards || [];
       return NextResponse.json({ success: true, cards });
     }
@@ -57,6 +60,13 @@ export async function PUT(req: NextRequest) {
       }
       return NextResponse.json({ success: true, message: "Card updated successfully by Admin.", card });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. Card updates require an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackWeddingCards) global.fallbackWeddingCards = [];
       const card = global.fallbackWeddingCards.find((c) => c._id === id);
       if (!card) {
@@ -65,7 +75,7 @@ export async function PUT(req: NextRequest) {
       Object.assign(card, updates, { updatedAt: new Date().toISOString() });
       return NextResponse.json({
         success: true,
-        message: "Card updated successfully by Admin (in-memory).",
+        message: "Card updated successfully by Admin (development fallback in-memory).",
         card,
       });
     }
@@ -93,13 +103,20 @@ export async function DELETE(req: NextRequest) {
 
     if (mongooseConn) {
       await WeddingCardModel.findByIdAndDelete(id);
+      return NextResponse.json({ success: true, message: "Card deleted successfully by Admin." });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. Card deletion requires an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (global.fallbackWeddingCards) {
         global.fallbackWeddingCards = global.fallbackWeddingCards.filter((c) => c._id !== id);
       }
+      return NextResponse.json({ success: true, message: "Card deleted successfully by Admin (development fallback in-memory)." });
     }
-
-    return NextResponse.json({ success: true, message: "Card deleted successfully by Admin." });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Error deleting card";
     return NextResponse.json({ success: false, message: msg }, { status: 500 });

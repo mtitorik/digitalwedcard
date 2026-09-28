@@ -54,6 +54,16 @@ export async function POST(req: NextRequest) {
         role: "user",
       };
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Account registration is temporarily unavailable. Please try again shortly.",
+          },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackUsers) global.fallbackUsers = [];
 
       const existing = global.fallbackUsers.find((u) => u.email === cleanEmail);

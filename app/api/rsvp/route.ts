@@ -36,7 +36,17 @@ export async function POST(req: NextRequest) {
 
       savedData = newRsvp;
     } else {
-      // In-memory fallback
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "RSVP service is temporarily unavailable. Please try submitting your RSVP again shortly.",
+          },
+          { status: 503 }
+        );
+      }
+
+      // In-memory fallback (development only)
       const fallbackEntry: FallbackRsvp = {
         _id: "rsvp-" + Date.now(),
         cardSlug,
@@ -93,6 +103,10 @@ export async function GET(req: NextRequest) {
         .select("name message attendance createdAt");
       return NextResponse.json({ success: true, wishes });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json({ success: true, wishes: [] });
+      }
+
       const wishes = (global.fallbackRsvps || [])
         .filter((r) => (!r.cardSlug || r.cardSlug === cardSlug) && r.message && r.message.trim().length > 0)
         .slice(0, 20);

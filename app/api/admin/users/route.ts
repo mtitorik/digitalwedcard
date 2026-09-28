@@ -18,6 +18,10 @@ export async function GET(req: NextRequest) {
       const users = await UserModel.find().sort({ createdAt: -1 }).select("-passwordHash");
       return NextResponse.json({ success: true, users });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json({ success: false, message: "Database service temporarily unavailable." }, { status: 503 });
+      }
+
       const users: Omit<FallbackUser, "passwordHash">[] = (global.fallbackUsers || []).map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ passwordHash, ...rest }) => rest
@@ -72,6 +76,13 @@ export async function PUT(req: NextRequest) {
         },
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. User updates require an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackUsers) global.fallbackUsers = [];
       const user = global.fallbackUsers.find((u) => u._id === id);
       if (!user) {
@@ -88,7 +99,7 @@ export async function PUT(req: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: "User information updated successfully (in-memory).",
+        message: "User information updated successfully (development fallback in-memory).",
         user: {
           id: user._id,
           name: user.name,
@@ -123,13 +134,28 @@ export async function DELETE(req: NextRequest) {
       await UserModel.findByIdAndDelete(id);
       // Clean up user's created cards
       await WeddingCardModel.deleteMany({ userId: id });
+      return NextResponse.json({
+        success: true,
+        message: "User and all associated invitation cards removed successfully.",
+      });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service unavailable. User deletion requires an active database connection." },
+          { status: 503 }
+        );
+      }
+
       if (global.fallbackUsers) {
         global.fallbackUsers = global.fallbackUsers.filter((u) => u._id !== id);
       }
       if (global.fallbackWeddingCards) {
         global.fallbackWeddingCards = global.fallbackWeddingCards.filter((c) => c.userId !== id);
       }
+      return NextResponse.json({
+        success: true,
+        message: "User removed (development fallback in-memory).",
+      });
     }
 
     return NextResponse.json({

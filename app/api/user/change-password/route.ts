@@ -54,7 +54,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Fallback in-memory store check
+    if (process.env.NODE_ENV === "production" && user.role !== "admin") {
+      return NextResponse.json(
+        { success: false, message: "Database service unavailable. Cannot change password at this time." },
+        { status: 503 }
+      );
+    }
+
+    // Fallback in-memory store check (development only)
     if (global.fallbackUsers) {
       const fallbackUser = global.fallbackUsers.find((u) => u._id === user.id || u.email === user.email);
       if (fallbackUser) {

@@ -52,17 +52,16 @@ export async function GET(req: NextRequest) {
 
       const cards = await WeddingCardModel.find(query).sort({ createdAt: -1 }).lean();
 
-      if (!mineOnly) {
-        const existingSlugs = new Set(cards.map((c: { slug: string }) => c.slug));
-        const missingTemplates = SAMPLE_TEMPLATES.filter((t) => !existingSlugs.has(t.slug));
-        return NextResponse.json({
-          success: true,
-          cards: [...cards, ...missingTemplates].map(sanitizeCardCover),
-        });
-      }
-
       return NextResponse.json({ success: true, cards: cards.map(sanitizeCardCover) });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          { success: false, message: "Database service temporarily unavailable." },
+          { status: 503 }
+        );
+      }
+
+      // Local development fallback only
       let cards = (global.fallbackWeddingCards || SAMPLE_TEMPLATES) as FallbackWeddingCard[];
       if (global.fallbackWeddingCards) {
         global.fallbackWeddingCards = global.fallbackWeddingCards.map(sanitizeCardCover);
@@ -186,6 +185,16 @@ export async function POST(req: NextRequest) {
         card: newCard,
       });
     } else {
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Database service unavailable. Card creation requires an active database connection.",
+          },
+          { status: 503 }
+        );
+      }
+
       if (!global.fallbackWeddingCards) global.fallbackWeddingCards = [];
 
       const existing = global.fallbackWeddingCards.find((c) => c.slug === slug);
@@ -204,7 +213,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: "Digital wedding invitation card created successfully (in-memory)!",
+        message: "Digital wedding invitation card created (development fallback in-memory only)!",
         card: fallbackCard,
       });
     }
