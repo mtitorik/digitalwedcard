@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { WeddingSettingsModel, FallbackSettings } from "@/models/WeddingSettings";
 
 export async function GET() {
@@ -50,7 +50,7 @@ export async function GET() {
       return NextResponse.json({ success: true, settings });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error fetching settings";
+    const msg = formatSafeErrorMessage(error, "Error fetching settings.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -100,7 +100,7 @@ export async function PUT(req: NextRequest) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error saving settings";
+    const msg = formatSafeErrorMessage(error, "Error saving settings.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

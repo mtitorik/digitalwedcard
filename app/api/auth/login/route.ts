@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { UserModel } from "@/models/User";
 import { verifyPassword } from "@/lib/password";
 import { signUserToken, COOKIE_NAME, LEGACY_ADMIN_COOKIE } from "@/lib/auth";
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Internal server error";
+    const msg = formatSafeErrorMessage(error, "An error occurred during authentication. Please try again.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

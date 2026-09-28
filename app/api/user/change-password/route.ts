@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUser } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { UserModel } from "@/models/User";
 import { verifyPassword, hashPassword } from "@/lib/password";
 
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
       { status: 404 }
     );
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error updating password";
+    const msg = formatSafeErrorMessage(error, "Error updating password.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

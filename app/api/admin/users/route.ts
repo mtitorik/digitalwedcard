@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { UserModel, FallbackUser } from "@/models/User";
 import { WeddingCardModel } from "@/models/WeddingCard";
 import { hashPassword } from "@/lib/password";
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, users });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error loading users";
+    const msg = formatSafeErrorMessage(error, "Error loading users.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -109,7 +109,7 @@ export async function PUT(req: NextRequest) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error updating user";
+    const msg = formatSafeErrorMessage(error, "Error updating user.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -163,7 +163,7 @@ export async function DELETE(req: NextRequest) {
       message: "User account and associated cards deleted successfully.",
     });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error deleting user";
+    const msg = formatSafeErrorMessage(error, "Error deleting user.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

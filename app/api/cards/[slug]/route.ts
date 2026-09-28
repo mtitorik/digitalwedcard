@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUser } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { WeddingCardModel } from "@/models/WeddingCard";
 
 interface RouteParams {
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ success: true, card });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error loading card";
+    const msg = formatSafeErrorMessage(error, "Error loading card.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -116,7 +116,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error updating card";
+    const msg = formatSafeErrorMessage(error, "Error updating card.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -178,7 +178,7 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error deleting card";
+    const msg = formatSafeErrorMessage(error, "Error deleting card.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

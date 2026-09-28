@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUser } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { WeddingCardModel, FallbackWeddingCard } from "@/models/WeddingCard";
 import { SAMPLE_TEMPLATES } from "@/data/sampleTemplates";
 
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, cards: cards.map(sanitizeCardCover) });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Failed to retrieve cards";
+    const msg = formatSafeErrorMessage(error, "Failed to retrieve cards.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -218,7 +218,7 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Failed to create card";
+    const msg = formatSafeErrorMessage(error, "Failed to create invitation card. Please try again.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

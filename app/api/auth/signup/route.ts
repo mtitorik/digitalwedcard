@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { UserModel, FallbackUser } from "@/models/User";
 import { hashPassword } from "@/lib/password";
 import { signUserToken, COOKIE_NAME } from "@/lib/auth";
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error creating account";
+    const msg = formatSafeErrorMessage(error, "An error occurred while creating your account. Please try again.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

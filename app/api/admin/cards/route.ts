@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { WeddingCardModel, FallbackWeddingCard } from "@/models/WeddingCard";
 
 export async function GET(req: NextRequest) {
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, cards });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error loading cards";
+    const msg = formatSafeErrorMessage(error, "Error loading cards.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -80,7 +80,7 @@ export async function PUT(req: NextRequest) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error updating card";
+    const msg = formatSafeErrorMessage(error, "Error updating card.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ success: true, message: "Card deleted successfully by Admin (development fallback in-memory)." });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error deleting card";
+    const msg = formatSafeErrorMessage(error, "Error deleting card.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

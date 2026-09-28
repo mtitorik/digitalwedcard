@@ -1,11 +1,14 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { SAMPLE_TEMPLATES, SampleWeddingTemplate } from "@/data/sampleTemplates";
+import type { WeddingInviteData } from "@/types/invite";
 
 export interface IWeddingCard extends Document {
   userId: string;
   authorName: string;
   slug: string;
   templateThemeId?: string;
+  templateId?: string;
+  inviteData?: WeddingInviteData | null;
   groomName: string;
   brideName: string;
   namesFormatted: string;
@@ -36,6 +39,8 @@ const WeddingCardSchema: Schema = new Schema(
     authorName: { type: String, required: true },
     slug: { type: String, required: true, unique: true, index: true, lowercase: true, trim: true },
     templateThemeId: { type: String, default: "royal-emerald" },
+    templateId: { type: String, default: "template-01" },
+    inviteData: { type: Schema.Types.Mixed, default: null },
     groomName: { type: String, required: true, trim: true },
     brideName: { type: String, required: true, trim: true },
     namesFormatted: { type: String, required: true },
@@ -78,6 +83,8 @@ export interface FallbackWeddingCard {
   authorName: string;
   slug: string;
   templateThemeId?: string;
+  templateId?: string;
+  inviteData?: WeddingInviteData | null;
   groomName: string;
   brideName: string;
   namesFormatted: string;
@@ -114,6 +121,8 @@ if (!global.fallbackWeddingCards) {
     authorName: t.authorName,
     slug: t.slug,
     templateThemeId: t.templateThemeId,
+    templateId: "template-01",
+    inviteData: null,
     groomName: t.groomName,
     brideName: t.brideName,
     namesFormatted: t.namesFormatted,

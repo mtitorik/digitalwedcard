@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin, getAuthenticatedUser } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { RsvpModel, FallbackRsvp } from "@/models/Rsvp";
 import { WeddingSettingsModel, FallbackSettings } from "@/models/WeddingSettings";
 import { UserModel } from "@/models/User";
@@ -142,7 +142,7 @@ export async function GET(req: NextRequest) {
       });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error loading dashboard data";
+    const msg = formatSafeErrorMessage(error, "Error loading dashboard metrics.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }

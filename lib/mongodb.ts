@@ -17,6 +17,18 @@ export function isFallbackAllowed(): boolean {
   return process.env.NODE_ENV !== "production";
 }
 
+/**
+ * Sanitizes error messages for client responses.
+ * In development, returns the actual error message for developer debugging.
+ * In production, returns a safe fallback message to prevent leaking database internals or infrastructure details.
+ */
+export function formatSafeErrorMessage(error: unknown, fallbackMessage: string): string {
+  if (process.env.NODE_ENV !== "production" && error instanceof Error) {
+    return error.message;
+  }
+  return fallbackMessage;
+}
+
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose | null> | null;
@@ -24,7 +36,6 @@ interface MongooseCache {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var mongooseCache: MongooseCache | undefined;
 }
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase, formatSafeErrorMessage } from "@/lib/mongodb";
 import { RsvpModel, FallbackRsvp } from "@/models/Rsvp";
 
 export async function POST(req: NextRequest) {
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       wish: wishObj,
     });
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error saving RSVP";
+    const msg = formatSafeErrorMessage(error, "Error saving RSVP. Please try again.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
@@ -113,7 +113,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, wishes });
     }
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : "Error fetching wishes";
+    const msg = formatSafeErrorMessage(error, "Error fetching wishes.");
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
