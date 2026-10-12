@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useModernRsvp } from "@/components/common/useModernRsvp";
 import Image from "next/image";
 import { WeddingInviteData } from "@/types/invite";
 import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
@@ -14,6 +15,7 @@ import {
 } from "./Decorations";
 import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
+  Loader2,
   MapPin,
   Clock,
   Calendar,
@@ -28,33 +30,17 @@ export interface Template20Props {
   data?: WeddingInviteData;
   className?: string;
   isEnvelopeOpenDefault?: boolean;
+  cardSlug?: string;
 }
 
 export const Template20: React.FC<Template20Props> = ({
   data = MOCK_INVITE_DATA,
   className = "",
   isEnvelopeOpenDefault = false,
+  cardSlug,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(isEnvelopeOpenDefault);
-  const [rsvpState, setRsvpState] = useState<{
-    name: string;
-    attending: "yes" | "no" | "maybe";
-    guests: number;
-    message: string;
-    submitted: boolean;
-  }>({
-    name: "",
-    attending: "yes",
-    guests: 2,
-    message: "",
-    submitted: false,
-  });
-
-  const handleRsvpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!rsvpState.name.trim()) return;
-    setRsvpState((prev) => ({ ...prev, submitted: true }));
-  };
+  const { rsvpState, setRsvpState, handleRsvpSubmit } = useModernRsvp({ cardSlug, dataId: data.id });
 
   const primaryEvent = data.events[0] || {
     title: "Auspicious Nikah Ceremony",
@@ -348,6 +334,22 @@ export const Template20: React.FC<Template20Props> = ({
 
                   <div>
                     <label className="block text-[11px] sm:text-xs uppercase tracking-wider font-semibold text-[#881337] mb-1">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. +880 1700-000000"
+                      value={rsvpState.phone}
+                      onChange={(e) =>
+                        setRsvpState((prev) => ({ ...prev, phone: e.target.value }))
+                      }
+                      className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-[#FFF1F2] border border-[#881337]/30 text-[#3B0B14] focus:outline-none focus:border-[#881337]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] sm:text-xs uppercase tracking-wider font-semibold text-[#881337] mb-1">
                       Will You Attend?
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
@@ -407,12 +409,28 @@ export const Template20: React.FC<Template20Props> = ({
                     />
                   </div>
 
+                  {rsvpState.error && (
+                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-500 text-xs text-center">
+                      {rsvpState.error}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-xl bg-gradient-to-r from-[#881337] via-[#70102D] to-[#4C0519] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md hover:brightness-110 active:scale-98 transition flex items-center justify-center gap-2"
+                    disabled={rsvpState.loading}
+                    className="w-full py-3 rounded-xl bg-gradient-to-r from-[#881337] via-[#70102D] to-[#4C0519] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md hover:brightness-110 active:scale-98 transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-3.5 h-3.5" />
+                    {rsvpState.loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Submitting RSVP...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
                     <span>Send RSVP Response</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}

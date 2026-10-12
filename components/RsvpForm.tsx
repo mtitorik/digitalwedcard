@@ -51,7 +51,7 @@ export const RsvpForm: React.FC<RsvpFormProps> = ({ onWishAdded, cardSlug = "saj
           fullName: fullName.trim(),
           phone: phone.trim(),
           attending,
-          guestsCount: attending === "attending" ? guestsCount : 1,
+          guestsCount: attending === "attending" ? guestsCount : 0,
           wishMessage: wishMessage.trim(),
         }),
       });

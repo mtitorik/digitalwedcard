@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { WeddingCardView } from "@/components/WeddingCardView";
-import { getCardBySlug, generateMetadata as generateCardMetadata } from "@/app/card/[slug]/page";
+import { getCardBySlug, generateMetadata as generateCardMetadata, PublicCardRenderer } from "@/app/card/[slug]/page";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -18,5 +17,5 @@ export default async function InvitePage({ params }: PageProps) {
     notFound();
   }
 
-  return <WeddingCardView card={card} />;
+  return <PublicCardRenderer card={card} />;
 }

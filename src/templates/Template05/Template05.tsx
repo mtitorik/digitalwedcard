@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useModernRsvp } from "@/components/common/useModernRsvp";
 import Image from "next/image";
 import { WeddingInviteData } from "@/types/invite";
 import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
@@ -14,6 +15,7 @@ import {
   GoldRibbonDivider,
 } from "./Decorations";
 import {
+  Loader2,
   MapPin,
   Clock,
   Calendar,
@@ -27,33 +29,17 @@ export interface Template05Props {
   data?: WeddingInviteData;
   className?: string;
   isEnvelopeOpenDefault?: boolean;
+  cardSlug?: string;
 }
 
 export const Template05: React.FC<Template05Props> = ({
   data = MOCK_INVITE_DATA,
   className = "",
   isEnvelopeOpenDefault = false,
+  cardSlug,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(isEnvelopeOpenDefault);
-  const [rsvpState, setRsvpState] = useState<{
-    name: string;
-    attending: "yes" | "no" | "maybe";
-    guests: number;
-    message: string;
-    submitted: boolean;
-  }>({
-    name: "",
-    attending: "yes",
-    guests: 2,
-    message: "",
-    submitted: false,
-  });
-
-  const handleRsvpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!rsvpState.name.trim()) return;
-    setRsvpState((prev) => ({ ...prev, submitted: true }));
-  };
+  const { rsvpState, setRsvpState, handleRsvpSubmit } = useModernRsvp({ cardSlug, dataId: data.id });
 
   const primaryEvent = data.events[0] || {
     title: "Reception Dinner & Party",
@@ -370,6 +356,22 @@ export const Template05: React.FC<Template05Props> = ({
 
                   <div>
                     <label className="block text-xs font-semibold text-[#0369A1] mb-1">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. +880 1700-000000"
+                      value={rsvpState.phone}
+                      onChange={(e) =>
+                        setRsvpState((prev) => ({ ...prev, phone: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#BAE6FD] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#0284C7] bg-[#F0F9FF] text-[#0C4A6E]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-[#0369A1] mb-1">
                       Will You Attend?
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -441,12 +443,28 @@ export const Template05: React.FC<Template05Props> = ({
                     />
                   </div>
 
+                  {rsvpState.error && (
+                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-500 text-xs text-center">
+                      {rsvpState.error}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white text-xs sm:text-sm font-semibold tracking-wider hover:brightness-105 transition-all shadow-md active:scale-98 flex items-center justify-center gap-2"
+                    disabled={rsvpState.loading}
+                    className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white text-xs sm:text-sm font-semibold tracking-wider hover:brightness-105 transition-all shadow-md active:scale-98 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4 text-[#FDE68A]" />
+                    {rsvpState.loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Submitting RSVP...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 text-[#FDE68A]" />
                     <span>Send Reception RSVP</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}

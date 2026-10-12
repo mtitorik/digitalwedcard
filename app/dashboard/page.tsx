@@ -72,7 +72,7 @@ interface RsvpItem {
   cardSlug: string;
   name: string;
   phone: string;
-  attendance: "attending" | "declined";
+  attendance: "attending" | "declined" | "maybe";
   guestCount: number;
   message?: string;
   createdAt: string;
@@ -120,6 +120,7 @@ export default function UserDashboardPage() {
   const [activeCardSlug, setActiveCardSlug] = useState<string | null>(null);
   const [cardRsvps, setCardRsvps] = useState<RsvpItem[]>([]);
   const [loadingRsvps, setLoadingRsvps] = useState(false);
+  const [rsvpError, setRsvpError] = useState<string | null>(null);
 
   // Copy URL feedback
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
@@ -482,18 +483,24 @@ export default function UserDashboardPage() {
   const handleViewRsvps = async (slug: string) => {
     if (activeCardSlug === slug) {
       setActiveCardSlug(null);
+      setRsvpError(null);
       return;
     }
     setActiveCardSlug(slug);
     setLoadingRsvps(true);
+    setRsvpError(null);
+    setCardRsvps([]);
     try {
-      const res = await fetch(`/api/admin/rsvps?cardSlug=${slug}`);
+      const res = await fetch(`/api/cards/${encodeURIComponent(slug)}/rsvps`);
       if (res.ok) {
         const data = await res.json();
         setCardRsvps(data.rsvps || []);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setRsvpError(data.message || `Failed to load RSVPs (${res.status})`);
       }
     } catch {
-      // Fallback
+      setRsvpError("Network error loading RSVPs.");
     } finally {
       setLoadingRsvps(false);
     }
@@ -792,10 +799,13 @@ export default function UserDashboardPage() {
                   <div className="p-4 bg-[#020d0a] border-t border-amber-500/30 text-xs space-y-3 animate-fadeIn">
                     <div className="flex items-center justify-between pb-2 border-b border-amber-500/10">
                       <span className="font-semibold text-amber-200">
-                        RSVP Responses ({cardRsvps.length})
+                        RSVP Responses {rsvpError ? "" : `(${cardRsvps.length})`}
                       </span>
                       <button
-                        onClick={() => setActiveCardSlug(null)}
+                        onClick={() => {
+                          setActiveCardSlug(null);
+                          setRsvpError(null);
+                        }}
                         className="text-amber-400/60 hover:text-amber-200"
                       >
                         <X className="w-3.5 h-3.5" />
@@ -804,6 +814,10 @@ export default function UserDashboardPage() {
 
                     {loadingRsvps ? (
                       <p className="text-amber-400/60 text-center py-4">Loading RSVPs...</p>
+                    ) : rsvpError ? (
+                      <div className="p-3 rounded-lg bg-red-950/40 border border-red-500/30 text-red-300 text-center text-xs">
+                        {rsvpError}
+                      </div>
                     ) : cardRsvps.length === 0 ? (
                       <p className="text-amber-400/60 text-center py-3 italic">
                         No RSVPs submitted for this card yet.
@@ -824,11 +838,15 @@ export default function UserDashboardPage() {
                                 className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
                                   rsvp.attendance === "attending"
                                     ? "bg-emerald-950 text-emerald-300 border border-emerald-500/30"
+                                    : rsvp.attendance === "maybe"
+                                    ? "bg-amber-950 text-amber-300 border border-amber-500/30"
                                     : "bg-red-950 text-red-300 border border-red-500/30"
                                 }`}
                               >
                                 {rsvp.attendance === "attending"
                                   ? `${rsvp.guestCount} Attending`
+                                  : rsvp.attendance === "maybe"
+                                  ? "Maybe"
                                   : "Declined"}
                               </span>
                             </div>

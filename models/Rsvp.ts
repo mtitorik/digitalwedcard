@@ -4,7 +4,7 @@ export interface IRsvp extends Document {
   cardSlug: string;
   name: string;
   phone: string;
-  attendance: "attending" | "declined";
+  attendance: "attending" | "declined" | "maybe";
   guestCount: number;
   message?: string;
   createdAt: Date;
@@ -13,16 +13,16 @@ export interface IRsvp extends Document {
 
 const RsvpSchema: Schema = new Schema(
   {
-    cardSlug: { type: String, default: "sajedul-and-sadia", index: true },
+    cardSlug: { type: String, required: true, index: true },
     name: { type: String, required: true, trim: true },
     phone: { type: String, required: true, trim: true },
     attendance: {
       type: String,
-      enum: ["attending", "declined"],
+      enum: ["attending", "declined", "maybe"],
       required: true,
       default: "attending",
     },
-    guestCount: { type: Number, required: true, default: 1, min: 1, max: 20 },
+    guestCount: { type: Number, required: true, default: 1, min: 0, max: 20 },
     message: { type: String, trim: true, default: "" },
   },
   { timestamps: true }
@@ -34,7 +34,7 @@ export interface FallbackRsvp {
   cardSlug?: string;
   name: string;
   phone: string;
-  attendance: "attending" | "declined";
+  attendance: "attending" | "declined" | "maybe";
   guestCount: number;
   message?: string;
   createdAt: string;

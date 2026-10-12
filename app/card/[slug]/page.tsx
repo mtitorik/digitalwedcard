@@ -4,12 +4,37 @@ import { connectToDatabase } from "@/lib/mongodb";
 import { WeddingCardModel, FallbackWeddingCard } from "@/models/WeddingCard";
 import { WeddingCardView, WeddingCardData } from "@/components/WeddingCardView";
 import { getTemplateBySlug } from "@/data/sampleTemplates";
+import { WeddingCardRenderer } from "@/templates";
+import { toWeddingInviteData } from "@/lib/adapters/inviteAdapter";
+import type { WeddingInviteData } from "@/types/invite";
+
+export interface PublicCardData extends WeddingCardData {
+  templateId?: string;
+  inviteData?: WeddingInviteData | null;
+}
+
+export function hasUsableInviteData(card: { inviteData?: WeddingInviteData | null }): boolean {
+  if (!card.inviteData || typeof card.inviteData !== "object") {
+    return false;
+  }
+  return Boolean(card.inviteData.groomName && card.inviteData.brideName);
+}
+
+export function PublicCardRenderer({ card }: { card: PublicCardData }) {
+  if (hasUsableInviteData(card)) {
+    const modernData = toWeddingInviteData(card);
+    const templateId = modernData.templateId || card.templateId || "template-01";
+    return <WeddingCardRenderer templateId={templateId} data={modernData} />;
+  }
+
+  return <WeddingCardView card={card} />;
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function getCardBySlug(slug: string): Promise<WeddingCardData | null> {
+export async function getCardBySlug(slug: string): Promise<PublicCardData | null> {
   const cleanSlug = slug.toLowerCase();
 
   try {
@@ -20,6 +45,8 @@ export async function getCardBySlug(slug: string): Promise<WeddingCardData | nul
         return {
           slug: card.slug,
           templateThemeId: card.templateThemeId,
+          templateId: card.templateId,
+          inviteData: card.inviteData,
           groomName: card.groomName,
           brideName: card.brideName,
           namesFormatted: card.namesFormatted,
@@ -62,6 +89,8 @@ export async function getCardBySlug(slug: string): Promise<WeddingCardData | nul
     return {
       slug: sample.slug,
       templateThemeId: sample.templateThemeId,
+      templateId: "template-01",
+      inviteData: null,
       groomName: sample.groomName,
       brideName: sample.brideName,
       namesFormatted: sample.namesFormatted,
@@ -90,6 +119,8 @@ export async function getCardBySlug(slug: string): Promise<WeddingCardData | nul
     return {
       slug: fallback.slug,
       templateThemeId: fallback.templateThemeId,
+      templateId: fallback.templateId,
+      inviteData: fallback.inviteData,
       groomName: fallback.groomName,
       brideName: fallback.brideName,
       namesFormatted: fallback.namesFormatted,
@@ -149,5 +180,5 @@ export default async function DynamicWeddingCardPage({ params }: PageProps) {
     notFound();
   }
 
-  return <WeddingCardView card={card} />;
+  return <PublicCardRenderer card={card} />;
 }

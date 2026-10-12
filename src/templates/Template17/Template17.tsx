@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useModernRsvp } from "@/components/common/useModernRsvp";
 import Image from "next/image";
 import { WeddingInviteData } from "@/types/invite";
 import { MOCK_INVITE_DATA } from "@/data/mockInviteData";
@@ -14,6 +15,7 @@ import {
 } from "./Decorations";
 import { WaxSealEnvelope } from "@/components/common/WaxSealEnvelope";
 import {
+  Loader2,
   MapPin,
   Clock,
   Calendar,
@@ -28,33 +30,17 @@ export interface Template17Props {
   data?: WeddingInviteData;
   className?: string;
   isEnvelopeOpenDefault?: boolean;
+  cardSlug?: string;
 }
 
 export const Template17: React.FC<Template17Props> = ({
   data = MOCK_INVITE_DATA,
   className = "",
   isEnvelopeOpenDefault = false,
+  cardSlug,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(isEnvelopeOpenDefault);
-  const [rsvpState, setRsvpState] = useState<{
-    name: string;
-    attending: "yes" | "no" | "maybe";
-    guests: number;
-    message: string;
-    submitted: boolean;
-  }>({
-    name: "",
-    attending: "yes",
-    guests: 2,
-    message: "",
-    submitted: false,
-  });
-
-  const handleRsvpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!rsvpState.name.trim()) return;
-    setRsvpState((prev) => ({ ...prev, submitted: true }));
-  };
+  const { rsvpState, setRsvpState, handleRsvpSubmit } = useModernRsvp({ cardSlug, dataId: data.id });
 
   const primaryEvent = data.events[0] || {
     title: "Solemnization & Wedding Banquet",
@@ -351,6 +337,22 @@ export const Template17: React.FC<Template17Props> = ({
                       />
                     </div>
 
+                  <div>
+                    <label className="block text-xs font-semibold text-[#1C1917] mb-1">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. +880 1700-000000"
+                      value={rsvpState.phone}
+                      onChange={(e) =>
+                        setRsvpState((prev) => ({ ...prev, phone: e.target.value }))
+                      }
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-[#FAF7F2] text-xs sm:text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#78350F]"
+                    />
+                  </div>
+
                     <div>
                       <label className="block text-xs font-semibold text-[#1C1917] mb-1">
                         Attendance
@@ -418,13 +420,29 @@ export const Template17: React.FC<Template17Props> = ({
                       />
                     </div>
 
-                    <button
-                      type="submit"
-                      className="w-full py-3 rounded-xl bg-[#78350F] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider shadow-xs hover:bg-[#5E2B0C] transition flex items-center justify-center gap-1.5"
-                    >
-                      <Send className="w-3.5 h-3.5" />
+                    {rsvpState.error && (
+                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-500 text-xs text-center">
+                      {rsvpState.error}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={rsvpState.loading}
+                    className="w-full py-3 rounded-xl bg-[#78350F] text-white font-semibold text-xs sm:text-sm uppercase tracking-wider shadow-xs hover:bg-[#5E2B0C] transition flex items-center justify-center gap-1.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {rsvpState.loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Submitting RSVP...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
                       <span>Confirm RSVP</span>
-                    </button>
+                      </>
+                    )}
+                  </button>
                   </form>
                 )}
               </div>

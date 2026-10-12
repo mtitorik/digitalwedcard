@@ -41,6 +41,7 @@ export interface WeddingStoryItem {
 
 export interface WeddingInviteData {
   id?: string;
+  cardSlug?: string;
   templateId?: string;
   groomName: string;
   brideName: string;

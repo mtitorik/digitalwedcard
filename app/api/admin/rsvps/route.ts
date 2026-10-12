@@ -10,22 +10,33 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    const { searchParams } = new URL(req.url);
+    const cardSlugParam = searchParams.get("cardSlug");
+    const cleanCardSlug = cardSlugParam ? cardSlugParam.toLowerCase().trim() : null;
+
     const mongooseConn = await connectToDatabase();
 
     if (mongooseConn) {
-      const rsvps = await RsvpModel.find().sort({ createdAt: -1 });
+      const filter = cleanCardSlug ? { cardSlug: cleanCardSlug } : {};
+      const rsvps = await RsvpModel.find(filter).sort({ createdAt: -1 });
 
       const totalSubmissions = rsvps.length;
       const attendingList = rsvps.filter((r) => r.attendance === "attending");
       const declinedList = rsvps.filter((r) => r.attendance === "declined");
-      const totalAttendingGuests = attendingList.reduce((acc, curr) => acc + (curr.guestCount || 1), 0);
+      const maybeList = rsvps.filter((r) => r.attendance === "maybe");
+      const totalAttendingGuests = attendingList.reduce(
+        (acc, curr) => acc + (typeof curr.guestCount === "number" ? curr.guestCount : 1),
+        0
+      );
 
       return NextResponse.json({
         success: true,
+        ...(cleanCardSlug ? { cardSlug: cleanCardSlug } : {}),
         stats: {
           totalSubmissions,
           attendingCount: attendingList.length,
           declinedCount: declinedList.length,
+          maybeCount: maybeList.length,
           totalGuests: totalAttendingGuests,
         },
         rsvps,
@@ -35,18 +46,27 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ success: false, message: "Database service temporarily unavailable." }, { status: 503 });
       }
 
-      const rsvps: FallbackRsvp[] = global.fallbackRsvps || [];
+      const allFallbackRsvps: FallbackRsvp[] = global.fallbackRsvps || [];
+      const rsvps = cleanCardSlug
+        ? allFallbackRsvps.filter((r) => (r.cardSlug || "").toLowerCase() === cleanCardSlug)
+        : allFallbackRsvps;
       const totalSubmissions = rsvps.length;
       const attendingList = rsvps.filter((r) => r.attendance === "attending");
       const declinedList = rsvps.filter((r) => r.attendance === "declined");
-      const totalAttendingGuests = attendingList.reduce((acc, curr) => acc + (curr.guestCount || 1), 0);
+      const maybeList = rsvps.filter((r) => r.attendance === "maybe");
+      const totalAttendingGuests = attendingList.reduce(
+        (acc, curr) => acc + (typeof curr.guestCount === "number" ? curr.guestCount : 1),
+        0
+      );
 
       return NextResponse.json({
         success: true,
+        ...(cleanCardSlug ? { cardSlug: cleanCardSlug } : {}),
         stats: {
           totalSubmissions,
           attendingCount: attendingList.length,
           declinedCount: declinedList.length,
+          maybeCount: maybeList.length,
           totalGuests: totalAttendingGuests,
         },
         rsvps,

@@ -86,6 +86,7 @@ export interface BaseTemplateProps {
   data?: WeddingInviteData;
   className?: string;
   isEnvelopeOpenDefault?: boolean;
+  cardSlug?: string;
 }
 
 /**
@@ -119,6 +120,7 @@ export interface WeddingCardRendererProps {
   data?: WeddingInviteData;
   className?: string;
   isEnvelopeOpenDefault?: boolean;
+  cardSlug?: string;
 }
 
 /**
@@ -130,6 +132,7 @@ export const WeddingCardRenderer: React.FC<WeddingCardRendererProps> = ({
   data,
   className = "",
   isEnvelopeOpenDefault = false,
+  cardSlug,
 }) => {
   // Normalize IDs like "1" or "01" to "template-01"
   const normalizedId = templateId.startsWith("template-")
@@ -156,6 +159,7 @@ export const WeddingCardRenderer: React.FC<WeddingCardRendererProps> = ({
       data={data}
       className={className}
       isEnvelopeOpenDefault={isEnvelopeOpenDefault}
+      cardSlug={cardSlug || data?.cardSlug || data?.id}
     />
   );
 };
