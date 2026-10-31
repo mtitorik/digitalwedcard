@@ -103,7 +103,7 @@ export function Header({ session }: HeaderProps) {
               <Button
                 variant="gold"
                 size="sm"
-                onClick={() => openAuthModal("signup")}
+                onClick={() => openAuthModal("signin")}
                 className="rounded-full px-5 py-2 text-xs uppercase tracking-wider font-semibold shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer ring-1 ring-white/20"
               >
                 Sign up / Log in
@@ -155,7 +155,7 @@ export function Header({ session }: HeaderProps) {
                   size="sm"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    openAuthModal("signup");
+                    openAuthModal("signin");
                   }}
                   className="w-full rounded-full py-2.5 text-xs uppercase tracking-wider font-semibold shadow-md cursor-pointer"
                 >
