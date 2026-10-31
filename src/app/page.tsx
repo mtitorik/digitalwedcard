@@ -62,11 +62,6 @@ export default async function HomePage() {
         <HeroBackgroundVideo playbackRate={0.5} />
 
         <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 my-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-900/70 border border-amber-300/40 text-amber-300 text-xs font-medium shadow-md backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Interactive Wedding Invitation Microsites & RSVP Platform</span>
-          </div>
-
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight leading-[1.15] drop-shadow-md">
             Celebrate Your Love with Interactive Digital Wedding Invitations
           </h1>
@@ -114,7 +109,10 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Templates Gallery (Design) */}
-      <section id="designs" className="py-20 px-6 max-w-7xl mx-auto w-full">
+      <section
+        id="designs"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-20 px-6 max-w-7xl mx-auto w-full"
+      >
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-800 font-semibold mb-1">
@@ -171,8 +169,11 @@ export default async function HomePage() {
       </section>
 
       {/* Live Sample Cards Showcase */}
-      <section id="cards" className="py-20 px-6 bg-stone-100/60 border-t border-b border-stone-200">
-        <div className="max-w-7xl mx-auto">
+      <section
+        id="cards"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-20 px-6 bg-stone-100/60 border-t border-b border-stone-200"
+      >
+        <div className="max-w-7xl mx-auto w-full">
           <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
             <h2 className="text-3xl font-serif font-bold text-stone-900">
               Live Digital Invitations
@@ -229,7 +230,10 @@ export default async function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-24 px-6 max-w-7xl mx-auto w-full">
+      <section
+        id="how-it-works"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-24 px-6 max-w-7xl mx-auto w-full"
+      >
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
           <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-800 font-semibold mb-1">
             <span>Simple 3-Step Process</span>
@@ -285,8 +289,11 @@ export default async function HomePage() {
       </section>
 
       {/* Why Us Section */}
-      <section id="why-us" className="py-24 px-6 bg-stone-900 text-stone-100">
-        <div className="max-w-7xl mx-auto">
+      <section
+        id="why-us"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-24 px-6 bg-stone-900 text-stone-100"
+      >
+        <div className="max-w-7xl mx-auto w-full">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
             <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-300 font-semibold mb-1">
               <span>Modern Advantages</span>
@@ -376,7 +383,10 @@ export default async function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-6 max-w-7xl mx-auto w-full">
+      <section
+        id="pricing"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-24 px-6 max-w-7xl mx-auto w-full"
+      >
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
           <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-800 font-semibold mb-1">
             <span>Simple & Transparent</span>
@@ -536,8 +546,11 @@ export default async function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-24 px-6 bg-stone-100/60 border-t border-b border-stone-200">
-        <div className="max-w-4xl mx-auto space-y-12">
+      <section
+        id="faq"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-24 px-6 bg-stone-100/60 border-t border-b border-stone-200"
+      >
+        <div className="max-w-4xl mx-auto w-full space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-800 font-semibold mb-1">
               <span>Got Questions?</span>
@@ -555,7 +568,10 @@ export default async function HomePage() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6 max-w-7xl mx-auto w-full">
+      <section
+        id="about"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-24 px-6 max-w-7xl mx-auto w-full"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-800 font-semibold">
@@ -591,8 +607,11 @@ export default async function HomePage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 bg-stone-900 text-stone-100">
-        <div className="max-w-7xl mx-auto">
+      <section
+        id="contact"
+        className="min-h-screen min-h-[100dvh] flex flex-col justify-center py-24 px-6 bg-stone-900 text-stone-100"
+      >
+        <div className="max-w-7xl mx-auto w-full">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
             <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-amber-300 font-semibold mb-1">
               <span>Here For You</span>
