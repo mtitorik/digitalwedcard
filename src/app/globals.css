@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+/* Hide native browser password reveal and clear buttons to prevent visual duplicates */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+

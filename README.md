@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Invitations Studio — Administrative Backbone & Backend Infrastructure
 
-## Getting Started
+Production-grade administrative suite and e-commerce backend for a bespoke luxury wedding invitation and stationery platform inspired by `invitationsstudio.com`.
 
-First, run the development server:
+Built with **Next.js 16 (App Router)**, **TypeScript (Strict Mode)**, **Tailwind CSS**, **PostgreSQL**, **Prisma ORM**, and **Jose/Bcrypt RBAC Session Authentication**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🏛️ System Architecture
+
+```
+├── prisma/
+│   ├── schema.prisma          # PostgreSQL models (User, Category, Product, Order, OrderItem, Asset)
+│   └── seed.ts                # Production-grade seed data (Admin, Customer, Suites, Orders, Assets)
+├── src/
+│   ├── actions/               # Type-safe Server Actions with Zod validation
+│   │   ├── auth.ts            # Login, register, logout, session check
+│   │   ├── products.ts        # Product CRUD, status toggling, slug checks
+│   │   ├── orders.ts          # Order listing, status transitions
+│   │   ├── categories.ts      # Suite category management
+│   │   ├── assets.ts          # Design media registration & deletion
+│   │   └── dashboard.ts       # KPI telemetry (revenue, order volume, live designs)
+│   ├── app/
+│   │   ├── (auth)/            # Auth routes (/login, /register)
+│   │   ├── admin/             # Role-protected administrative suite
+│   │   │   ├── page.tsx       # KPI overview & recent stationery orders
+│   │   │   ├── products/      # Product list, filters & creation form
+│   │   │   ├── orders/        # Custom stationery orders & wording review
+│   │   │   ├── categories/    # Invitation suite & category organizer
+│   │   │   └── assets/        # Media storage & asset library
+│   │   ├── unauthorized/      # Friendly RBAC access-denied page
+│   │   └── page.tsx           # Storefront home showcasing live catalog
+│   ├── components/
+│   │   ├── admin/             # Sidebar, Header, Metric Cards, Status Badges
+│   │   ├── auth/              # Login & Register forms with 1-click demo credentials
+│   │   └── ui/                # Accessible design system (Button, Input, Card, Badge, Textarea)
+│   ├── lib/
+│   │   ├── auth/              # Jose JWT encryption, HttpOnly cookie & RBAC guards
+│   │   ├── validations/       # Shared Zod schemas for client & server
+│   │   ├── prisma.ts          # PrismaClient singleton instance
+│   │   └── utils.ts           # Currency formatting, date formatting, cn()
+│   └── proxy.ts               # Next.js 16 proxy protecting /admin/:path* routes
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Authentication & Role-Based Access Control (RBAC)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Password Security**: Passwords hashed using `bcryptjs` with salt rounds = 10.
+2. **Session Storage**: Signed, tamper-proof JSON Web Tokens generated using `jose` (`HS256`), stored inside an `HttpOnly`, `SameSite=lax`, secure cookie (`auth_session`) with 7-day expiration.
+3. **Route Protection**: Next.js 16 Proxy (`src/proxy.ts`) enforces strict route-level guarding on `/admin/:path*`.
+4. **Data Access Layer Defense**: Every administrative Server Action validates `await requireAdmin()` before mutating data.
 
-## Learn More
+### Pre-Configured Demo Accounts (Ready to Test)
 
-To learn more about Next.js, take a look at the following resources:
+| Role | Email | Password | Access Level |
+|---|---|---|---|
+| **ADMIN** | `admin@invitations.com` | `Admin123456!` | Full studio administrative operations (`/admin`) |
+| **CUSTOMER** | `sophia.clark@example.com` | `Customer123456!` | Storefront client access |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> The login page at `/login` provides 1-click **Quick Demo Logins** buttons to auto-populate credentials.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🗄️ Database & Schema
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Powered by PostgreSQL using Prisma ORM with relational mapping:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **User**: Authentication, avatars, roles (`ADMIN`, `CUSTOMER`).
+- **Category**: Invitation categories (`wedding-invitations`, `save-the-dates`, `rsvp-details`, `thank-you-notes`).
+- **Product**: Invitation suites with SKU, base price, sale price, inventory, cardstock options (`120lb Premium Matte`, `130lb Linen`, `Double-Thick 240lb Cotton`), and foil options (`Gold Foil`, `Rose Gold`, `Blind Deboss`).
+- **Order**: Customer details, total amount, shipping addresses, fulfillment statuses (`PENDING`, `PAID`, `PROCESSING`, `SHIPPED`, `DELIVERED`, `CANCELLED`).
+- **OrderItem**: Individual stationery units linked to custom bride/groom names, event dates, and printing specs.
+- **Asset**: Media management for flatlay photography and stationery wording guides.
+
+---
+
+## 🚀 Quick Start Commands
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Configure environment variables in .env
+DATABASE_URL="postgresql://user:password@localhost:5432/wedding_invitations?schema=public"
+JWT_SECRET="your-32-character-secret-key-goes-here"
+
+# 3. Synchronize database schema
+npx prisma db push
+
+# 4. Seed initial database records
+npm run db:seed
+
+# 5. Start development server
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) for the storefront and [http://localhost:3000/admin](http://localhost:3000/admin) for the Administrative Suite.
