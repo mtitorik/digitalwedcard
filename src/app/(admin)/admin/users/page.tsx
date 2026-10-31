@@ -2,7 +2,7 @@ import { getUsersAdmin } from "@/server/actions/user.actions";
 import { RoleBadge } from "@/components/admin/StatusBadge";
 import { UserRoleSelector } from "@/components/admin/UserRoleSelector";
 import { formatDate } from "@/lib/utils";
-import { Users, MailOpen, UserCheck, Shield } from "lucide-react";
+import { Users, UserCheck, Shield } from "lucide-react";
 
 export default async function AdminUsersPage() {
   const users = await getUsersAdmin();

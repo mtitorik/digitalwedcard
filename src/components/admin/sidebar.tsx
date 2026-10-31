@@ -8,7 +8,6 @@ import {
   Heart,
   Users,
   ExternalLink,
-  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

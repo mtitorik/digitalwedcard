@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { rsvpSchema, RSVPFormValues } from "@/lib/validators/rsvp.schema";
 import { submitRSVP } from "@/server/actions/rsvp.actions";
@@ -9,14 +9,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { CheckCircle2, Heart, Send, Users, Sparkles, MessageSquare } from "lucide-react";
+import { CheckCircle2, Heart, Send, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AddToCalendar } from "@/components/shared/add-to-calendar";
 
 export type RsvpFormTone = "porcelain" | "parchment" | "dark-glass";
 
 export interface RsvpFormProps extends React.HTMLAttributes<HTMLFormElement> {
   invitationId: string;
   coupleNames?: string;
+  weddingDate?: Date | string | null;
   title?: string;
   subtitle?: string;
   primaryColor?: string;
@@ -32,6 +34,7 @@ export interface RsvpFormProps extends React.HTMLAttributes<HTMLFormElement> {
 export function RsvpForm({
   invitationId,
   coupleNames,
+  weddingDate,
   title = "Kindly Respond",
   subtitle = "Please let us know if you will celebrate with us by submitting your response below.",
   primaryColor = "#78350f",
@@ -64,24 +67,23 @@ export function RsvpForm({
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = form;
 
-  const attendance = watch("attendance");
+  const attendance = useWatch({ control: form.control, name: "attendance" }) ?? "ATTENDING";
 
   const onSubmit = (values: RSVPFormValues) => {
     startTransition(async () => {
       const res = await submitRSVP(values);
 
-      if (res.success && res.data) {
+      if (res.success) {
         setIsSubmitted(true);
         setSubmittedName(values.guestName);
         setSubmittedAttendance(values.attendance);
         toast.success(res.message || "Your RSVP has been confirmed!");
 
-        if (onSuccess) {
+        if (onSuccess && res.data) {
           onSuccess({
             id: res.data.id,
             attendance: res.data.attendance,
@@ -151,15 +153,30 @@ export function RsvpForm({
           A confirmation note has been logged in the event guestbook.
         </p>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleReset}
-          className="mt-8 rounded-full px-5 py-2 text-xs uppercase tracking-wider cursor-pointer"
-        >
-          Submit Another Response
-        </Button>
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          {submittedAttendance === "ATTENDING" && weddingDate && (
+            <AddToCalendar
+              event={{
+                title: `${coupleNames || "Wedding"} Celebration`,
+                startDate: weddingDate,
+                description: `Wedding celebration of ${coupleNames || "the couple"}.`,
+              }}
+              size="md"
+              variant="gold"
+              buttonText="Add to Calendar"
+            />
+          )}
+
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleReset}
+            className="rounded-full px-5 py-2 text-xs uppercase tracking-wider cursor-pointer"
+          >
+            Submit Another Response
+          </Button>
+        </div>
       </div>
     );
   }
@@ -298,7 +315,7 @@ export function RsvpForm({
         {attendance === "ATTENDING" && (
           <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-white/5 border border-amber-200/60 dark:border-white/10 space-y-1.5 animate-in fade-in duration-200">
             <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+              <Users className="w-4 h-4" style={{ color: accentColor }} />
               <label className="text-xs font-semibold uppercase tracking-wider text-stone-800 dark:text-stone-200">
                 Additional Guests (Plus-Ones)
               </label>

@@ -16,6 +16,10 @@ import { MediaGallery } from "@/components/shared/media-gallery";
 import { RsvpForm } from "@/components/shared/rsvp-form";
 import { AmbientAudioPlayer } from "@/components/shared/ambient-audio-player";
 import { StickyActionBar } from "@/components/shared/sticky-action-bar";
+import { WaxSealIntro } from "@/components/shared/wax-seal-intro";
+import { GiftRegistrySection } from "@/components/shared/gift-registry";
+import { ShareTriggerButton } from "@/components/shared/share-invite-modal";
+import { QRCodeTriggerButton } from "@/components/shared/qr-code-modal";
 import { PasscodeGate } from "@/components/public/PasscodeGate";
 import { VeronaHero } from "./verona-hero";
 
@@ -94,6 +98,38 @@ export function VeronaTemplate({
       }}
       {...props}
     >
+      {/* Virtual Gold Wax Seal Unfolding Intro (Bliss & Bone Style) */}
+      <WaxSealIntro
+        coupleNames={coupleNames}
+        brideInitial={invitation.brideName.charAt(0)}
+        groomInitial={invitation.groomName.charAt(0)}
+        weddingDate={primaryDate}
+        slug={invitation.slug}
+        primaryColor={invitation.primaryColor}
+        accentColor={invitation.accentColor}
+      />
+
+      {/* Floating Share & QR Quick Actions */}
+      <div className="fixed top-5 right-5 z-40 flex items-center gap-2">
+        <ShareTriggerButton
+          coupleNames={coupleNames}
+          slug={invitation.slug}
+          weddingDate={primaryDate}
+          venueName={primaryVenue}
+          passcode={invitation.passcode}
+          variant="secondary"
+          className="shadow-md rounded-full bg-white/90 backdrop-blur-md text-stone-800 border-stone-200/80 hover:bg-white"
+        />
+        <QRCodeTriggerButton
+          url={`/i/${invitation.slug}`}
+          coupleNames={coupleNames}
+          weddingDate={primaryDate}
+          passcode={invitation.passcode}
+          variant="secondary"
+          className="shadow-md rounded-full bg-white/90 backdrop-blur-md text-stone-800 border-stone-200/80 hover:bg-white hidden sm:inline-flex"
+        />
+      </div>
+
       {/* 1. Verona Hero Section */}
       <VeronaHero
         brideName={invitation.brideName}
@@ -194,7 +230,28 @@ export function VeronaTemplate({
         </SectionWrapper>
       )}
 
-      {/* 5. RSVP Submission Section */}
+      {/* 5. Wedding Gift Registry & Wishing Well */}
+      <SectionWrapper
+        id="registry"
+        bg="stone"
+        padding="generous"
+        bordered
+        containerSize="6xl"
+      >
+        <SectionHeader
+          eyebrow="Gifts & Blessings"
+          title="Wishing Well & Registry"
+          description="Your love and presence are the greatest gifts of all. Should you wish to honor our new chapter together, we have prepared our registries below."
+          align="center"
+        />
+
+        <GiftRegistrySection
+          primaryColor={invitation.primaryColor}
+          accentColor={invitation.accentColor}
+        />
+      </SectionWrapper>
+
+      {/* 6. RSVP Submission Section */}
       <SectionWrapper
         id="rsvp"
         bg="parchment"
@@ -216,6 +273,7 @@ export function VeronaTemplate({
           <RsvpForm
             invitationId={invitation.id}
             coupleNames={coupleNames}
+            weddingDate={primaryDate}
             title="RSVP for the Celebration"
             subtitle="Please confirm your attendance so we may prepare for your arrival."
             primaryColor={invitation.primaryColor}

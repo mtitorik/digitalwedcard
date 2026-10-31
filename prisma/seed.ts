@@ -71,7 +71,12 @@ async function main() {
     },
   });
 
-  console.log("👤 Users seeded:", { admin: adminUser.email, user1: coupleUser.email, user2: coupleUser2.email });
+  console.log("👤 Users seeded:", {
+    admin: adminUser.email,
+    torikul: torikulAdmin.email,
+    user1: coupleUser.email,
+    user2: coupleUser2.email,
+  });
 
   // 2. Create Design Templates
   const template1 = await prisma.template.upsert({
@@ -289,7 +294,7 @@ async function main() {
     },
   });
 
-  console.log("💌 Invitations seeded:", [invite1.slug, invite2.slug, invite3.slug]);
+  console.log("💌 Invitations seeded:", [invite1.slug, invite3.slug]);
   console.log("✅ Seed finished successfully!");
 }
 

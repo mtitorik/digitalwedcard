@@ -16,7 +16,7 @@ export function PasscodeGate({ expectedPasscode, coupleNames, onUnlocked }: Pass
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode.trim() === expectedPasscode.trim()) {
+    if (passcode.trim().toUpperCase() === expectedPasscode.trim().toUpperCase()) {
       onUnlocked();
     } else {
       setError(true);

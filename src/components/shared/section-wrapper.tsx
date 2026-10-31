@@ -86,7 +86,7 @@ SectionWrapper.displayName = "SectionWrapper";
 // ============================================================================
 
 export interface SectionHeaderProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   eyebrow?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;

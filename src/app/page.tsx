@@ -18,13 +18,9 @@ import {
   Music,
   Check,
   Mail,
-  Phone,
   MessageSquare,
   Smartphone,
-  Eye,
   Lock,
-  Layers,
-  Send,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";

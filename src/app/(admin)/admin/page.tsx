@@ -12,7 +12,6 @@ import {
   ArrowRight,
   ExternalLink,
   PlusCircle,
-  Calendar,
 } from "lucide-react";
 
 export default async function AdminDashboardPage() {

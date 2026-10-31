@@ -16,7 +16,15 @@ export interface CountdownValues {
   isMounted: boolean;
 }
 
+const emptySubscribe = () => () => {};
+
 export function useCountdown(targetDate: string | Date): CountdownValues {
+  const isMounted = React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
   const calculateTimeLeft = useCallback(() => {
     const target = new Date(targetDate).getTime();
     const now = Date.now();
@@ -41,19 +49,9 @@ export function useCountdown(targetDate: string | Date): CountdownValues {
     };
   }, [targetDate]);
 
-  const [isMounted, setIsMounted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    isCompleted: false,
-  });
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
 
   useEffect(() => {
-    setIsMounted(true);
-    setTimeLeft(calculateTimeLeft());
-
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);

@@ -4,6 +4,9 @@ import Image from "next/image";
 import { getInvitationByIdAdmin } from "@/server/actions/invitation.actions";
 import { InvitationStatusBadge, AttendanceBadge } from "@/components/admin/StatusBadge";
 import { RSVPDeleteButton } from "@/components/admin/RSVPDeleteButton";
+import { ExportGuestsButton } from "@/components/shared/export-guests-button";
+import { ShareTriggerButton } from "@/components/shared/share-invite-modal";
+import { QRCodeTriggerButton } from "@/components/shared/qr-code-modal";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
@@ -15,12 +18,9 @@ import {
   MapPin,
   Lock,
   Music,
-  Users,
   CheckCircle2,
   XCircle,
   HelpCircle,
-  Sparkles,
-  Heart,
 } from "lucide-react";
 
 interface InvitationDetailPageProps {
@@ -78,7 +78,21 @@ export default async function InvitationDetailPage({ params }: InvitationDetailP
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <ShareTriggerButton
+            coupleNames={`${invitation.brideName} & ${invitation.groomName}`}
+            slug={invitation.slug}
+            passcode={invitation.passcode}
+            variant="outline"
+            size="md"
+          />
+          <QRCodeTriggerButton
+            url={`/i/${invitation.slug}`}
+            coupleNames={`${invitation.brideName} & ${invitation.groomName}`}
+            passcode={invitation.passcode}
+            variant="outline"
+            size="md"
+          />
           <Link href={`/i/${invitation.slug}`} target="_blank">
             <Button variant="gold" size="md">
               <ExternalLink className="w-4 h-4" />
@@ -142,16 +156,22 @@ export default async function InvitationDetailPage({ params }: InvitationDetailP
           {/* RSVPs Table */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <CardTitle>Guest RSVP Ledger</CardTitle>
                   <CardDescription>
                     All guest confirmations, meal notes, and congratulatory messages.
                   </CardDescription>
                 </div>
-                <span className="text-xs font-mono font-medium text-stone-500 bg-stone-100 px-2.5 py-1 rounded-lg">
-                  {invitation.rsvps.length} entries
-                </span>
+                <div className="flex items-center gap-2">
+                  <ExportGuestsButton
+                    coupleTitle={`${invitation.brideName} & ${invitation.groomName}`}
+                    rsvps={invitation.rsvps}
+                  />
+                  <span className="text-xs font-mono font-medium text-stone-500 bg-stone-100 px-2.5 py-1 rounded-lg">
+                    {invitation.rsvps.length} entries
+                  </span>
+                </div>
               </div>
             </CardHeader>
             <CardContent>

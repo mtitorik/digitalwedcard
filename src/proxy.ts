@@ -10,7 +10,7 @@ const AUTH_SECRET =
 const encodedKey = new TextEncoder().encode(AUTH_SECRET);
 const SESSION_COOKIE_NAME = "auth_session";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   // Extract role from custom cookie (primary) or NextAuth JWT (fallback)
@@ -92,6 +92,8 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+export default proxy;
+
 export const config = {
   matcher: [
     "/admin/:path*",
@@ -99,3 +101,4 @@ export const config = {
     "/register",
   ],
 };
+

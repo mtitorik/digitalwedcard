@@ -8,17 +8,23 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Trash2, ExternalLink, Eye } from "lucide-react";
 import Link from "next/link";
+import { ShareTriggerButton } from "@/components/shared/share-invite-modal";
+import { QRCodeTriggerButton } from "@/components/shared/qr-code-modal";
 
 interface InvitationTableActionsProps {
   id: string;
   slug: string;
   currentStatus: InvitationStatus;
+  coupleNames?: string;
+  passcode?: string | null;
 }
 
 export function InvitationTableActions({
   id,
   slug,
   currentStatus,
+  coupleNames = "Couple",
+  passcode,
 }: InvitationTableActionsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -74,6 +80,24 @@ export function InvitationTableActions({
       >
         <ExternalLink className="w-3.5 h-3.5" />
       </Link>
+
+      <ShareTriggerButton
+        coupleNames={coupleNames}
+        slug={slug}
+        passcode={passcode}
+        variant="ghost"
+        size="sm"
+        className="h-8 px-2 text-stone-500 hover:text-stone-900"
+      />
+
+      <QRCodeTriggerButton
+        url={`/i/${slug}`}
+        coupleNames={coupleNames}
+        passcode={passcode}
+        variant="ghost"
+        size="sm"
+        className="h-8 px-2 text-stone-500 hover:text-stone-900"
+      />
 
       <Link href={`/admin/invitations/${id}`}>
         <Button

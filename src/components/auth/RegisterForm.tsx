@@ -1,7 +1,8 @@
 "use client";
 
 import { useTransition, useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   registerSchema,
@@ -27,6 +28,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function RegisterForm() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +38,7 @@ export function RegisterForm() {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     formState: { errors },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -49,9 +51,9 @@ export function RegisterForm() {
     },
   });
 
-  const emailValue = watch("email") || "";
-  const passwordValue = watch("password") || "";
-  const confirmPasswordValue = watch("confirmPassword") || "";
+  const emailValue = useWatch({ control, name: "email" }) || "";
+  const passwordValue = useWatch({ control, name: "password" }) || "";
+  const confirmPasswordValue = useWatch({ control, name: "confirmPassword" }) || "";
 
   // Live evaluation
   const emailCheck = useMemo(
@@ -78,7 +80,8 @@ export function RegisterForm() {
       const res = await registerAction(values);
       if (res.success) {
         toast.success(res.message);
-        window.location.href = "/";
+        router.push("/");
+        router.refresh();
       } else {
         setServerError(res.error);
         toast.error(res.error);

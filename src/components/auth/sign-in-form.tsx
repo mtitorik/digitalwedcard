@@ -1,7 +1,8 @@
 "use client";
 
 import { useTransition, useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   loginSchema,
@@ -20,6 +21,7 @@ interface SignInFormProps {
 }
 
 export function SignInForm({ onSuccess }: SignInFormProps) {
+  const router = useRouter();
   const { setMode, closeAuthModal } = useAuthModal();
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -28,7 +30,7 @@ export function SignInForm({ onSuccess }: SignInFormProps) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
@@ -39,7 +41,7 @@ export function SignInForm({ onSuccess }: SignInFormProps) {
     },
   });
 
-  const emailValue = watch("email") || "";
+  const emailValue = useWatch({ control, name: "email" }) || "";
   const emailCheck = useMemo(
     () => validateEmailFormat(emailValue),
     [emailValue]
@@ -63,10 +65,11 @@ export function SignInForm({ onSuccess }: SignInFormProps) {
 
         // Redirect based on role
         if (res.data.role === "ADMIN") {
-          window.location.href = "/admin";
+          router.push("/admin");
         } else {
-          window.location.href = "/";
+          router.push("/");
         }
+        router.refresh();
       } else {
         setServerError(res.error || "Invalid email or password combination.");
         toast.error(res.error || "Invalid email or password.");

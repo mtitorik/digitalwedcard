@@ -1,8 +1,8 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { templateSchema, TemplateFormValues } from "@/lib/validators/template.schema";
 import { createTemplate } from "@/server/actions/template.actions";
@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { SAMPLE_WEDDING_PHOTOS } from "@/lib/storage";
 import { toast } from "sonner";
-import { ArrowLeft, Save, Sparkles, Palette } from "lucide-react";
+import { ArrowLeft, Save, Palette } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -43,14 +43,13 @@ export default function NewTemplatePage() {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = form;
 
-  const thumbnailUrl = watch("thumbnailUrl");
-  const isPremium = watch("isPremium");
-  const primaryColor = watch("defaultConfig.primaryColor");
-  const accentColor = watch("defaultConfig.accentColor");
+  const thumbnailUrl = useWatch({ control: form.control, name: "thumbnailUrl" });
+  const isPremium = useWatch({ control: form.control, name: "isPremium" });
+  const primaryColor = useWatch({ control: form.control, name: "defaultConfig.primaryColor" });
+  const accentColor = useWatch({ control: form.control, name: "defaultConfig.accentColor" });
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;

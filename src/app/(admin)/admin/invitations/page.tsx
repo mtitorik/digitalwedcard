@@ -3,8 +3,7 @@ import { getInvitationsAdmin } from "@/server/actions/invitation.actions";
 import { InvitationStatusBadge } from "@/components/admin/StatusBadge";
 import { InvitationTableActions } from "@/components/admin/InvitationTableActions";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
-import { Search, Heart, ExternalLink, Users, Eye, Sparkles } from "lucide-react";
+import { Search, ExternalLink, Users, Eye } from "lucide-react";
 
 interface InvitationsPageProps {
   searchParams: Promise<{
@@ -173,6 +172,8 @@ export default async function InvitationsAdminPage({ searchParams }: Invitations
                           id={inv.id}
                           slug={inv.slug}
                           currentStatus={inv.status}
+                          coupleNames={`${inv.brideName} & ${inv.groomName}`}
+                          passcode={inv.passcode}
                         />
                       </div>
                     </td>

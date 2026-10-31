@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useAuthModal, AuthMode } from "@/context/auth-modal-context";
+import { useAuthModal } from "@/context/auth-modal-context";
 import { SignInForm } from "@/components/auth/sign-in-form";
 import { SignUpForm } from "@/components/auth/sign-up-form";
 import { Heart, X, ShieldCheck } from "lucide-react";

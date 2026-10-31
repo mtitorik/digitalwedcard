@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Calendar, Clock, MapPin, ExternalLink, Sparkles } from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
+import { AddToCalendar } from "@/components/shared/add-to-calendar";
 
 export type ItineraryCardVariant = "card" | "timeline" | "minimal";
 
@@ -222,17 +223,31 @@ export const EventItineraryCard = React.forwardRef<
           </div>
         </div>
 
-        {/* Action Button: One-Tap Google Maps Navigation */}
-        <div className="pt-6 mt-5 border-t border-stone-100 flex flex-col gap-2">
+        {/* Action Button: Maps Navigation & Calendar Integration */}
+        <div className="pt-6 mt-5 border-t border-stone-100 flex flex-col sm:flex-row items-center gap-2">
           <Link
             href={googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs font-semibold uppercase tracking-wider border border-stone-200 hover:border-amber-300 bg-stone-50 hover:bg-amber-50/50 text-stone-800 hover:text-amber-900 transition-all shadow-2xs"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl text-xs font-semibold uppercase tracking-wider border border-stone-200 hover:border-amber-300 bg-stone-50 hover:bg-amber-50/50 text-stone-800 hover:text-amber-900 transition-all shadow-2xs"
           >
-            <span>Open in Google Maps</span>
+            <span>Google Maps</span>
             <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
           </Link>
+
+          {date && (
+            <AddToCalendar
+              event={{
+                title,
+                startDate: date,
+                location: `${venueName}, ${address}`,
+                description: `Wedding Ceremony: ${title} at ${venueName}. Directions: ${googleMapsUrl}`,
+              }}
+              size="sm"
+              variant="dropdown"
+              className="w-full sm:w-auto"
+            />
+          )}
 
           {appleMapsUrl && (
             <Link

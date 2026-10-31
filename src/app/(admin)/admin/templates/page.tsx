@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getTemplatesAdmin } from "@/server/actions/template.actions";
 import { TemplateCard } from "@/components/admin/template-card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Search, Filter, Sparkles } from "lucide-react";
+import { PlusCircle, Search } from "lucide-react";
 
 interface TemplatesPageProps {
   searchParams: Promise<{

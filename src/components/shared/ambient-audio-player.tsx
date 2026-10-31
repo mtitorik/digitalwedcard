@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Music, Volume2, VolumeX } from "lucide-react";
+import { Music, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type AudioPlayerPosition =

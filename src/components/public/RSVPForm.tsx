@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { rsvpSchema, RSVPFormValues } from "@/lib/validators/rsvp.schema";
 import { submitRSVP } from "@/server/actions/rsvp.actions";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { CheckCircle2, Heart, Sparkles, Send } from "lucide-react";
+import { CheckCircle2, Heart, Send } from "lucide-react";
 
 interface RSVPFormProps {
   invitationId: string;
@@ -38,11 +38,10 @@ export function RSVPForm({ invitationId, primaryColor = "#064e3b", accentColor =
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = form;
 
-  const attendance = watch("attendance");
+  const attendance = useWatch({ control: form.control, name: "attendance" }) ?? "ATTENDING";
 
   const onSubmit = (values: RSVPFormValues) => {
     startTransition(async () => {
@@ -62,7 +61,7 @@ export function RSVPForm({ invitationId, primaryColor = "#064e3b", accentColor =
       <div className="rounded-3xl p-8 sm:p-12 text-center bg-white/95 backdrop-blur-md shadow-xl border border-stone-200/80 max-w-lg mx-auto">
         <div
           className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-white shadow-md"
-          style={{ backgroundColor: primaryColor }}
+          style={{ backgroundColor: primaryColor, borderColor: accentColor }}
         >
           <CheckCircle2 className="w-8 h-8" />
         </div>
@@ -234,7 +233,7 @@ export function RSVPForm({ invitationId, primaryColor = "#064e3b", accentColor =
         size="lg"
         isLoading={isPending}
         className="w-full text-sm font-serif tracking-wider uppercase shadow-md py-3.5"
-        style={{ backgroundColor: primaryColor }}
+        style={{ backgroundColor: primaryColor, borderColor: accentColor }}
       >
         <Send className="w-4 h-4 mr-2" />
         Send RSVP Confirmation

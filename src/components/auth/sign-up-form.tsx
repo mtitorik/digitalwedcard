@@ -1,7 +1,8 @@
 "use client";
 
 import { useTransition, useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   registerSchema,
@@ -31,6 +32,7 @@ interface SignUpFormProps {
 }
 
 export function SignUpForm({ onSuccess }: SignUpFormProps) {
+  const router = useRouter();
   const { setMode, closeAuthModal } = useAuthModal();
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -41,7 +43,7 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     formState: { errors },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -54,9 +56,9 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
     },
   });
 
-  const emailValue = watch("email") || "";
-  const passwordValue = watch("password") || "";
-  const confirmPasswordValue = watch("confirmPassword") || "";
+  const emailValue = useWatch({ control, name: "email" }) || "";
+  const passwordValue = useWatch({ control, name: "password" }) || "";
+  const confirmPasswordValue = useWatch({ control, name: "confirmPassword" }) || "";
 
   // Live validations
   const emailCheck = useMemo(
@@ -85,7 +87,8 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
         toast.success(res.message);
         if (onSuccess) onSuccess();
         closeAuthModal();
-        window.location.href = "/";
+        router.push("/");
+        router.refresh();
       } else {
         setServerError(res.error);
         toast.error(res.error);

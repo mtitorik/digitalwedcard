@@ -7,7 +7,7 @@ import { logoutAction } from "@/server/actions/auth.actions";
 import { SessionUser } from "@/types";
 import { Button } from "@/components/ui/button";
 import { RoleBadge } from "@/components/admin/StatusBadge";
-import { LogOut, User as UserIcon, Bell, Sparkles, Home, ExternalLink } from "lucide-react";
+import { LogOut, User as UserIcon, Bell, Home } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 
