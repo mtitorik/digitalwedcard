@@ -211,3 +211,4 @@ export const VeronaHero = React.forwardRef<HTMLElement, VeronaHeroProps>(
 );
 
 VeronaHero.displayName = "VeronaHero";
+

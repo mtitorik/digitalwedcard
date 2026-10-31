@@ -66,3 +66,4 @@ export default async function PublicInvitationPage({ params }: PageProps) {
 
   return <VeronaTemplate invitation={invitation} />;
 }
+
