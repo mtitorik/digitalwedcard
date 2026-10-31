@@ -3,4 +3,7 @@ export * from "./button";
 export * from "./card-frame";
 export * from "./section-wrapper";
 export * from "./countdown-timer";
-
+export * from "./ambient-audio-player";
+export * from "./event-itinerary-card";
+export * from "./media-gallery";
+export * from "./sticky-action-bar";
