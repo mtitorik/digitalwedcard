@@ -2,17 +2,13 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export type ButtonVariant = "solid" | "gold" | "outline" | "ghost" | "editorial";
-export type ButtonShape = "pill" | "rounded" | "square";
-export type ButtonSize = "xs" | "sm" | "md" | "lg" | "icon";
-export type ButtonTone = "light" | "dark";
+export type ButtonVariant = "default" | "outline" | "champagne" | "pill" | "ghost";
+export type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
-  shape?: ButtonShape;
   size?: ButtonSize;
-  tone?: ButtonTone;
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -21,13 +17,40 @@ export interface ButtonProps
   rel?: string;
 }
 
+const variantStyles: Record<ButtonVariant, string> = {
+  // Charcoal background, white/cream text, uppercase tracking-widest text
+  default:
+    "bg-stone-900 text-stone-50 hover:bg-stone-800 uppercase tracking-[0.2em] shadow-sm active:bg-stone-950",
+
+  // 1px micro-border (border-current hover:bg-black/5)
+  outline:
+    "border border-current bg-transparent text-stone-800 hover:bg-black/5 uppercase tracking-[0.16em] active:bg-black/10",
+
+  // Warm gold fill or accent border
+  champagne:
+    "bg-gradient-to-r from-amber-600 via-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white uppercase tracking-[0.16em] shadow-md shadow-amber-900/15 border border-amber-500/40 active:scale-[0.98]",
+
+  // Fully rounded interactive buttons for actions like RSVP and Map links
+  pill:
+    "rounded-full bg-stone-900 text-stone-50 hover:bg-stone-800 uppercase tracking-[0.18em] shadow-md hover:scale-105 active:scale-95 border border-white/10",
+
+  // Ghost borderless minimal variant
+  ghost:
+    "bg-transparent text-stone-700 hover:bg-stone-100 hover:text-stone-950 uppercase tracking-[0.14em]",
+};
+
+const sizeStyles: Record<ButtonSize, string> = {
+  sm: "h-8 px-4 text-[11px] gap-1.5",
+  md: "h-10 px-5 text-xs gap-2",
+  lg: "h-12 px-7 text-xs sm:text-sm gap-2.5",
+  icon: "h-9 w-9 p-0 rounded-xl",
+};
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = "solid",
-      shape = "rounded",
+      variant = "default",
       size = "md",
-      tone = "dark",
       isLoading = false,
       leftIcon,
       rightIcon,
@@ -41,56 +64,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles =
-      "group relative inline-flex items-center justify-center font-medium select-none cursor-pointer transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]";
+    const isPill = variant === "pill";
 
-    // Shape styling
-    const shapeStyles: Record<ButtonShape, string> = {
-      pill: "rounded-full",
-      rounded: "rounded-xl",
-      square: "rounded-none",
-    };
-
-    // Size styling
-    const sizeStyles: Record<ButtonSize, string> = {
-      xs: "h-7 px-2.5 text-[10px] gap-1.5 uppercase tracking-wider font-semibold",
-      sm: "h-8 px-3.5 text-xs gap-1.5 uppercase tracking-wider font-semibold",
-      md: "h-10 px-5 text-xs sm:text-sm gap-2 uppercase tracking-[0.12em] font-medium",
-      lg: "h-12 px-7 text-sm sm:text-base gap-2.5 uppercase tracking-[0.14em] font-medium",
-      icon: "h-9 w-9 p-0 rounded-xl",
-    };
-
-    // Variant & tone combinations
-    const getVariantStyles = () => {
-      switch (variant) {
-        case "gold":
-          return "bg-gradient-to-r from-amber-600 via-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white shadow-md shadow-amber-900/10 hover:shadow-lg hover:shadow-amber-900/20 hover:scale-[1.02] border border-amber-500/30";
-        case "solid":
-          return tone === "light"
-            ? "bg-white text-stone-900 hover:bg-stone-100 shadow-sm hover:shadow-md"
-            : "bg-stone-900 text-white hover:bg-stone-800 shadow-sm hover:shadow-md";
-        case "outline":
-          return tone === "light"
-            ? "border border-white/40 text-white bg-white/10 hover:bg-white/20 hover:border-white/60 backdrop-blur-sm"
-            : "border border-stone-300 bg-white text-stone-800 hover:bg-stone-50 hover:border-stone-400 shadow-2xs";
-        case "ghost":
-          return tone === "light"
-            ? "text-white/90 hover:text-white hover:bg-white/10"
-            : "text-stone-700 hover:text-stone-950 hover:bg-stone-100/80";
-        case "editorial":
-          return tone === "light"
-            ? "border-b border-white text-white hover:border-amber-300 hover:text-amber-200 rounded-none px-0 py-1"
-            : "border-b border-stone-800 text-stone-900 hover:border-amber-700 hover:text-amber-800 rounded-none px-0 py-1";
-        default:
-          return "";
-      }
-    };
-
-    const combinedClasses = cn(
-      baseStyles,
-      shapeStyles[shape],
+    const baseStyles = cn(
+      "group relative inline-flex items-center justify-center font-medium select-none cursor-pointer transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 disabled:pointer-events-none disabled:opacity-50",
+      isPill ? "rounded-full" : size === "icon" ? "rounded-xl" : "rounded-xl",
       sizeStyles[size],
-      getVariantStyles(),
+      variantStyles[variant],
       className
     );
 
@@ -133,7 +113,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       </>
     );
 
-    // If an href is supplied, render a Next.js Link or anchor tag
     if (href) {
       const isExternal = href.startsWith("http") || href.startsWith("//");
 
@@ -143,7 +122,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             href={href}
             target={target || "_blank"}
             rel={rel || "noopener noreferrer"}
-            className={combinedClasses}
+            className={baseStyles}
           >
             {content}
           </a>
@@ -151,7 +130,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
 
       return (
-        <Link href={href} className={combinedClasses} target={target}>
+        <Link href={href} className={baseStyles} target={target}>
           {content}
         </Link>
       );
@@ -161,7 +140,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         disabled={disabled || isLoading}
-        className={combinedClasses}
+        className={baseStyles}
         {...props}
       >
         {content}
