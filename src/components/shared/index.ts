@@ -7,3 +7,4 @@ export * from "./ambient-audio-player";
 export * from "./event-itinerary-card";
 export * from "./media-gallery";
 export * from "./sticky-action-bar";
+export * from "./rsvp-form";
